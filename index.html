@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 北九州・山口縣家族旅行｜Fukuoka 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+/* ============================================================
+   0. RESET & TOKENS
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  /* -- colour tokens : 藍染 aizome indigo × 柿渋 kakishibu persimmon × 生成り paper -- */
+  --ink-900:#1B222B;      /* sidebar base */
+  --ink-800:#232B35;
+  --ink-700:#333E4A;
+  --ink-600:#57646F;
+  --paper:#F4EFE3;        /* main background, 生成り米白 */
+  --paper-deep:#ECE4D2;
+  --card:#FFFDF7;         /* card background */
+  --card-line:#E2D9C4;
+  --indigo:#2B4568;       /* primary accent, 藍染 */
+  --indigo-deep:#1D3049;
+  --kaki:#B96A3D;         /* secondary accent, 柿色 */
+  --kaki-soft:#E7C9A9;
+  --shu:#AE402C;          /* hanko stamp red, 朱色 */
+  --gold:#BE9B57;         /* divider / confirmed gold */
+  --ink-text:#2A2621;
+  --ink-muted:#7C7568;
+  --green-ok:#4C7A5C;
+  --radius:16px;
+  --radius-sm:10px;
+  --shadow:0 1px 2px rgba(27,34,43,.04), 0 8px 24px -12px rgba(27,34,43,.18);
+  --shadow-sm:0 1px 3px rgba(27,34,43,.10);
+  --font-display:'Noto Serif TC',serif;
+  --font-body:'Noto Sans TC',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+html,body{height:100%;}
+body{
+  font-family:var(--font-body);
+  background:var(--paper);
+  color:var(--ink-text);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+::selection{background:var(--kaki-soft);}
+
+/* subtle paper grid texture used on cards, 手帳感 */
+.paper-grid{
+  background-image:
+    linear-gradient(var(--card-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--card-line) 1px, transparent 1px);
+  background-size:22px 22px;
+  background-position:-1px -1px;
+  opacity:.35;
+  position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+}
+
+/* ============================================================
+   1. APP SHELL / LAYOUT
+   ============================================================ */
+.app{
+  display:grid;
+  grid-template-columns:264px 1fr 380px;
+  min-height:100vh;
+}
+@media (max-width:1180px){
+  .app{grid-template-columns:240px 1fr 340px;}
+}
+@media (max-width:980px){
+  .app{grid-template-columns:1fr;}
+}
+
+/* -------------------- SIDEBAR -------------------- */
+.sidebar{
+  background:var(--ink-900);
+  color:#EDE7D8;
+  position:sticky; top:0; height:100vh;
+  display:flex; flex-direction:column;
+  padding:28px 20px 18px;
+  border-right:1px solid rgba(255,255,255,.06);
+}
+.brand{margin-bottom:22px;}
+.brand .kicker{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.18em;
+  color:var(--kaki-soft); text-transform:uppercase;
+}
+.brand h1{
+  font-family:var(--font-display); font-weight:700; font-size:21px;
+  margin-top:6px; color:#F7F2E4; line-height:1.35;
+}
+.brand .sub{font-size:12.5px; color:#A9A190; margin-top:6px;}
+.trip-stamp{
+  display:inline-flex; align-items:center; gap:6px; margin-top:12px;
+  font-family:var(--font-mono); font-size:11px; color:var(--ink-900);
+  background:var(--gold); padding:3px 10px 3px 8px; border-radius:20px; font-weight:700;
+}
+
+.weather-box{
+  margin-top:18px; padding:12px 14px; border-radius:var(--radius-sm);
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08);
+}
+.weather-box h3{font-size:11px; letter-spacing:.1em; color:#A9A190; font-weight:500; text-transform:uppercase; margin-bottom:8px;}
+.weather-row{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; padding:3px 0; color:#DCD5C4;}
+.weather-row a{color:var(--kaki-soft); font-family:var(--font-mono); font-size:11px;}
+.weather-row a:hover{text-decoration:underline;}
+
+nav.menu{margin-top:22px; flex:1; overflow-y:auto;}
+nav.menu .nav-item{
+  display:flex; align-items:baseline; gap:10px;
+  width:100%; padding:10px 10px; border-radius:10px;
+  font-size:14px; color:#C9C1AE; transition:background .15s, color .15s;
+  margin-bottom:2px;
+}
+nav.menu .nav-item .num{font-family:var(--font-mono); font-size:11px; color:#726B5B;}
+nav.menu .nav-item:hover{background:rgba(255,255,255,.06); color:#F7F2E4;}
+nav.menu .nav-item.active{background:var(--indigo); color:#fff;}
+nav.menu .nav-item.active .num{color:var(--kaki-soft);}
+
+.switch-trip{
+  margin-top:14px; padding:11px 14px; border-radius:var(--radius-sm);
+  border:1px dashed rgba(255,255,255,.25); font-size:12.5px; color:#C9C1AE;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.switch-trip:hover{border-color:var(--kaki-soft); color:#F7F2E4;}
+
+/* -------------------- MAIN -------------------- */
+main.content{
+  padding:30px 34px 80px;
+  min-width:0;
+}
+.page{display:none;}
+.page.active{display:block; animation:fadeIn .25s ease;}
+@keyframes fadeIn{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+.page-head{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
+  margin-bottom:20px; flex-wrap:wrap;
+}
+.page-head .eyebrow{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; color:var(--kaki); text-transform:uppercase;}
+.page-head h2{font-family:var(--font-display); font-size:28px; font-weight:700; margin-top:4px;}
+.page-head .status-row{display:flex; align-items:center; gap:10px; margin-top:10px;}
+.pill{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; padding:5px 12px;
+  border-radius:20px; font-weight:600;
+}
+.pill.planning{background:#EFE3C8; color:#8A6A2E;}
+.pill.confirmed{background:#DCE7DE; color:var(--green-ok);}
+.btn{
+  display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border-radius:10px;
+  font-size:13px; font-weight:600; background:var(--card); border:1px solid var(--card-line); box-shadow:var(--shadow-sm);
+}
+.btn:hover{border-color:var(--indigo); color:var(--indigo);}
+.btn.primary{background:var(--indigo); color:#fff; border-color:var(--indigo);}
+.btn.primary:hover{background:var(--indigo-deep); color:#fff;}
+.btn.ghost{background:transparent; box-shadow:none;}
+.btn.small{padding:6px 11px; font-size:12px;}
+
+/* date tabs */
+.date-tabs{display:flex; gap:8px; overflow-x:auto; padding:4px 2px 14px; margin-bottom:6px; scrollbar-width:thin;}
+.date-tab{
+  flex:0 0 auto; font-family:var(--font-mono); font-size:12.5px; font-weight:600;
+  padding:9px 13px; border-radius:11px; background:var(--card); border:1px solid var(--card-line);
+  color:var(--ink-muted); white-space:nowrap; box-shadow:var(--shadow-sm);
+}
+.date-tab .dow{opacity:.65; margin-left:3px; font-size:11px;}
+.date-tab:hover{border-color:var(--indigo);}
+.date-tab.active{background:var(--indigo); border-color:var(--indigo); color:#fff;}
+
+/* -------------------- DAY CARD -------------------- */
+.day-card{
+  position:relative; background:var(--card); border-radius:var(--radius);
+  box-shadow:var(--shadow); border:1px solid var(--card-line); overflow:hidden;
+  padding:26px 26px 22px;
+}
+.day-card-head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; position:relative; z-index:1;}
+.day-tag{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; color:var(--kaki); font-weight:700;}
+.day-card h3{font-family:var(--font-display); font-size:22px; font-weight:700; margin-top:4px;}
+.day-theme{color:var(--ink-muted); font-size:13.5px; margin-top:4px;}
+.day-weather{
+  font-family:var(--font-mono); font-size:12.5px; background:var(--paper-deep); border-radius:10px;
+  padding:8px 12px; text-align:right; color:var(--ink-600); min-width:120px;
+}
+.day-weather a{color:var(--indigo); font-weight:700;}
+.day-lodging{
+  margin-top:14px; padding:10px 14px; border-radius:10px; background:#F2ECDB; border:1px dashed var(--gold);
+  font-size:12.5px; display:flex; gap:8px; flex-wrap:wrap; position:relative; z-index:1;
+}
+.day-lodging b{color:var(--kaki); font-weight:700;}
+.periods{margin-top:18px; display:flex; flex-direction:column; gap:16px; position:relative; z-index:1;}
+.period-block .period-label{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:#fff; background:var(--ink-700); display:inline-block; padding:4px 10px; border-radius:6px; margin-bottom:10px;
+}
+.item{
+  display:grid; grid-template-columns:66px 1fr auto; gap:12px; padding:12px 0; border-top:1px solid var(--card-line);
+  align-items:start;
+}
+.period-block .item:first-of-type{border-top:none;}
+.item-time{font-family:var(--font-mono); font-weight:700; font-size:13px; color:var(--indigo); padding-top:2px;}
+.item-main .item-title{font-weight:600; font-size:14.5px;}
+.item-main .item-note{font-size:13px; color:var(--ink-muted); margin-top:3px; white-space:pre-line;}
+.item-meta{display:flex; gap:6px; margin-top:7px; flex-wrap:wrap;}
+.tag{font-size:11px; padding:3px 8px; border-radius:20px; background:var(--paper-deep); color:var(--ink-600); font-weight:600;}
+.tag.transport{background:#E4E9F0; color:var(--indigo);}
+.tag.map-link{background:#E9F1EA; color:var(--green-ok);}
+.tag.map-link:hover{text-decoration:underline;}
+.item-status{padding-top:2px; text-align:right;}
+.hanko{
+  display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%;
+  border:2px solid var(--shu); color:var(--shu); font-family:var(--font-serif); font-size:10.5px; font-weight:700;
+  transform:rotate(-8deg); letter-spacing:-.5px; line-height:1.1; text-align:center;
+}
+.hanko.pending{border-style:dashed; color:var(--ink-muted); border-color:var(--card-line);}
+.empty-note{font-size:13px; color:var(--ink-muted); font-style:italic; padding:6px 0;}
+
+/* generic sections */
+.section-intro{color:var(--ink-muted); font-size:13.5px; margin-bottom:18px; max-width:640px;}
+.grid-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px;}
+.card{background:var(--card); border:1px solid var(--card-line); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:18px;}
+.card h4{font-family:var(--font-display); font-size:16.5px; margin-bottom:8px;}
+.wish-tags{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0;}
+.wish-tags span{font-size:11px; background:var(--paper-deep); padding:3px 8px; border-radius:20px; color:var(--ink-600); font-weight:600;}
+.wish-note{font-size:12.5px; color:var(--ink-muted); margin-top:8px; border-top:1px dashed var(--card-line); padding-top:8px;}
+
+.category{margin-bottom:26px;}
+.category h3{font-family:var(--font-display); font-size:17px; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid var(--indigo); display:inline-block;}
+.check-list{display:flex; flex-direction:column; gap:2px;}
+.check-item{display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:9px; font-size:14px;}
+.check-item:hover{background:var(--paper-deep);}
+.check-item input{width:17px; height:17px; accent-color:var(--indigo);}
+.check-item.done label{text-decoration:line-through; color:var(--ink-muted);}
+.progress-bar{height:6px; border-radius:6px; background:var(--paper-deep); overflow:hidden; margin-top:6px;}
+.progress-bar span{display:block; height:100%; background:var(--indigo);}
+
+/* calculator */
+.calc-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+@media (max-width:700px){.calc-grid{grid-template-columns:1fr;}}
+.field{margin-bottom:14px;}
+.field label{display:block; font-size:12.5px; color:var(--ink-muted); margin-bottom:5px; font-weight:600;}
+.field input{
+  width:100%; padding:10px 12px; border-radius:9px; border:1px solid var(--card-line); background:var(--paper);
+  font-family:var(--font-mono); font-size:14px;
+}
+.field input:focus{outline:2px solid var(--indigo); outline-offset:1px;}
+.calc-result{
+  margin-top:12px; padding:14px 16px; border-radius:12px; background:var(--indigo); color:#fff;
+  font-family:var(--font-mono); font-size:20px; font-weight:700;
+}
+.calc-result small{display:block; font-family:var(--font-body); font-size:11.5px; font-weight:400; opacity:.8; margin-top:2px;}
+
+/* documents */
+.doc-table{width:100%; border-collapse:collapse; font-size:13.5px;}
+.doc-table th{text-align:left; font-size:11px; letter-spacing:.08em; color:var(--ink-muted); text-transform:uppercase; padding:8px 10px; border-bottom:2px solid var(--indigo);}
+.doc-table td{padding:11px 10px; border-bottom:1px solid var(--card-line); vertical-align:top;}
+.doc-table tr:hover td{background:var(--paper-deep);}
+.doc-table a{color:var(--indigo); font-weight:600;}
+.doc-type{font-size:11px; padding:3px 8px; border-radius:20px; background:var(--kaki-soft); color:#7A431C; font-weight:700;}
+
+/* notes */
+.notes-add{display:flex; gap:10px; margin-bottom:18px;}
+.notes-add textarea{
+  flex:1; min-height:52px; padding:12px; border-radius:10px; border:1px solid var(--card-line);
+  font-family:var(--font-body); font-size:13.5px; resize:vertical; background:var(--card);
+}
+.notes-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px;}
+.sticky-note{
+  background:#FBF0BE; padding:16px; border-radius:4px 4px 30px 4px; box-shadow:0 4px 10px rgba(0,0,0,.12);
+  font-size:13.5px; min-height:120px; position:relative; transform:rotate(var(--r,-1deg)); white-space:pre-wrap;
+}
+.sticky-note:nth-child(3n){background:#C9E6D3; --r:1deg;}
+.sticky-note:nth-child(3n+1){background:#F7D9C4; --r:-1.5deg;}
+.sticky-note:nth-child(3n+2){background:#FBF0BE; --r:1.2deg;}
+.sticky-note .del{position:absolute; top:8px; right:10px; font-size:12px; color:rgba(0,0,0,.4); font-weight:700;}
+.sticky-note .del:hover{color:var(--shu);}
+.sticky-note .ts{position:absolute; bottom:8px; right:12px; font-family:var(--font-mono); font-size:10px; color:rgba(0,0,0,.35);}
+
+/* print book preview */
+.book-toolbar{display:flex; gap:10px; align-items:center; margin-bottom:20px; flex-wrap:wrap;}
+.book-preview{background:var(--card); border:1px solid var(--card-line); border-radius:var(--radius); box-shadow:var(--shadow); padding:30px; max-width:760px;}
+.pb-day{padding:16px 0; border-top:1px dashed var(--card-line);}
+.pb-day:first-child{border-top:none;}
+.pb-day h4{font-family:var(--font-display); font-size:16px; margin-bottom:4px;}
+.pb-day .lodging{font-size:12px; color:var(--ink-muted); margin:4px 0 8px;}
+.pb-line{font-size:12.5px; padding:2px 0;}
+.pb-line b{font-family:var(--font-mono); color:var(--indigo); margin-right:6px;}
+.emergency-box{margin-top:24px; padding:16px; border:1px solid var(--shu); border-radius:10px; background:#FBEEEA;}
+.emergency-box h4{color:var(--shu); font-family:var(--font-display); margin-bottom:8px;}
+
+/* data page */
+.data-summary{display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:14px; margin-bottom:24px;}
+.stat{background:var(--card); border:1px solid var(--card-line); border-radius:12px; padding:16px;}
+.stat .num{font-family:var(--font-mono); font-size:26px; font-weight:700; color:var(--indigo);}
+.stat .lbl{font-size:12px; color:var(--ink-muted); margin-top:2px;}
+pre.code-hint{background:var(--ink-900); color:#DCD5C4; padding:18px; border-radius:12px; font-family:var(--font-mono); font-size:12px; overflow-x:auto; line-height:1.7;}
+
+/* -------------------- MAP PANEL -------------------- */
+.map-panel{
+  position:sticky; top:0; height:100vh; border-left:1px solid var(--card-line); background:var(--paper-deep);
+  display:flex; flex-direction:column;
+}
+#map{flex:1; width:100%;}
+.map-legend{
+  padding:14px 18px; background:var(--card); border-top:1px solid var(--card-line);
+  display:flex; flex-wrap:wrap; gap:12px; font-size:12px;
+}
+.map-legend .dot{width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:6px; vertical-align:middle;}
+.leaflet-popup-content{font-family:var(--font-body); font-size:13px;}
+.leaflet-popup-content b{font-family:var(--font-display); font-size:14px;}
+
+/* -------------------- MOBILE NAV -------------------- */
+.mobile-topbar,.mobile-bottombar,.map-toggle-btn{display:none;}
+@media (max-width:980px){
+  .sidebar{position:fixed; inset:0 0 auto 0; height:auto; flex-direction:row; align-items:center; padding:12px 16px; z-index:40; overflow:visible;}
+  .sidebar .brand,.sidebar .weather-box,.sidebar nav.menu,.sidebar .switch-trip{display:none;}
+  .mobile-topbar{display:flex; align-items:center; justify-content:space-between; width:100%;}
+  .mobile-topbar h1{font-family:var(--font-display); font-size:16px; color:#F7F2E4;}
+  .mobile-topbar .kicker{font-family:var(--font-mono); font-size:10px; color:var(--kaki-soft); letter-spacing:.1em;}
+  main.content{padding:80px 16px 90px;}
+  .map-panel{display:none;}
+  .map-toggle-btn{
+    display:flex; position:fixed; bottom:78px; right:16px; z-index:45; align-items:center; gap:6px;
+    background:var(--indigo); color:#fff; padding:11px 16px; border-radius:30px; box-shadow:var(--shadow); font-size:13px; font-weight:700;
+  }
+  .mobile-bottombar{
+    display:flex; position:fixed; bottom:0; left:0; right:0; background:var(--ink-900); z-index:40;
+    overflow-x:auto; border-top:1px solid rgba(255,255,255,.08); padding:6px 6px calc(6px + env(safe-area-inset-bottom));
+  }
+  .mobile-bottombar .nav-item{
+    flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:2px; padding:7px 12px;
+    font-size:10.5px; color:#A9A190; border-radius:10px;
+  }
+  .mobile-bottombar .nav-item .num{font-family:var(--font-mono); font-size:9px;}
+  .mobile-bottombar .nav-item.active{background:var(--indigo); color:#fff;}
+  .map-sheet{
+    position:fixed; inset:0; z-index:60; background:rgba(27,34,43,.55); display:none;
+  }
+  .map-sheet.open{display:block;}
+  .map-sheet .sheet-inner{
+    position:absolute; bottom:0; left:0; right:0; height:78vh; background:var(--paper); border-radius:20px 20px 0 0; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .map-sheet .sheet-head{display:flex; justify-content:space-between; align-items:center; padding:14px 18px; background:var(--card); border-bottom:1px solid var(--card-line);}
+  .map-sheet #map-mobile{flex:1;}
+}
+
+/* -------------------- PRINT -------------------- */
+@media print{
+  .sidebar,.map-panel,.mobile-topbar,.mobile-bottombar,.map-toggle-btn,.page-head .btn,.date-tabs,
+  .book-toolbar,#sec-itinerary,#sec-wishlist,#sec-mustbuy,#sec-packing,#sec-calculator,#sec-notes,#sec-data,#sec-documents{
+    display:none !important;
+  }
+  body{background:#fff;}
+  main.content{padding:0; margin:0;}
+  #sec-printbook{display:block !important;}
+  .book-preview{box-shadow:none; border:none; max-width:100%; padding:0;}
+  .pb-day{page-break-inside:avoid; break-inside:avoid;}
+  @page{margin:14mm;}
+  body.print-a5 @page{size:A5;}
+  body.print-a4 @page{size:A4;}
+}
+body.print-a4 .book-preview{width:190mm;}
+body.print-a5 .book-preview{width:138mm; font-size:12px;}
+
+/* utility */
+.hide-scrollbar::-webkit-scrollbar{height:6px; width:6px;}
+.hide-scrollbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15); border-radius:6px;}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================================================
+       SIDEBAR (desktop) / TOPBAR (mobile)
+  ============================================================ -->
+  <aside class="sidebar">
+    <div class="mobile-topbar">
+      <div>
+        <div class="kicker">FUKUOKA 2026</div>
+        <h1>北九州・山口家族旅行</h1>
+      </div>
+      <button class="btn small" style="background:rgba(255,255,255,.1);color:#F7F2E4;border-color:rgba(255,255,255,.2);" onclick="openMapSheet()">地圖</button>
+    </div>
+
+    <div class="brand">
+      <div class="kicker">Fukuoka 2026</div>
+      <h1>夏の福岡・北九州<br>・山口縣</h1>
+      <div class="sub">2026.08.10 — 2026.08.23・14 日旅程</div>
+      <div class="trip-stamp">◆ 4 大 2 小 1 幼</div>
+    </div>
+
+    <div class="weather-box">
+      <h3>天氣速覽 Weather</h3>
+      <div id="weatherList"></div>
+    </div>
+
+    <nav class="menu" id="navMenu"></nav>
+
+    <button class="switch-trip">
+      <span>切換旅程</span><span>⇄</span>
+    </button>
+  </aside>
+
+  <!-- ============================================================
+       MAIN CONTENT
+  ============================================================ -->
+  <main class="content">
+
+    <!-- ---------- 01 ITINERARY ---------- -->
+    <section class="page active" id="sec-itinerary">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">01 · Itinerary</div>
+          <h2>行程 Itinerary</h2>
+          <div class="status-row">
+            <span class="pill planning">● 規劃中</span>
+            <span style="font-size:12.5px;color:var(--ink-muted);">最後更新由家族共同編輯</span>
+          </div>
+        </div>
+        <button class="btn primary">✎ 編輯行程</button>
+      </div>
+
+      <div class="date-tabs hide-scrollbar" id="dateTabs"></div>
+      <div id="dayCardWrap"></div>
+    </section>
+
+    <!-- ---------- 02 WISHLIST ---------- -->
+    <section class="page" id="sec-wishlist">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">02 · Wishlist</div>
+          <h2>願望清單 Wishlist</h2>
+        </div>
+      </div>
+      <p class="section-intro">想去但尚未排入正式行程的地點，先收集在這裡，視體力與天氣狀況再插入行程。</p>
+      <div class="grid-cards" id="wishlistGrid"></div>
+    </section>
+
+    <!-- ---------- 03 MUST BUY ---------- -->
+    <section class="page" id="sec-mustbuy">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">03 · Must Buy</div>
+          <h2>必買清單 Must Buy</h2>
+        </div>
+        <button class="btn small" onclick="resetCategory('mustbuy')">重設勾選</button>
+      </div>
+      <p class="section-intro">勾選狀態會自動儲存在這台裝置上，離線也能查看。</p>
+      <div id="mustbuyWrap"></div>
+    </section>
+
+    <!-- ---------- 04 PACKING ---------- -->
+    <section class="page" id="sec-packing">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">04 · Packing</div>
+          <h2>行李清單 Packing</h2>
+        </div>
+        <button class="btn small" onclick="resetCategory('packing')">重設勾選</button>
+      </div>
+      <p class="section-intro">出發前與行李箱清空後可各勾一次，建議每房各自負責一個分類。</p>
+      <div id="packingWrap"></div>
+    </section>
+
+    <!-- ---------- 05 CALCULATOR ---------- -->
+    <section class="page" id="sec-calculator">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">05 · Calculator</div>
+          <h2>計算機 Calculator</h2>
+        </div>
+      </div>
+      <div class="calc-grid">
+        <div class="card">
+          <h4>日幣 → 台幣</h4>
+          <div class="field">
+            <label>匯率（1 JPY = ? TWD）</label>
+            <input type="number" id="rate" value="0.20" step="0.001">
+          </div>
+          <div class="field">
+            <label>日幣金額 (¥)</label>
+            <input type="number" id="jpy" placeholder="例：10000" oninput="calcJpy()">
+          </div>
+          <div class="calc-result" id="jpyResult">NT$ 0<small>約略金額，匯率請以實際刷卡 / 換匯為準</small></div>
+        </div>
+        <div class="card">
+          <h4>分帳計算</h4>
+          <div class="field">
+            <label>總金額</label>
+            <input type="number" id="totalAmt" placeholder="例：8400" oninput="calcSplit()">
+          </div>
+          <div class="field">
+            <label>人數</label>
+            <input type="number" id="peopleCount" placeholder="例：7" value="7" oninput="calcSplit()">
+          </div>
+          <div class="calc-result" id="splitResult">每人 0<small>總金額 ÷ 人數，四捨五入至整數</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- 06 DOCUMENTS ---------- -->
+    <section class="page" id="sec-documents">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">06 · Documents</div>
+          <h2>文件 Documents</h2>
+        </div>
+      </div>
+      <p class="section-intro">重要文件與訂購紀錄，出國前建議全部另存 PDF 到手機相簿一份。</p>
+      <div id="documentsWrap"></div>
+    </section>
+
+    <!-- ---------- 07 NOTES ---------- -->
+    <section class="page" id="sec-notes">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">07 · Notes</div>
+          <h2>備忘 Notes</h2>
+        </div>
+      </div>
+      <div class="notes-add">
+        <textarea id="noteInput" placeholder="輸入備忘事項，例如：阿媽的降血壓藥放在紅色小袋⋯"></textarea>
+        <button class="btn primary" onclick="addNote()">＋ 新增</button>
+      </div>
+      <div class="notes-grid" id="notesGrid"></div>
+    </section>
+
+    <!-- ---------- 08 PRINT BOOK ---------- -->
+    <section class="page" id="sec-printbook">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">08 · Print Book</div>
+          <h2>行程書 Print Book</h2>
+          <div class="status-row"><span style="font-size:12.5px;color:var(--ink-muted);">給長輩帶著走的紙本版本，只含每日行程、住宿與重要提醒</span></div>
+        </div>
+      </div>
+      <div class="book-toolbar">
+        <button class="btn" onclick="setPrintSize('a4')">A4 版</button>
+        <button class="btn" onclick="setPrintSize('a5')">A5 版</button>
+        <button class="btn primary" onclick="window.print()">🖨 列印 / 存成 PDF</button>
+      </div>
+      <div class="book-preview" id="bookPreview"></div>
+    </section>
+
+    <!-- ---------- 09 DATA ---------- -->
+    <section class="page" id="sec-data">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">09 · Trip Data</div>
+          <h2>行程資料 Data</h2>
+        </div>
+      </div>
+      <div class="data-summary" id="dataSummary"></div>
+      <p class="section-intro">本網頁所有行程／清單資料都集中放在檔案開頭的 JavaScript 陣列中，之後要調整行程，直接編輯陣列內容即可，不需要動版面或樣式程式碼。</p>
+      <pre class="code-hint" id="dataHint"></pre>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       RIGHT MAP PANEL (desktop, fixed)
+  ============================================================ -->
+  <aside class="map-panel">
+    <div id="map"></div>
+    <div class="map-legend" id="mapLegendDesktop"></div>
+  </aside>
+
+  <!-- mobile bottom bar -->
+  <nav class="mobile-bottombar hide-scrollbar" id="mobileNav"></nav>
+  <button class="map-toggle-btn" onclick="openMapSheet()">📍 地圖</button>
+
+  <!-- mobile map sheet -->
+  <div class="map-sheet" id="mapSheet">
+    <div class="sheet-inner">
+      <div class="sheet-head">
+        <b style="font-family:var(--font-display);">地圖 Map</b>
+        <button class="btn small" onclick="closeMapSheet()">關閉 ✕</button>
+      </div>
+      <div id="map-mobile"></div>
+      <div class="map-legend" id="mapLegendMobile"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   1. DATA — 之後要調整行程，只需要編輯以下陣列即可
+   ============================================================ */
+
+const TRIP = {
+  title:'2026 北九州・山口縣家族旅行',
+  members:'4 大 2 小 1 幼',
+  start:'2026-08-10',
+  end:'2026-08-23',
+};
+
+// 導覽選單
+const NAV_ITEMS = [
+  {id:'itinerary', num:'01', label:'行程 Itinerary'},
+  {id:'wishlist',  num:'02', label:'願望清單 Wishlist'},
+  {id:'mustbuy',   num:'03', label:'必買清單 Must Buy'},
+  {id:'packing',   num:'04', label:'行李清單 Packing'},
+  {id:'calculator',num:'05', label:'計算機 Calculator'},
+  {id:'documents', num:'06', label:'文件 Documents'},
+  {id:'notes',     num:'07', label:'備忘 Notes'},
+  {id:'printbook', num:'08', label:'行程書 Print Book'},
+  {id:'data',      num:'09', label:'行程資料 Data'},
+];
+
+// 天氣小欄位（連結到 tenki.jp 搜尋頁，出發前可再換成精確頁面）
+const WEATHER_SPOTS = [
+  {label:'福岡', keyword:'福岡市'},
+  {label:'北九州', keyword:'北九州市'},
+  {label:'長門・山口', keyword:'長門市'},
+];
+function tenkiUrl(keyword){return 'https://tenki.jp/search/?keyword=' + encodeURIComponent(keyword);}
+
+// 地圖點位
+const MAP_LOCATIONS = [
+  {name:'福岡機場 FUK', type:'transport', lat:33.5859, lng:130.4506, note:'國際線 / 8/10、8/14 入境'},
+  {name:'北九州 Global Arena', type:'sight', lat:33.6753, lng:130.9270, note:'足球移地訓練場地，8/10–8/15'},
+  {name:'東急stay博多', type:'lodging', lat:33.5902, lng:130.4207, note:'阿媽、戴阿媽 8/10 住宿'},
+  {name:'東急stay福岡天神', type:'lodging', lat:33.5903, lng:130.4001, note:'8/21 起全員入住'},
+  {name:'門司港 Premier Hotel Mojiko', type:'lodging', lat:33.9500, lng:130.9636, note:'含車位，連住 5 晚（8/14–8/19）'},
+  {name:'星野 界 長門', type:'lodging', lat:34.3719, lng:131.1841, note:'傳統客房 2 房，一泊二食（8/19–8/21）'},
+  {name:'福岡 PayPay 巨蛋', type:'sight', lat:33.5951, lng:130.3622, note:'棒球賽備選行程，待排入 8/22-23'},
+];
+const TYPE_META = {
+  lodging:{label:'住宿', color:'#B96A3D'},
+  sight:{label:'景點', color:'#2B4568'},
+  transport:{label:'交通', color:'#57646F'},
+  food:{label:'餐食', color:'#AE402C'},
+  backup:{label:'備案', color:'#BE9B57'},
+};
+
+// ---------- 行程 Itinerary ----------
+// periods: morning 上午 / noon 中午 / afternoon 下午 / evening 晚上
+const ITINERARY = [
+{date:'2026-08-10', dayNum:1, weekday:'一',
+  theme:'言、辰／阿媽、戴阿媽 抵達福岡・足球移地訓練開始', weatherKey:'福岡市',
+  lodging:[{who:'言、辰',place:'Global Arena, 北九州'},{who:'阿媽、戴阿媽',place:'東急stay博多'}],
+  periods:{
+    morning:[
+      {time:'06:50', title:'CI110　TPE T2 → FUK', note:'言、辰｜台北出發（爸爸送機）\n阿媽、戴阿媽｜台中出發', family:'阿媽記得安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true},
+      {time:'09:55', title:'抵達福岡機場 FUK INTL', note:'言辰｜參與足球訓練，落地後與銀河射手俱樂部集合，至 8/15（六）前全程隨球隊行動\n阿媽、戴阿媽｜福岡市區旅遊', family:'', transport:'flight', map:'福岡機場 FUK', confirmed:true},
+    ], noon:[], afternoon:[], evening:[]
+  }},
+{date:'2026-08-11', dayNum:2, weekday:'二',
+  theme:'阿媽、戴阿媽 福岡市區旅遊（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'言辰隨球隊移地訓練中，阿媽、戴阿媽自由行，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-12', dayNum:3, weekday:'三',
+  theme:'阿媽、戴阿媽 福岡市區旅遊（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-13', dayNum:4, weekday:'四',
+  theme:'阿媽、戴阿媽 福岡市區旅遊（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-14', dayNum:5, weekday:'五',
+  theme:'卓軒、以璇、木須 抵達福岡．自駕租車前往北九州', weatherKey:'福岡市',
+  lodging:[{who:'卓軒、以璇、木須',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，共 3 晚）'}],
+  periods:{
+    morning:[
+      {time:'06:50', title:'CI110　台北出發', note:'卓軒、以璇、木須', family:'待安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:false},
+      {time:'09:55', title:'抵達福岡機場 FUK INTL・租車', note:'', family:'待確認租車、行李數量', transport:'car', map:'福岡機場 FUK', confirmed:false},
+    ],
+    noon:[], 
+    afternoon:[
+      {time:'13:00', title:'自駕前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false},
+      {time:'15:00', title:'飯店 Check in', note:'門司港 Premier Hotel Mojiko（含車位）｜標準雙床－2 房 × 3 晚', family:'', transport:'car', map:'門司港 Premier Hotel Mojiko', confirmed:true},
+    ], evening:[]
+  }},
+{date:'2026-08-15', dayNum:6, weekday:'六',
+  theme:'接言辰．全員集合', weatherKey:'北九州市',
+  lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 2 晚／共 5 晚不用搬行李）'}],
+  periods:{
+    morning:[
+      {time:'早餐', title:'飯店早餐', note:'連住 5 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
+      {time:'上午', title:'至北九州 Global Arena 接言辰', note:'', family:'言辰行李帶回飯店', transport:'car', map:'北九州 Global Arena', confirmed:false},
+    ],
+    noon:[{time:'中午', title:'門司港午餐', note:'啤酒工房', family:'', transport:'walk', map:'門司港', confirmed:false}],
+    afternoon:[{time:'下午', title:'門司港（木構建築）、九州鐵道博物館', note:'', family:'', transport:'walk', map:'門司港', confirmed:false}],
+    evening:[]
+  }},
+{date:'2026-08-16', dayNum:7, weekday:'日',
+  theme:'北九州．門司港周邊', weatherKey:'北九州市',
+  lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（連住第 3 晚）'}],
+  periods:{
+    morning:[
+      {time:'早餐', title:'飯店早餐', note:'連住 5 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
+      {time:'上午', title:'商店街（榮町銀天街）', note:'', family:'', transport:'walk', map:'門司港', confirmed:false},
+    ],
+    noon:[{time:'午餐', title:'午餐候選（4 選 1）', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 春帆樓（講和紀念館，馬關條約割讓台灣舊址）\n④ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定', transport:'walk', map:'唐戶市場', confirmed:false}],
+    afternoon:[{time:'下午', title:'（開車）關門大橋、赤間神宮', note:'', family:'', transport:'car', map:'關門大橋', confirmed:false}],
+    evening:[]
+  }},
+{date:'2026-08-17', dayNum:8, weekday:'一',
+  theme:'北九州．小倉城周邊', weatherKey:'北九州市',
+  lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（升級為極品雙床 2 房，共 2 晚）'}],
+  periods:{
+    morning:[
+      {time:'早餐', title:'飯店早餐', note:'連住 5 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
+      {time:'上午', title:'千佛鐘乳洞', note:'', family:'', transport:'car', map:'千佛鐘乳洞', confirmed:false},
+    ],
+    noon:[{time:'午餐', title:'鰻魚飯', note:'', family:'', transport:'car', map:'小倉', confirmed:false}],
+    afternoon:[{time:'下午', title:'小倉城、旦過市場、TOTO 博物館', note:'', family:'', transport:'car', map:'小倉城', confirmed:false}],
+    evening:[]
+  }},
+{date:'2026-08-18', dayNum:9, weekday:'二',
+  theme:'北九州．山口南部（行程待補）', weatherKey:'北九州市',
+  lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（極品雙床 2 房，第 2 晚）'}],
+  periods:{
+    morning:[{time:'上午', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false}],
+    noon:[{time:'午餐', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false}],
+    afternoon:[{time:'下午', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false}],
+    evening:[{time:'晚上', title:'收行李', note:'', family:'明天要往山口移動囉', transport:'', map:'', confirmed:true}]
+  }},
+{date:'2026-08-19', dayNum:10, weekday:'三',
+  theme:'移動至山口．川棚溫泉、角島大橋、秋芳洞', weatherKey:'長門市',
+  lodging:[{who:'全員',place:'星野 界 長門（傳統客房 2 房，共 2 晚，一泊二食）'}],
+  periods:{
+    morning:[
+      {time:'早餐', title:'飯店早餐', note:'今日 Check out（門司港飯店）', family:'', transport:'', map:'', confirmed:true},
+      {time:'上午', title:'川棚溫泉♨️溫泉街、角島大橋、秋芳洞', note:'', family:'', transport:'car', map:'角島大橋', confirmed:false},
+    ],
+    noon:[{time:'午餐', title:'高瀨（瓦片蕎麥麵）', note:'', family:'', transport:'car', map:'長門市', confirmed:false}],
+    afternoon:[],
+    evening:[{time:'晚餐', title:'飯店用餐（一泊二食）', note:'星野 界 長門｜傳統客房 2 房 × 2 晚', family:'請寫信與飯店確認人數，或詢問可否調整，否則怕會少餐', transport:'', map:'星野 界 長門', confirmed:false}]
+  }},
+{date:'2026-08-20', dayNum:11, weekday:'四',
+  theme:'山口．元乃隅神社、棚田、千疊敷', weatherKey:'長門市',
+  lodging:[{who:'全員',place:'星野 界 長門（傳統客房 2 房，第 2 晚）'}],
+  periods:{
+    morning:[
+      {time:'早餐', title:'飯店早餐', note:'', family:'確認是否含早餐', transport:'', map:'', confirmed:false},
+      {time:'上午', title:'東後畑棚田、元乃隅神社、千疊敷', note:'', family:'', transport:'car', map:'元乃隅神社', confirmed:false},
+    ],
+    noon:[], afternoon:[],
+    evening:[
+      {time:'晚餐', title:'飯店用餐', note:'', family:'', transport:'', map:'星野 界 長門', confirmed:false},
+      {time:'晚上', title:'收行李', note:'', family:'明天要 check out 囉', transport:'', map:'', confirmed:true},
+    ]
+  }},
+{date:'2026-08-21', dayNum:12, weekday:'五',
+  theme:'開車回福岡．阿媽自由行', weatherKey:'福岡市',
+  lodging:[{who:'卓軒、以璇、木須、言、辰',place:'東急stay福岡天神'},{who:'阿媽、戴阿媽',place:'（待訂）'}],
+  periods:{
+    morning:[{time:'早餐', title:'飯店早餐', note:'今日 Check out（星野 界 長門）', family:'', transport:'', map:'', confirmed:true}],
+    noon:[], 
+    afternoon:[{time:'下午', title:'飯店 Check in', note:'璇一家｜東急stay福岡天神\n阿媽、戴阿媽｜待訂', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false}],
+    evening:[{time:'晚餐', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false}]
+  }},
+{date:'2026-08-22', dayNum:13, weekday:'六',
+  theme:'福岡市區（重點：PayPay 巨蛋棒球賽，待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'全員',place:'東急stay福岡天神'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'重點行程：福岡 PayPay 巨蛋棒球賽（票券待確認場次）、福岡市區觀光、採買伴手禮。', family:'', transport:'', map:'福岡 PayPay 巨蛋', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-23', dayNum:14, weekday:'日',
+  theme:'整理行李．準備返程（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'全員',place:'東急stay福岡天神 → 返程'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'依航班時間安排最後採買與退房，建議預留機場緩衝時間（幼兒、長輩同行）。', family:'', transport:'', map:'福岡機場 FUK', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+];
+
+// ---------- 願望清單 ----------
+const WISHLIST = [
+  {name:'廣島', suitable:'體力較好的大人／學齡以上小孩', duration:'單日來回約 6–8 小時', difficulty:'交通難度：中（新幹線＋市內電車）', kids:'較適合', elders:'體力挑戰較大', note:'若插入需犧牲一天山口行程，建議列為機動備案。'},
+  {name:'松下村塾', suitable:'對歷史有興趣的大人', duration:'約 1 小時（含周邊萩市散策可延長）', difficulty:'交通難度：中（山口縣萩市，車程較遠）', kids:'較不適合幼兒', elders:'可，但需久走', note:'與元乃隅神社同天安排較順路。'},
+  {name:'秋吉台', suitable:'全家皆可', duration:'約 1.5–2 小時', difficulty:'交通難度：低（自駕直達，有停車場）', kids:'適合', elders:'適合，有平緩步道', note:'鄰近秋芳洞，可安排在同一天順遊。'},
+];
+
+// ---------- 必買清單 ----------
+const MUSTBUY = {
+  '藥妝':['羅氏鮮／防蚊液','曼秀雷敦系列','面速力達母','小林製藥退熱貼','眼藥水'],
+  '小孩玩具':['UNIQLO 聯名玩偶','扭蛋','足球隊周邊小物'],
+  '便利商店':['金鑵咖啡','日本啤酒（大人）','季節限定零食'],
+  '伴手禮':['博多通饅頭','明太子','白色戀人（如經過北海道櫃）','地酒／清酒'],
+  '球賽周邊':['PayPay Dome 主場周邊','應援毛巾','球員周邊卡'],
+};
+
+// ---------- 行李清單 ----------
+const PACKING = {
+  '證件文件':['護照正本＋影本','機票電子憑證','駕照＋國際駕照譯本','訂房確認信（紙本）','旅平險保單'],
+  '電子用品':['手機＋充電線','行動電源','轉接頭','相機','足球攝影腳架'],
+  '小孩用品':['球衣球鞋','水壺','兒童防曬','暈車藥','平板／充電線'],
+  '藥品':['個人慢性病藥（阿媽、戴阿媽）','腸胃藥','感冒藥','OK繃、優碘'],
+  '衣物':['薄外套（早晚溫差）','泳衣（溫泉飯店）','拖鞋','帽子、太陽眼鏡'],
+  '租車用品':['ETC卡（如租車公司提供）','手機導航架','兒童安全座椅確認','國際駕照＋護照（租車時出示）'],
+};
+
+// ---------- 文件 Documents ----------
+const DOCUMENTS = [
+  {name:'CI110 台北→福岡（8/10、8/14）', type:'機票', note:'兩梯次，8/10、8/14 出發各一組', link:''},
+  {name:'東急stay博多', type:'住宿', note:'阿媽、戴阿媽｜8/10 入住', link:''},
+  {name:'門司港 Premier Hotel Mojiko', type:'住宿', note:'8/14–8/19，含車位，共 5 晚（標準雙床→極品雙床）', link:''},
+  {name:'星野 界 長門', type:'住宿', note:'8/19–8/21，傳統客房 2 房，一泊二食，需再確認人數', link:''},
+  {name:'東急stay福岡天神', type:'住宿', note:'8/21 起入住', link:''},
+  {name:'自駕租車', type:'租車', note:'8/14 福岡機場取車，待確認車型與行李空間', link:''},
+  {name:'福岡 PayPay Dome 棒球票', type:'棒球票', note:'場次與座位待確認', link:''},
+  {name:'旅平險 / 海外突發疾病險', type:'保險', note:'全員 7 人，建議含足球運動傷害條款', link:''},
+  {name:'護照影本（全員）', type:'護照影本', note:'另存雲端＋紙本各一份分開攜帶', link:''},
+];
+
+// ---------- 緊急聯絡資訊（行程書用）----------
+const EMERGENCY = [
+  {label:'駐福岡辦事處（急難救助）', value:'請出發前查詢並填入最新電話'},
+  {label:'警察', value:'110'},
+  {label:'救護車 / 消防', value:'119'},
+  {label:'旅平險 海外急難救援專線', value:'（請填入保單背面電話）'},
+  {label:'家族聯絡人｜台灣', value:'（請填入爸爸／緊急聯絡人電話）'},
+];
+
+/* ============================================================
+   2. RENDER — SIDEBAR / NAV / WEATHER
+   ============================================================ */
+let currentPage = 'itinerary';
+let currentDateIdx = 0;
+
+function renderNav(){
+  const menu = document.getElementById('navMenu');
+  const mobile = document.getElementById('mobileNav');
+  menu.innerHTML=''; mobile.innerHTML='';
+  NAV_ITEMS.forEach(item=>{
+    const a = document.createElement('button');
+    a.className = 'nav-item' + (item.id===currentPage?' active':'');
+    a.innerHTML = `<span class="num">${item.num}</span><span>${item.label}</span>`;
+    a.onclick = ()=>gotoPage(item.id);
+    menu.appendChild(a);
+
+    const b = document.createElement('button');
+    b.className = 'nav-item' + (item.id===currentPage?' active':'');
+    b.innerHTML = `<span class="num">${item.num}</span><span>${item.label.split(' ')[0]}</span>`;
+    b.onclick = ()=>gotoPage(item.id);
+    mobile.appendChild(b);
+  });
+}
+
+function renderWeather(){
+  const wrap = document.getElementById('weatherList');
+  wrap.innerHTML = WEATHER_SPOTS.map(w=>`
+    <div class="weather-row">
+      <span>${w.label}</span>
+      <a href="${tenkiUrl(w.keyword)}" target="_blank" rel="noopener">tenki.jp ↗</a>
+    </div>`).join('');
+}
+
+function gotoPage(id){
+  currentPage = id;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  renderNav();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============================================================
+   3. RENDER — ITINERARY
+   ============================================================ */
+const TRANSPORT_LABEL = {flight:'✈ 飛機', car:'🚗 自駕', walk:'🚶 步行', train:'🚆 電車', '':''};
+
+function weekdayJa(w){return '週'+w;}
+
+function renderDateTabs(){
+  const wrap = document.getElementById('dateTabs');
+  wrap.innerHTML = ITINERARY.map((d,i)=>{
+    const md = d.date.slice(5).replace('-','/');
+    return `<button class="date-tab ${i===currentDateIdx?'active':''}" onclick="selectDate(${i})">${md}<span class="dow">(${d.weekday})</span></button>`;
+  }).join('');
+}
+
+function selectDate(i){
+  currentDateIdx = i;
+  renderDateTabs();
+  renderDayCard();
+}
+
+function renderPeriodItems(items){
+  if(!items || items.length===0) return '';
+  return items.map(it=>{
+    const mapBtn = it.map ? `<a class="tag map-link" href="${mapSearchUrl(it.map)}" target="_blank" rel="noopener">📍 ${it.map}</a>` : '';
+    const transBtn = it.transport ? `<span class="tag transport">${TRANSPORT_LABEL[it.transport]||it.transport}</span>` : '';
+    const familyNote = it.family ? `<div class="item-note" style="color:var(--kaki);margin-top:5px;">💡 ${it.family}</div>` : '';
+    return `
+    <div class="item">
+      <div class="item-time">${it.time}</div>
+      <div class="item-main">
+        <div class="item-title">${it.title}</div>
+        ${it.note?`<div class="item-note">${it.note}</div>`:''}
+        ${familyNote}
+        <div class="item-meta">${transBtn}${mapBtn}</div>
+      </div>
+      <div class="item-status">
+        <div class="hanko ${it.confirmed?'':'pending'}">${it.confirmed?'確認<br>済':'未確<br>認'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function mapSearchUrl(name){
+  return 'https://www.google.com/maps/search/' + encodeURIComponent(name);
+}
+
+function renderDayCard(){
+  const d = ITINERARY[currentDateIdx];
+  const wrap = document.getElementById('dayCardWrap');
+  const periodDefs = [
+    {key:'morning', label:'上午 MORNING'},
+    {key:'noon', label:'中午 NOON'},
+    {key:'afternoon', label:'下午 AFTERNOON'},
+    {key:'evening', label:'晚上 EVENING'},
+  ];
+  const periodsHtml = periodDefs.map(p=>{
+    const items = d.periods[p.key];
+    if(!items || items.length===0) return '';
+    return `<div class="period-block"><div class="period-label">${p.label}</div>${renderPeriodItems(items)}</div>`;
+  }).join('') || `<div class="empty-note">此時段尚無安排。</div>`;
+
+  const lodgingHtml = d.lodging.map(l=>`<span><b>${l.who}：</b>${l.place}</span>`).join(' ／ ');
+
+  wrap.innerHTML = `
+    <div class="day-card">
+      <div class="paper-grid"></div>
+      <div class="day-card-head">
+        <div>
+          <div class="day-tag">DAY ${d.dayNum} · ${d.date.slice(5).replace('-','/')}（${weekdayJa(d.weekday)}）</div>
+          <h3>${d.theme}</h3>
+        </div>
+        <div class="day-weather">
+          ${d.weatherKey}<br>
+          <a href="${tenkiUrl(d.weatherKey)}" target="_blank" rel="noopener">查看 tenki.jp 天氣 ↗</a>
+        </div>
+      </div>
+      <div class="day-lodging">🛏 ${lodgingHtml}</div>
+      <div class="periods">${periodsHtml}</div>
+    </div>`;
+}
+
+/* ============================================================
+   4. RENDER — WISHLIST
+   ============================================================ */
+function renderWishlist(){
+  const wrap = document.getElementById('wishlistGrid');
+  wrap.innerHTML = WISHLIST.map(w=>`
+    <div class="card">
+      <h4>${w.name}</h4>
+      <div class="wish-tags">
+        <span>👪 ${w.suitable}</span>
+        <span>⏱ ${w.duration}</span>
+        <span>🚗 ${w.difficulty}</span>
+      </div>
+      <div class="wish-tags">
+        <span>🧒 小孩：${w.kids}</span>
+        <span>🧓 長輩：${w.elders}</span>
+      </div>
+      <div class="wish-note">${w.note}</div>
+    </div>`).join('');
+}
+
+/* ============================================================
+   5. CHECKLISTS (Must Buy / Packing) — localStorage
+   ============================================================ */
+function loadChecked(storeKey){
+  try{ return JSON.parse(localStorage.getItem(storeKey)) || {}; }catch(e){ return {}; }
+}
+function saveChecked(storeKey, data){
+  localStorage.setItem(storeKey, JSON.stringify(data));
+}
+
+function renderChecklist(data, storeKey, wrapId){
+  const state = loadChecked(storeKey);
+  const wrap = document.getElementById(wrapId);
+  wrap.innerHTML = Object.entries(data).map(([cat, items])=>{
+    const total = items.length;
+    let doneCount = 0;
+    const rows = items.map((label,i)=>{
+      const id = cat+'__'+i;
+      const done = !!state[id];
+      if(done) doneCount++;
+      return `
+        <div class="check-item ${done?'done':''}">
+          <input type="checkbox" id="${id}" ${done?'checked':''} onchange="toggleCheck('${storeKey}','${id}','${wrapId}')">
+          <label for="${id}">${label}</label>
+        </div>`;
+    }).join('');
+    const pct = total? Math.round(doneCount/total*100):0;
+    return `
+      <div class="category">
+        <h3>${cat}　<small style="font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);">${doneCount}/${total}</small></h3>
+        <div class="progress-bar"><span style="width:${pct}%"></span></div>
+        <div class="check-list" style="margin-top:10px;">${rows}</div>
+      </div>`;
+  }).join('');
+}
+
+function toggleCheck(storeKey, id, wrapId){
+  const state = loadChecked(storeKey);
+  state[id] = !state[id];
+  saveChecked(storeKey, state);
+  if(wrapId==='mustbuyWrap') renderChecklist(MUSTBUY,'mustbuy_checked','mustbuyWrap');
+  if(wrapId==='packingWrap') renderChecklist(PACKING,'packing_checked','packingWrap');
+}
+
+function resetCategory(kind){
+  if(!confirm('確定要重設所有勾選狀態嗎？')) return;
+  if(kind==='mustbuy'){ localStorage.removeItem('mustbuy_checked'); renderChecklist(MUSTBUY,'mustbuy_checked','mustbuyWrap'); }
+  if(kind==='packing'){ localStorage.removeItem('packing_checked'); renderChecklist(PACKING,'packing_checked','packingWrap'); }
+}
+
+/* ============================================================
+   6. CALCULATOR
+   ============================================================ */
+function calcJpy(){
+  const rate = parseFloat(document.getElementById('rate').value)||0;
+  const jpy = parseFloat(document.getElementById('jpy').value)||0;
+  const twd = Math.round(jpy*rate);
+  document.getElementById('jpyResult').innerHTML = `NT$ ${twd.toLocaleString()}<small>約略金額，匯率請以實際刷卡 / 換匯為準</small>`;
+}
+function calcSplit(){
+  const total = parseFloat(document.getElementById('totalAmt').value)||0;
+  const people = parseFloat(document.getElementById('peopleCount').value)||1;
+  const each = Math.round(total/people);
+  document.getElementById('splitResult').innerHTML = `每人 ${each.toLocaleString()}<small>總金額 ÷ 人數，四捨五入至整數</small>`;
+}
+document.getElementById('rate').addEventListener('input', calcJpy);
+
+/* ============================================================
+   7. DOCUMENTS
+   ============================================================ */
+function renderDocuments(){
+  const wrap = document.getElementById('documentsWrap');
+  wrap.innerHTML = `
+    <table class="doc-table">
+      <thead><tr><th>文件名稱</th><th>類型</th><th>備註</th><th>連結</th></tr></thead>
+      <tbody>
+        ${DOCUMENTS.map(d=>`
+          <tr>
+            <td>${d.name}</td>
+            <td><span class="doc-type">${d.type}</span></td>
+            <td>${d.note}</td>
+            <td>${d.link?`<a href="${d.link}" target="_blank">開啟連結 ↗</a>`:'<span style="color:var(--ink-muted);">尚未上傳</span>'}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+/* ============================================================
+   8. NOTES — localStorage CRUD
+   ============================================================ */
+function loadNotes(){
+  try{ return JSON.parse(localStorage.getItem('trip_notes')) || []; }catch(e){ return []; }
+}
+function saveNotes(notes){ localStorage.setItem('trip_notes', JSON.stringify(notes)); }
+
+function renderNotes(){
+  const notes = loadNotes();
+  const wrap = document.getElementById('notesGrid');
+  if(notes.length===0){ wrap.innerHTML = `<div class="empty-note">目前沒有備忘，新增一則試試看吧。</div>`; return; }
+  wrap.innerHTML = notes.map((n,i)=>`
+    <div class="sticky-note">
+      <span class="del" onclick="deleteNote(${i})">✕</span>
+      ${n.text}
+      <span class="ts">${n.date}</span>
+    </div>`).join('');
+}
+function addNote(){
+  const input = document.getElementById('noteInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const notes = loadNotes();
+  const d = new Date();
+  notes.unshift({text, date: `${d.getMonth()+1}/${d.getDate()}`});
+  saveNotes(notes);
+  input.value='';
+  renderNotes();
+}
+function deleteNote(i){
+  const notes = loadNotes();
+  notes.splice(i,1);
+  saveNotes(notes);
+  renderNotes();
+}
+
+/* ============================================================
+   9. PRINT BOOK
+   ============================================================ */
+function renderBook(){
+  const wrap = document.getElementById('bookPreview');
+  const daysHtml = ITINERARY.map(d=>{
+    const lodging = d.lodging.map(l=>`${l.who}：${l.place}`).join('／');
+    const allItems = ['morning','noon','afternoon','evening'].flatMap(k=>d.periods[k]||[]);
+    const lines = allItems.map(it=>{
+      const fam = it.family?`（提醒：${it.family}）`:'';
+      return `<div class="pb-line"><b>${it.time}</b>${it.title}${fam}</div>`;
+    }).join('') || `<div class="pb-line" style="color:var(--ink-muted);">行程待規劃</div>`;
+    return `
+      <div class="pb-day">
+        <h4>DAY ${d.dayNum}｜${d.date.slice(5).replace('-','/')}（${weekdayJa(d.weekday)}）　${d.theme}</h4>
+        <div class="lodging">🛏 住宿：${lodging}</div>
+        ${lines}
+      </div>`;
+  }).join('');
+
+  const docReminders = DOCUMENTS.filter(d=>['機票','住宿','棒球票','保險'].includes(d.type))
+    .map(d=>`<div class="pb-line"><b>${d.type}</b>${d.name}　${d.note}</div>`).join('');
+
+  const emergencyHtml = EMERGENCY.map(e=>`<div class="pb-line"><b>${e.label}</b>${e.value}</div>`).join('');
+
+  wrap.innerHTML = `
+    <div style="text-align:center;margin-bottom:18px;">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--kaki);letter-spacing:.14em;">FUKUOKA 2026</div>
+      <h2 style="font-family:var(--font-display);font-size:22px;margin-top:4px;">${TRIP.title}</h2>
+      <div style="font-size:12.5px;color:var(--ink-muted);margin-top:4px;">${TRIP.start} — ${TRIP.end}｜${TRIP.members}</div>
+    </div>
+    ${daysHtml}
+    <div class="emergency-box">
+      <h4>重要文件提醒</h4>
+      ${docReminders}
+    </div>
+    <div class="emergency-box">
+      <h4>緊急聯絡資訊</h4>
+      ${emergencyHtml}
+    </div>`;
+}
+function setPrintSize(size){
+  document.body.classList.remove('print-a4','print-a5');
+  document.body.classList.add('print-'+size);
+}
+
+/* ============================================================
+   10. DATA PAGE
+   ============================================================ */
+function renderDataPage(){
+  const nights = ITINERARY.length - 1;
+  const wishCount = WISHLIST.length;
+  const docCount = DOCUMENTS.length;
+  document.getElementById('dataSummary').innerHTML = `
+    <div class="stat"><div class="num">${ITINERARY.length}</div><div class="lbl">行程天數</div></div>
+    <div class="stat"><div class="num">${nights}</div><div class="lbl">住宿夜數</div></div>
+    <div class="stat"><div class="num">7</div><div class="lbl">同行人數</div></div>
+    <div class="stat"><div class="num">${wishCount}</div><div class="lbl">願望清單地點</div></div>
+    <div class="stat"><div class="num">${docCount}</div><div class="lbl">文件筆數</div></div>
+    <div class="stat"><div class="num">${MAP_LOCATIONS.length}</div><div class="lbl">地圖標記點</div></div>
+  `;
+  document.getElementById('dataHint').textContent =
+`// 這份網頁的所有內容都放在 <script> 開頭的 JavaScript 陣列裡：
+//
+//   ITINERARY      每日行程（可直接新增 / 修改 periods.morning / noon / afternoon / evening）
+//   WISHLIST       願望清單卡片
+//   MUSTBUY        必買清單（依分類物件）
+//   PACKING        行李清單（依分類物件）
+//   DOCUMENTS      文件列表
+//   MAP_LOCATIONS  地圖標記（name / type / lat / lng / note）
+//   EMERGENCY      行程書用緊急聯絡資訊
+//
+// 修改後直接儲存 index.html，重新整理頁面即可看到更新，
+// 不需要額外編譯或安裝任何工具。`;
+}
+
+/* ============================================================
+   11. MAP (Leaflet) — desktop 固定 + mobile bottom sheet
+   ============================================================ */
+let mapDesktop, mapMobile;
+function buildMap(containerId){
+  const m = L.map(containerId, {scrollWheelZoom:true}).setView([33.75,130.75], 9);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:'&copy; OpenStreetMap contributors', maxZoom:18,
+  }).addTo(m);
+  MAP_LOCATIONS.forEach(loc=>{
+    const meta = TYPE_META[loc.type] || TYPE_META.sight;
+    const marker = L.circleMarker([loc.lat, loc.lng], {
+      radius:9, fillColor:meta.color, color:'#fff', weight:2, fillOpacity:0.95,
+    }).addTo(m);
+    marker.bindPopup(`<b>${loc.name}</b><br>${meta.label}｜${loc.note}`);
+  });
+  return m;
+}
+function renderLegend(id){
+  document.getElementById(id).innerHTML = Object.entries(TYPE_META).map(([k,v])=>
+    `<span><span class="dot" style="background:${v.color}"></span>${v.label}</span>`).join('');
+}
+
+/* ============================================================
+   12. MOBILE MAP SHEET
+   ============================================================ */
+function openMapSheet(){
+  document.getElementById('mapSheet').classList.add('open');
+  if(!mapMobile){
+    mapMobile = buildMap('map-mobile');
+    renderLegend('mapLegendMobile');
+  }
+  setTimeout(()=>mapMobile && mapMobile.invalidateSize(), 200);
+}
+function closeMapSheet(){
+  document.getElementById('mapSheet').classList.remove('open');
+}
+
+/* ============================================================
+   13. INIT
+   ============================================================ */
+function init(){
+  renderNav();
+  renderWeather();
+  renderDateTabs();
+  renderDayCard();
+  renderWishlist();
+  renderChecklist(MUSTBUY,'mustbuy_checked','mustbuyWrap');
+  renderChecklist(PACKING,'packing_checked','packingWrap');
+  calcJpy(); calcSplit();
+  renderDocuments();
+  renderNotes();
+  renderBook();
+  setPrintSize('a4');
+  renderDataPage();
+  renderLegend('mapLegendDesktop');
+  mapDesktop = buildMap('map');
+}
+window.addEventListener('load', init);
+</script>
+</body>
+</html>
