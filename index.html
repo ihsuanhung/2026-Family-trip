@@ -6,8 +6,8 @@
 <title>2026 北九州・山口縣家族旅行｜Fukuoka 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 /* ============================================================
    0. RESET & TOKENS
@@ -395,8 +395,8 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
     <div class="brand">
       <div class="kicker">Fukuoka 2026</div>
       <h1>夏の福岡・北九州<br>・山口縣</h1>
-      <div class="sub">2026.08.10 — 2026.08.23・14 日旅程</div>
-      <div class="trip-stamp">◆ 4 大 2 小 1 幼</div>
+      <div class="sub">2026.08.10 — 2026.08.29・全程 20 天</div>
+      <div class="trip-stamp">◆ 4 大 2 小 1 幼｜8/23 起僅阿媽、戴阿媽續留</div>
     </div>
 
     <div class="weather-box">
@@ -424,10 +424,9 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
           <h2>行程 Itinerary</h2>
           <div class="status-row">
             <span class="pill planning">● 規劃中</span>
-            <span style="font-size:12.5px;color:var(--ink-muted);">最後更新由家族共同編輯</span>
+            <span style="font-size:12.5px;color:var(--ink-muted);">行程內容如需調整，請直接編輯後重新上傳</span>
           </div>
         </div>
-        <button class="btn primary">✎ 編輯行程</button>
       </div>
 
       <div class="date-tabs hide-scrollbar" id="dateTabs"></div>
@@ -517,6 +516,11 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
         </div>
       </div>
       <p class="section-intro">重要文件與訂購紀錄，出國前建議全部另存 PDF 到手機相簿一份。</p>
+      <a href="https://drive.google.com/drive/folders/1Al37ciK9L3gGgEWJRrOlWJtgYepHluyZ?usp=sharing" target="_blank" rel="noopener" class="btn primary" style="margin-bottom:14px;">📁 開啟家族共用 Google Drive 資料夾</a>
+      <div class="wish-note" style="background:#FBEEEA;border:1px solid var(--shu);border-radius:10px;padding:12px 14px;margin-bottom:18px;max-width:640px;color:#7A3320;">
+        ⚠️ 護照、訂房確認信等含個資的檔案，<b>請勿</b>直接上傳到這個網站的 GitHub repo（repo 是公開的，檔案等於公開在網路上）。<br>
+        目前這個 Drive 連結是「知道連結的人皆可查看」，建議到 Google Drive 資料夾設定裡改成<b>「限特定家人 email 才能檢視」</b>會更安全。
+      </div>
       <div id="documentsWrap"></div>
     </section>
 
@@ -602,7 +606,7 @@ const TRIP = {
   title:'2026 北九州・山口縣家族旅行',
   members:'4 大 2 小 1 幼',
   start:'2026-08-10',
-  end:'2026-08-23',
+  end:'2026-08-29',
 };
 
 // 導覽選單
@@ -626,16 +630,32 @@ const WEATHER_SPOTS = [
 ];
 function tenkiUrl(keyword){return 'https://tenki.jp/search/?keyword=' + encodeURIComponent(keyword);}
 
-// 地圖點位
+// 地圖點位（手動精選的主要點位，例如飯店、機場、訓練場地）
 const MAP_LOCATIONS = [
   {name:'福岡機場 FUK', type:'transport', lat:33.5859, lng:130.4506, note:'國際線 / 8/10、8/14 入境'},
   {name:'北九州 Global Arena', type:'sight', lat:33.6753, lng:130.9270, note:'足球移地訓練場地，8/10–8/15'},
   {name:'東急stay博多', type:'lodging', lat:33.5902, lng:130.4207, note:'阿媽、戴阿媽 8/10 住宿'},
-  {name:'東急stay福岡天神', type:'lodging', lat:33.5903, lng:130.4001, note:'8/21 起全員入住'},
+  {name:'東急stay福岡天神', type:'lodging', lat:33.5903, lng:130.4001, note:'璇一家 8/21–8/23 入住（雙床房×2晚，不含餐）'},
   {name:'門司港 Premier Hotel Mojiko', type:'lodging', lat:33.9500, lng:130.9636, note:'含車位，連住 5 晚（8/14–8/19）'},
   {name:'星野 界 長門', type:'lodging', lat:34.3719, lng:131.1841, note:'傳統客房 2 房，一泊二食（8/19–8/21）'},
-  {name:'福岡 PayPay 巨蛋', type:'sight', lat:33.5951, lng:130.3622, note:'棒球賽備選行程，待排入 8/22-23'},
+  {name:'福岡 PayPay 巨蛋', type:'sight', lat:33.5951, lng:130.3622, note:'8/22（六）14:00 福岡軟銀鷹 vs 歐力士'},
 ];
+
+// 行程項目裡出現過的地點座標庫，用來「依行程內容自動標示點位」。
+// 名稱要跟 ITINERARY 各行程項目的 map 欄位完全一致，才會被自動抓取畫在地圖上。
+// 之後行程新增地點，只要在這裡補一筆座標，地圖就會自動多一個標記，不用再手動改 MAP_LOCATIONS。
+const PLACE_COORDS = {
+  '門司港':          {lat:33.9486, lng:130.9636, type:'sight'},
+  '唐戶市場':        {lat:33.9505, lng:130.9432, type:'food'},
+  '關門大橋':        {lat:33.9581, lng:130.9525, type:'sight'},
+  '千佛鐘乳洞':      {lat:33.7761, lng:130.7767, type:'sight'},
+  '小倉':            {lat:33.8834, lng:130.8752, type:'food'},
+  '小倉城':          {lat:33.8853, lng:130.8752, type:'sight'},
+  '角島大橋':        {lat:34.3400, lng:130.8898, type:'sight'},
+  '長門市':          {lat:34.3775, lng:131.1875, type:'food'},
+  '元乃隅神社':      {lat:34.4356, lng:131.1966, type:'sight'},
+};
+
 const TYPE_META = {
   lodging:{label:'住宿', color:'#B96A3D'},
   sight:{label:'景點', color:'#2B4568'},
@@ -670,7 +690,7 @@ const ITINERARY = [
   periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
 {date:'2026-08-14', dayNum:5, weekday:'五',
   theme:'卓軒、以璇、木須 抵達福岡．自駕租車前往北九州', weatherKey:'福岡市',
-  lodging:[{who:'卓軒、以璇、木須',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，共 3 晚）'}],
+  lodging:[{who:'言、辰',place:'Global Arena, 北九州（持續隨隊）'},{who:'阿嬤、戴阿媽、卓軒、以璇、木須',place:'門司港 Premier Hotel Mojiko（含車位）｜標準雙床－2 房 × 3 晚'}],
   periods:{
     morning:[
       {time:'06:50', title:'CI110　台北出發', note:'卓軒、以璇、木須', family:'待安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:false},
@@ -679,15 +699,18 @@ const ITINERARY = [
     noon:[], 
     afternoon:[
       {time:'13:00', title:'自駕前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false},
-      {time:'15:00', title:'飯店 Check in', note:'門司港 Premier Hotel Mojiko（含車位）｜標準雙床－2 房 × 3 晚', family:'', transport:'car', map:'門司港 Premier Hotel Mojiko', confirmed:true},
-    ], evening:[]
+      {time:'15:00', title:'飯店 Check in', note:'言、辰｜今晚維持與球隊住 Global Arena\n阿嬤、戴阿媽、卓軒、以璇、木須｜門司港 Premier Hotel Mojiko（含車位）標準雙床－2 房 × 3 晚', family:'', transport:'car', map:'門司港 Premier Hotel Mojiko', confirmed:true},
+    ],
+    evening:[
+      {time:'晚上', title:'璇跟卓軒是否要去市區配眼鏡？', note:'', family:'', transport:'', map:'', confirmed:false},
+    ]
   }},
 {date:'2026-08-15', dayNum:6, weekday:'六',
   theme:'接言辰．全員集合', weatherKey:'北九州市',
-  lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 2 晚／共 5 晚不用搬行李）'}],
+  lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 2 晚／共 3 晚不用搬行李）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 5 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
+      {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
       {time:'上午', title:'至北九州 Global Arena 接言辰', note:'', family:'言辰行李帶回飯店', transport:'car', map:'北九州 Global Arena', confirmed:false},
     ],
     noon:[{time:'中午', title:'門司港午餐', note:'啤酒工房', family:'', transport:'walk', map:'門司港', confirmed:false}],
@@ -696,10 +719,10 @@ const ITINERARY = [
   }},
 {date:'2026-08-16', dayNum:7, weekday:'日',
   theme:'北九州．門司港周邊', weatherKey:'北九州市',
-  lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（連住第 3 晚）'}],
+  lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 3 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 5 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
+      {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
       {time:'上午', title:'商店街（榮町銀天街）', note:'', family:'', transport:'walk', map:'門司港', confirmed:false},
     ],
     noon:[{time:'午餐', title:'午餐候選（4 選 1）', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 春帆樓（講和紀念館，馬關條約割讓台灣舊址）\n④ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定', transport:'walk', map:'唐戶市場', confirmed:false}],
@@ -711,7 +734,7 @@ const ITINERARY = [
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（升級為極品雙床 2 房，共 2 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 5 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
+      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'升級房型，可能要移動房間', transport:'', map:'', confirmed:true},
       {time:'上午', title:'千佛鐘乳洞', note:'', family:'', transport:'car', map:'千佛鐘乳洞', confirmed:false},
     ],
     noon:[{time:'午餐', title:'鰻魚飯', note:'', family:'', transport:'car', map:'小倉', confirmed:false}],
@@ -722,7 +745,10 @@ const ITINERARY = [
   theme:'北九州．山口南部（行程待補）', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（極品雙床 2 房，第 2 晚）'}],
   periods:{
-    morning:[{time:'上午', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false}],
+    morning:[
+      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true},
+      {time:'上午', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false},
+    ],
     noon:[{time:'午餐', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false}],
     afternoon:[{time:'下午', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false}],
     evening:[{time:'晚上', title:'收行李', note:'', family:'明天要往山口移動囉', transport:'', map:'', confirmed:true}]
@@ -754,22 +780,62 @@ const ITINERARY = [
     ]
   }},
 {date:'2026-08-21', dayNum:12, weekday:'五',
-  theme:'開車回福岡．阿媽自由行', weatherKey:'福岡市',
-  lodging:[{who:'卓軒、以璇、木須、言、辰',place:'東急stay福岡天神'},{who:'阿媽、戴阿媽',place:'（待訂）'}],
+  theme:'璇一家開車回福岡．阿媽、戴阿媽山口自由行（8/21–8/29）', weatherKey:'福岡市',
+  lodging:[{who:'璇一家（卓軒、以璇、木須、言、辰）',place:'東急stay福岡天神｜雙床房 × 2 晚（不含餐）'},{who:'阿媽、戴阿媽',place:'山口自由行中，住宿待訂'}],
   periods:{
     morning:[{time:'早餐', title:'飯店早餐', note:'今日 Check out（星野 界 長門）', family:'', transport:'', map:'', confirmed:true}],
     noon:[], 
-    afternoon:[{time:'下午', title:'飯店 Check in', note:'璇一家｜東急stay福岡天神\n阿媽、戴阿媽｜待訂', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false}],
-    evening:[{time:'晚餐', title:'行程待規劃', note:'', family:'', transport:'', map:'', confirmed:false}]
+    afternoon:[{time:'下午', title:'璇一家開車回福岡，兩位阿媽續遊山口', note:'璇一家：飯店 Check in、租車返還', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false}],
+    evening:[{time:'晚餐', title:'晚餐候選（2 選 1）', note:'① 一蘭拉麵總店（含表演）\n② 日式燒肉', family:'', transport:'', map:'', confirmed:false}]
   }},
 {date:'2026-08-22', dayNum:13, weekday:'六',
-  theme:'福岡市區（重點：PayPay 巨蛋棒球賽，待規劃）', weatherKey:'福岡市',
-  lodging:[{who:'全員',place:'東急stay福岡天神'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'重點行程：福岡 PayPay 巨蛋棒球賽（票券待確認場次）、福岡市區觀光、採買伴手禮。', family:'', transport:'', map:'福岡 PayPay 巨蛋', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+  theme:'璇一家福岡市區看球賽逛街．阿媽、戴阿媽山口自由行', weatherKey:'福岡市',
+  lodging:[{who:'璇一家',place:'東急stay福岡天神｜雙床房 × 2 晚（不含餐，連住第 2 晚）'},{who:'阿媽、戴阿媽',place:'山口自由行中'}],
+  periods:{
+    morning:[
+      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true},
+      {time:'上午', title:'博多運河城買球鞋、逛街買伴手禮', note:'', family:'', transport:'walk', map:'', confirmed:false},
+    ],
+    noon:[],
+    afternoon:[{time:'14:00', title:'福岡軟銀鷹 vs 歐力士｜PayPay Dome', note:'有可能會很無聊，保留彈性去隔壁逛街、王貞治棒球博物館玩（門票可免費去玩）', family:'為防中暑，可單獨或同時攜帶：\n① 塑膠瓶與鋁箔包（皆 1L 以內，每人最多一瓶）\n② 水壺與隨身杯（皆 2L 以下）', transport:'walk', map:'福岡 PayPay 巨蛋', confirmed:true}],
+    evening:[{time:'晚上', title:'收行李', note:'', family:'明天要 check out 回台灣囉～', transport:'', map:'', confirmed:true}]
+  }},
 {date:'2026-08-23', dayNum:14, weekday:'日',
-  theme:'整理行李．準備返程（待規劃）', weatherKey:'福岡市',
-  lodging:[{who:'全員',place:'東急stay福岡天神 → 返程'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'依航班時間安排最後採買與退房，建議預留機場緩衝時間（幼兒、長輩同行）。', family:'', transport:'', map:'福岡機場 FUK', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+  theme:'璇一家返台．阿媽、戴阿媽持續山口自由行', weatherKey:'福岡市',
+  lodging:[{who:'璇一家',place:'Check out → 返台'},{who:'阿媽、戴阿媽',place:'山口自由行中'}],
+  periods:{
+    morning:[
+      {time:'上午', title:'Checkout', note:'', family:'', transport:'', map:'', confirmed:true},
+      {time:'11:00', title:'CI111　福岡 FUK → 台北 TPE T2（12:30 抵達）', note:'璇一家搭乘', family:'可考慮搭機捷返家或安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true},
+    ], noon:[], afternoon:[], evening:[]
+  }},
+{date:'2026-08-24', dayNum:15, weekday:'一',
+  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'8/21–8/29 阿媽、戴阿媽於山口及福岡市自由行，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-25', dayNum:16, weekday:'二',
+  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-26', dayNum:17, weekday:'三',
+  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-27', dayNum:18, weekday:'四',
+  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-28', dayNum:19, weekday:'五',
+  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'明天準備返台，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-29', dayNum:20, weekday:'六',
+  theme:'阿媽、戴阿媽 返台', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'Check out → 返台'}],
+  periods:{
+    morning:[], noon:[], afternoon:[],
+    evening:[{time:'21:00', title:'CI117　福岡 FUK（國際航廈）→ 桃園 TPE T2（22:30 抵達）', note:'阿媽、戴阿媽搭乘', family:'記得安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true}]
+  }},
 ];
 
 // ---------- 願望清單 ----------
@@ -777,6 +843,8 @@ const WISHLIST = [
   {name:'廣島', suitable:'體力較好的大人／學齡以上小孩', duration:'單日來回約 6–8 小時', difficulty:'交通難度：中（新幹線＋市內電車）', kids:'較適合', elders:'體力挑戰較大', note:'若插入需犧牲一天山口行程，建議列為機動備案。'},
   {name:'松下村塾', suitable:'對歷史有興趣的大人', duration:'約 1 小時（含周邊萩市散策可延長）', difficulty:'交通難度：中（山口縣萩市，車程較遠）', kids:'較不適合幼兒', elders:'可，但需久走', note:'與元乃隅神社同天安排較順路。'},
   {name:'秋吉台', suitable:'全家皆可', duration:'約 1.5–2 小時', difficulty:'交通難度：低（自駕直達，有停車場）', kids:'適合', elders:'適合，有平緩步道', note:'鄰近秋芳洞，可安排在同一天順遊。'},
+  {name:'マリナタウン海浜公園（8/15 精霊流し＋煙火）', suitable:'全家皆可，傍晚後現場人潮較多', duration:'約 2–3 小時（含等待 20:00 煙火）', difficulty:'交通難度：中（建議提早到場占位，可能需步行一段路）', kids:'適合，但夜間人潮多需留意走失', elders:'需留意久站，建議自備椅子或野餐墊', note:'8/15 剛好是接言辰、全員集合當天，盂蘭盆節精靈流放儀式＋20:00 煙火，體力許可可安排在當天傍晚。'},
+  {name:'小鹿田燒之里（小鹿田焼の里）', suitable:'對傳統工藝、陶器有興趣的大人', duration:'車程較遠，建議安排半天以上', difficulty:'交通難度：高（大分縣日田市山區聚落，山路較小）', kids:'較不適合幼兒（山路＋陶器易碎）', elders:'需留意山路與石板路不平整', note:'與北九州、山口本島行程距離較遠，建議列為機動備案，天氣好、有多餘時間再排入。'},
 ];
 
 // ---------- 必買清單 ----------
@@ -790,23 +858,27 @@ const MUSTBUY = {
 
 // ---------- 行李清單 ----------
 const PACKING = {
-  '證件文件':['護照正本＋影本','機票電子憑證','駕照＋國際駕照譯本','訂房確認信（紙本）','旅平險保單'],
-  '電子用品':['手機＋充電線','行動電源','轉接頭','相機','足球攝影腳架'],
-  '小孩用品':['球衣球鞋','水壺','兒童防曬','暈車藥','平板／充電線'],
-  '藥品':['個人慢性病藥（阿媽、戴阿媽）','腸胃藥','感冒藥','OK繃、優碘'],
+  '證件文件':['護照正本＋影本','機票電子憑證','台灣駕照＋日文譯本','訂房確認信（紙本）','旅平險保單'],
+  '電子用品':['手機＋充電線','行動電源（華航規定：僅能隨身攜帶，不可託運；100Wh 以下免申請，100–160Wh 需申請，逾 160Wh 禁止攜帶）','轉接頭'],
+  '小孩用品':['球衣、球鞋、球襪、護脛','換洗衣物','薄外套','擦汗毛巾','一般球鞋及拖鞋','水壺','兒童防曬','暈車藥','辰的過敏藥','乳液','指甲剪刀（需託運，不可隨身攜帶）','平板／充電線'],
+  '藥品':['個人慢性病藥（阿媽、戴阿媽）','腸胃藥','感冒藥','OK繃、優碘','過敏藥','耳溫槍'],
   '衣物':['薄外套（早晚溫差）','泳衣（溫泉飯店）','拖鞋','帽子、太陽眼鏡'],
-  '租車用品':['ETC卡（如租車公司提供）','手機導航架','兒童安全座椅確認','國際駕照＋護照（租車時出示）'],
+  '租車用品':['ETC卡（如租車公司提供）','手機導航架','兒童安全座椅確認','台灣駕照＋日文譯本＋護照（租車時出示）'],
 };
 
 // ---------- 文件 Documents ----------
+// link 欄位請貼「Google Drive / iCloud」的限定分享連結（僅特定 email 可檢視），
+// 不要把護照、訂房確認信等檔案直接放進這個 repo，因為 repo 是公開的。
 const DOCUMENTS = [
   {name:'CI110 台北→福岡（8/10、8/14）', type:'機票', note:'兩梯次，8/10、8/14 出發各一組', link:''},
+  {name:'CI111 福岡→台北（8/23）', type:'機票', note:'璇一家｜11:00 福岡起飛，12:30 抵台北 TPE T2', link:''},
+  {name:'CI117 福岡→台北（8/29）', type:'機票', note:'阿媽、戴阿媽｜21:00 福岡起飛（國際航廈），22:30 抵桃園 TPE T2', link:''},
   {name:'東急stay博多', type:'住宿', note:'阿媽、戴阿媽｜8/10 入住', link:''},
   {name:'門司港 Premier Hotel Mojiko', type:'住宿', note:'8/14–8/19，含車位，共 5 晚（標準雙床→極品雙床）', link:''},
   {name:'星野 界 長門', type:'住宿', note:'8/19–8/21，傳統客房 2 房，一泊二食，需再確認人數', link:''},
-  {name:'東急stay福岡天神', type:'住宿', note:'8/21 起入住', link:''},
+  {name:'東急stay福岡天神', type:'住宿', note:'璇一家 8/21–8/23 入住，雙床房×2晚（不含餐）', link:''},
   {name:'自駕租車', type:'租車', note:'8/14 福岡機場取車，待確認車型與行李空間', link:''},
-  {name:'福岡 PayPay Dome 棒球票', type:'棒球票', note:'場次與座位待確認', link:''},
+  {name:'福岡 PayPay Dome 棒球票', type:'棒球票', note:'8/22（六）14:00 福岡軟銀鷹 vs 歐力士，座位待確認', link:''},
   {name:'旅平險 / 海外突發疾病險', type:'保險', note:'全員 7 人，建議含足球運動傷害條款', link:''},
   {name:'護照影本（全員）', type:'護照影本', note:'另存雲端＋紙本各一份分開攜帶', link:''},
 ];
@@ -968,6 +1040,13 @@ function renderWishlist(){
 /* ============================================================
    5. CHECKLISTS (Must Buy / Packing) — localStorage
    ============================================================ */
+// 把文字轉成穩定的短 id（用來當 checkbox 的儲存 key），
+// 這樣之後修改清單文字內容的細節、或調整項目順序，都不會讓家人原本勾好的紀錄跑掉。
+function slugify(str){
+  let hash = 0;
+  for(let i=0;i<str.length;i++){ hash = ((hash<<5)-hash) + str.charCodeAt(i); hash |= 0; }
+  return Math.abs(hash).toString(36);
+}
 function loadChecked(storeKey){
   try{ return JSON.parse(localStorage.getItem(storeKey)) || {}; }catch(e){ return {}; }
 }
@@ -981,8 +1060,8 @@ function renderChecklist(data, storeKey, wrapId){
   wrap.innerHTML = Object.entries(data).map(([cat, items])=>{
     const total = items.length;
     let doneCount = 0;
-    const rows = items.map((label,i)=>{
-      const id = cat+'__'+i;
+    const rows = items.map((label)=>{
+      const id = cat+'__'+slugify(label);
       const done = !!state[id];
       if(done) doneCount++;
       return `
@@ -1046,7 +1125,7 @@ function renderDocuments(){
             <td>${d.name}</td>
             <td><span class="doc-type">${d.type}</span></td>
             <td>${d.note}</td>
-            <td>${d.link?`<a href="${d.link}" target="_blank">開啟連結 ↗</a>`:'<span style="color:var(--ink-muted);">尚未上傳</span>'}</td>
+            <td>${d.link?`<a href="${d.link}" target="_blank">開啟連結 ↗</a>`:'<span style="color:var(--ink-muted);">尚未貼上 Drive／iCloud 連結</span>'}</td>
           </tr>`).join('')}
       </tbody>
     </table>`;
@@ -1148,7 +1227,7 @@ function renderDataPage(){
     <div class="stat"><div class="num">7</div><div class="lbl">同行人數</div></div>
     <div class="stat"><div class="num">${wishCount}</div><div class="lbl">願望清單地點</div></div>
     <div class="stat"><div class="num">${docCount}</div><div class="lbl">文件筆數</div></div>
-    <div class="stat"><div class="num">${MAP_LOCATIONS.length}</div><div class="lbl">地圖標記點</div></div>
+    <div class="stat"><div class="num">${MAP_LOCATIONS.length + buildAutoMapPoints().length}</div><div class="lbl">地圖標記點</div></div>
   `;
   document.getElementById('dataHint').textContent =
 `// 這份網頁的所有內容都放在 <script> 開頭的 JavaScript 陣列裡：
@@ -1158,7 +1237,9 @@ function renderDataPage(){
 //   MUSTBUY        必買清單（依分類物件）
 //   PACKING        行李清單（依分類物件）
 //   DOCUMENTS      文件列表
-//   MAP_LOCATIONS  地圖標記（name / type / lat / lng / note）
+//   MAP_LOCATIONS  手動精選地圖標記（name / type / lat / lng / note）
+//   PLACE_COORDS   行程地點座標庫，讓地圖能依 ITINERARY 內容自動加標記
+//                  （行程項目的 map 欄位若出現新地名，在這裡補一筆座標即可自動上圖）
 //   EMERGENCY      行程書用緊急聯絡資訊
 //
 // 修改後直接儲存 index.html，重新整理頁面即可看到更新，
@@ -1169,12 +1250,52 @@ function renderDataPage(){
    11. MAP (Leaflet) — desktop 固定 + mobile bottom sheet
    ============================================================ */
 let mapDesktop, mapMobile;
+
+// 掃描 ITINERARY 裡所有行程項目的 map 欄位，
+// 排除已經在 MAP_LOCATIONS 手動列出的地點，其餘依 PLACE_COORDS 座標庫自動產生標記。
+function buildAutoMapPoints(){
+  const seen = {};
+  ITINERARY.forEach(d=>{
+    ['morning','noon','afternoon','evening'].forEach(k=>{
+      (d.periods[k]||[]).forEach(it=>{
+        if(!it.map) return;
+        if(!seen[it.map]) seen[it.map] = {days:new Set(), titles:new Set()};
+        seen[it.map].days.add(d.dayNum);
+        seen[it.map].titles.add(it.title);
+      });
+    });
+  });
+  const existingNames = new Set(MAP_LOCATIONS.map(l=>l.name));
+  const points = [];
+  Object.entries(seen).forEach(([name, info])=>{
+    if(existingNames.has(name)) return; // 已經在手動精選清單中，不重複標示
+    const coord = PLACE_COORDS[name];
+    if(!coord){ console.warn('地圖座標未設定，略過自動標示：', name); return; }
+    const days = Array.from(info.days).sort((a,b)=>a-b).map(n=>'D'+n).join('/');
+    points.push({
+      name, type:coord.type, lat:coord.lat, lng:coord.lng,
+      note:`${days}｜${Array.from(info.titles).join('、')}`,
+    });
+  });
+  return points;
+}
+
 function buildMap(containerId){
+  if(typeof L === 'undefined'){
+    const el = document.getElementById(containerId);
+    if(el) el.innerHTML = `<div style="padding:24px;font-size:13px;color:var(--ink-muted);line-height:1.8;">
+      📍 地圖套件（Leaflet）目前載入失敗，可能是網路限制或 CDN 被擋。<br>
+      請確認裝置有連上網路，並用一般瀏覽器（非預覽工具）重新整理頁面。<br>
+      其他功能（行程、清單、備忘等）不受影響，可正常使用。
+    </div>`;
+    return null;
+  }
   const m = L.map(containerId, {scrollWheelZoom:true}).setView([33.75,130.75], 9);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:'&copy; OpenStreetMap contributors', maxZoom:18,
   }).addTo(m);
-  MAP_LOCATIONS.forEach(loc=>{
+  const allPoints = MAP_LOCATIONS.concat(buildAutoMapPoints());
+  allPoints.forEach(loc=>{
     const meta = TYPE_META[loc.type] || TYPE_META.sight;
     const marker = L.circleMarker([loc.lat, loc.lng], {
       radius:9, fillColor:meta.color, color:'#fff', weight:2, fillOpacity:0.95,
@@ -1221,7 +1342,11 @@ function init(){
   setPrintSize('a4');
   renderDataPage();
   renderLegend('mapLegendDesktop');
-  mapDesktop = buildMap('map');
+  try{
+    mapDesktop = buildMap('map');
+  }catch(e){
+    console.error('地圖初始化失敗：', e);
+  }
 }
 window.addEventListener('load', init);
 </script>
