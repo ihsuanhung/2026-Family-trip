@@ -225,9 +225,14 @@ main.content{
 
 /* generic sections */
 .section-intro{color:var(--ink-muted); font-size:13.5px; margin-bottom:18px; max-width:640px;}
-.grid-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px;}
+.grid-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px;}
 .card{background:var(--card); border:1px solid var(--card-line); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:18px;}
 .card h4{font-family:var(--font-display); font-size:16.5px; margin-bottom:8px;}
+.wish-icon-badge{
+  width:44px; height:44px; border-radius:50%; background:var(--paper-deep); border:1px dashed var(--gold);
+  display:flex; align-items:center; justify-content:center; font-size:21px; margin-bottom:10px; transform:rotate(-4deg);
+}
+.wish-desc{font-size:12.5px; line-height:1.7; color:var(--ink-text); margin:2px 0 10px; padding-bottom:10px; border-bottom:1px solid var(--card-line);}
 .wish-tags{display:flex; flex-wrap:wrap; gap:6px; margin:10px 0;}
 .wish-tags span{font-size:11px; background:var(--paper-deep); padding:3px 8px; border-radius:20px; color:var(--ink-600); font-weight:600;}
 .wish-note{font-size:12.5px; color:var(--ink-muted); margin-top:8px; border-top:1px dashed var(--card-line); padding-top:8px;}
@@ -644,6 +649,27 @@ const MAP_LOCATIONS = [
   {name:'瓦そばたかせ 角島岬店', type:'food', lat:34.3520, lng:130.8420, note:'角島大橋、角島燈台附近分店（3042 Hohokucho Oaza Tsunoshima, Shimonoseki 759-5332，2026/4 新開幕）'},
   {name:'瓦そばたかせ 門司港レトロ店', type:'food', lat:33.9481, lng:130.9634, note:'門司港海峡プラザ西館2F，逛門司港時順路（〒801-0852 Fukuoka, Kitakyushu, Moji Ward, Minatomachi 5-1）'},
   {name:'瓦そばたかせ 川棚本館', type:'food', lat:34.1370, lng:130.9380, note:'瓦片蕎麥麵發源本店，古民家建築約百年歷史（5437 Toyouracho Oaza Kawatana, Shimonoseki 759-6301）'},
+  // 8/21 晚餐、8/22 上午提到的具體地點，原本沒有標在地圖上
+  {name:'一蘭拉麵 天神本店', type:'food', lat:33.5926, lng:130.4076, note:'8/21 晚餐候選之一（中洲）'},
+  {name:'博多運河城 Canal City Hakata', type:'sight', lat:33.5895, lng:130.4103, note:'8/22 上午買球鞋、逛街買伴手禮'},
+  // 願望清單地點（尚未排入正式行程，先標示位置方便評估順路與否）
+  {name:'廣島（原爆圓頂館・和平紀念公園）', type:'backup', lat:34.3955, lng:132.4536, note:'願望清單：機動備案，若插入需犧牲一天山口行程'},
+  {name:'松下村塾', type:'backup', lat:34.4074, lng:131.4103, note:'願望清單：山口縣萩市，與元乃隅神社同天較順路'},
+  {name:'秋吉台', type:'backup', lat:34.2333, lng:131.3372, note:'願望清單：喀斯特高原，鄰近秋芳洞'},
+  {name:'マリナタウン海浜公園', type:'backup', lat:33.597601, lng:130.329407, note:'願望清單：8/15 精霊流し＋20:00 煙火（福岡市西區愛宕浜）'},
+  {name:'小鹿田燒之里', type:'backup', lat:33.3181, lng:130.9578, note:'願望清單：大分縣日田市山區，距離較遠列為機動備案'},
+  {name:'北九州市立美術館', type:'backup', lat:33.8619, lng:130.7969, note:'願望清單：磯崎新作品，可與小倉城同天安排'},
+  {name:'出光美術館（門司港）', type:'backup', lat:33.9486, lng:130.9631, note:'願望清單：門司港區內，可與木構建築行程同天'},
+  {name:'下關市立下關水族館 海響館', type:'backup', lat:33.9500, lng:130.9421, note:'願望清單：唐戶地區，與關門大橋、唐戶市場順路'},
+  {name:'Adventure Valley FUKUOKA', type:'backup', lat:33.6170, lng:130.4900, note:'願望清單：久山町，鄰近 TRIAS 商場'},
+  {name:'蘆屋海水浴場・AQuasian', type:'backup', lat:33.8870, lng:130.6650, note:'願望清單：週一公休，8/8–8/16 水上樂園天天營業'},
+  {name:'秋吉臺自然動物公園', type:'backup', lat:34.2150, lng:131.3300, note:'願望清單：可開車進入的野生動物園，鄰近秋吉台'},
+  {name:'下關南部町郵便局', type:'backup', lat:33.9513, lng:130.9407, note:'願望清單：唐戶地區，現役最古郵局'},
+  {name:'北九州響灘綠地（グリーンパーク）', type:'backup', lat:33.8850, lng:130.7550, note:'願望清單：若松區，週二公休'},
+  {name:'遠見ヶ鼻（Cape Tomigahana）', type:'backup', lat:33.8970, lng:130.7350, note:'願望清單：若松區海角，日落景點'},
+  {name:'皿倉山夜景', type:'backup', lat:33.8391, lng:130.8206, note:'願望清單：日本新三大夜景之一，需搭纜車上山'},
+  {name:'高塔山公園夜景', type:'backup', lat:33.9067, lng:130.7906, note:'願望清單：若松區，人潮較少的私房夜景'},
+  {name:'門司港レトロ観光列車「潮風号」', type:'backup', lat:33.9490, lng:130.9650, note:'願望清單：門司港懷舊街區的復古觀光小火車'},
 ];
 
 // 行程項目裡出現過的地點座標庫，用來「依行程內容自動標示點位」。
@@ -791,7 +817,7 @@ const ITINERARY = [
     morning:[{time:'早餐', title:'飯店早餐', note:'今日 Check out（星野 界 長門）', family:'', transport:'', map:'', confirmed:true}],
     noon:[], 
     afternoon:[{time:'下午', title:'璇一家開車回福岡，兩位阿媽續遊山口', note:'璇一家：飯店 Check in、租車返還', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false}],
-    evening:[{time:'晚餐', title:'晚餐候選（2 選 1）', note:'① 一蘭拉麵總店（含表演）\n② 日式燒肉', family:'', transport:'', map:'', confirmed:false}]
+    evening:[{time:'晚餐', title:'晚餐候選（2 選 1）', note:'① 一蘭拉麵總店（含表演）\n② 日式燒肉', family:'', transport:'', map:'一蘭拉麵 天神本店', confirmed:false}]
   }},
 {date:'2026-08-22', dayNum:13, weekday:'六',
   theme:'璇一家福岡市區看球賽逛街．阿媽、戴阿媽山口自由行', weatherKey:'福岡市',
@@ -799,7 +825,7 @@ const ITINERARY = [
   periods:{
     morning:[
       {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true},
-      {time:'上午', title:'博多運河城買球鞋、逛街買伴手禮', note:'', family:'', transport:'walk', map:'', confirmed:false},
+      {time:'上午', title:'博多運河城買球鞋、逛街買伴手禮', note:'', family:'', transport:'walk', map:'博多運河城 Canal City Hakata', confirmed:false},
     ],
     noon:[],
     afternoon:[{time:'14:00', title:'福岡軟銀鷹 vs 歐力士｜PayPay Dome', note:'有可能會很無聊，保留彈性去隔壁逛街、王貞治棒球博物館玩（門票可免費去玩）', family:'為防中暑，可單獨或同時攜帶：\n① 塑膠瓶與鋁箔包（皆 1L 以內，每人最多一瓶）\n② 水壺與隨身杯（皆 2L 以下）', transport:'walk', map:'福岡 PayPay 巨蛋', confirmed:true}],
@@ -845,14 +871,23 @@ const ITINERARY = [
 
 // ---------- 願望清單 ----------
 const WISHLIST = [
-  {name:'廣島', suitable:'體力較好的大人／學齡以上小孩', duration:'單日來回約 6–8 小時', difficulty:'交通難度：中（新幹線＋市內電車）', kids:'較適合', elders:'體力挑戰較大', note:'若插入需犧牲一天山口行程，建議列為機動備案。'},
-  {name:'松下村塾', suitable:'對歷史有興趣的大人', duration:'約 1 小時（含周邊萩市散策可延長）', difficulty:'交通難度：中（山口縣萩市，車程較遠）', kids:'較不適合幼兒', elders:'可，但需久走', note:'與元乃隅神社同天安排較順路。'},
-  {name:'秋吉台', suitable:'全家皆可', duration:'約 1.5–2 小時', difficulty:'交通難度：低（自駕直達，有停車場）', kids:'適合', elders:'適合，有平緩步道', note:'鄰近秋芳洞，可安排在同一天順遊。'},
-  {name:'マリナタウン海浜公園（8/15 精霊流し＋煙火）', suitable:'全家皆可，傍晚後現場人潮較多', duration:'約 2–3 小時（含等待 20:00 煙火）', difficulty:'交通難度：中（建議提早到場占位，可能需步行一段路）', kids:'適合，但夜間人潮多需留意走失', elders:'需留意久站，建議自備椅子或野餐墊', note:'8/15 剛好是接言辰、全員集合當天，盂蘭盆節精靈流放儀式＋20:00 煙火，體力許可可安排在當天傍晚。'},
-  {name:'小鹿田燒之里（小鹿田焼の里）', suitable:'對傳統工藝、陶器有興趣的大人', duration:'車程較遠，建議安排半天以上', difficulty:'交通難度：高（大分縣日田市山區聚落，山路較小）', kids:'較不適合幼兒（山路＋陶器易碎）', elders:'需留意山路與石板路不平整', note:'與北九州、山口本島行程距離較遠，建議列為機動備案，天氣好、有多餘時間再排入。'},
-  {name:'北九州市立美術館', suitable:'對建築、藝術有興趣的大人', duration:'約 1.5–2 小時', difficulty:'交通難度：中（位於山丘上，建議開車前往，有停車場）', kids:'對建築有興趣的大孩子可以，幼兒較無感', elders:'館內平緩好走，但上山路段需留意', note:'普立茲克建築獎得主磯崎新的作品，本館造型獨特，可與小倉城安排在同一天。'},
-  {name:'門司港｜出光美術館', suitable:'對藝術、書法有興趣的大人', duration:'約 1–1.5 小時', difficulty:'交通難度：低（門司港區內，步行可達）', kids:'較不適合幼兒，展品需安靜參觀', elders:'室內平坦，適合久走後休息', note:'可安排在門司港（木構建築）行程的同一天，室內參觀正好讓長輩歇腳。'},
-  {name:'下關｜市立下關水族館 海響館', suitable:'全家皆可，尤其適合小孩', duration:'約 2–3 小時', difficulty:'交通難度：中（在下關，需搭配關門大橋行程順路安排）', kids:'非常適合，有企鵝、海豚表演', elders:'館內有電梯與座位，適合久坐休息', note:'與關門大橋、唐戶市場同在下關方向，可安排同一天順遊，小孩應該會很喜歡。'},
+  {name:'廣島', icon:'🕊️', desc:'【廣島】曾經歷史上第一顆原子彈就落在這裡，現在的廣島和平紀念公園是為了紀念那段歷史、祈禱世界和平而建的。園區裡有一座「原爆圓頂館」，是當年少數沒有完全倒塌的建築，被列為世界遺產保留至今。走在公園裡，能感受到大家對和平深深的期盼。', suitable:'體力較好的大人／學齡以上小孩', duration:'單日來回約 6–8 小時', difficulty:'交通難度：中（新幹線＋市內電車）', kids:'較適合', elders:'體力挑戰較大', note:'若插入需犧牲一天山口行程，建議列為機動備案。'},
+  {name:'松下村塾', icon:'📜', desc:'【松下村塾】是江戶時代末期一間小小的私塾，老師吉田松陰在這裡教出了好多後來改變日本歷史的學生！雖然教室看起來很樸素，只有幾坪大，卻被稱為「改變日本的教室」，這裡也被列入世界遺產喔。', suitable:'對歷史有興趣的大人', duration:'約 1 小時（含周邊萩市散策可延長）', difficulty:'交通難度：中（山口縣萩市，車程較遠）', kids:'較不適合幼兒', elders:'可，但需久走', note:'與元乃隅神社同天安排較順路。'},
+  {name:'秋吉台', icon:'🏞️', desc:'【秋吉台】是日本最大的喀斯特高原，放眼望去像是綠色草原上灑滿了一顆顆白色的石灰岩，非常特別！這些石頭是幾億年前珊瑚礁變成的，草原上還能看到牛群悠閒吃草，跟秋芳洞正好是同一座石灰岩地形的地上與地下版本喔。', suitable:'全家皆可', duration:'約 1.5–2 小時', difficulty:'交通難度：低（自駕直達，有停車場）', kids:'適合', elders:'適合，有平緩步道', note:'鄰近秋芳洞，可安排在同一天順遊。'},
+  {name:'マリナタウン海浜公園（8/15 精霊流し＋煙火）', icon:'🎆', desc:'【マリナタウン海浜公園】每年 8 月 15 日這裡都會舉辦「精霊流し（送靈儀式）」，人們會在傍晚點起燈火、送別祖先的靈魂，晚上 8 點還有將近 1,200 發的煙火在海面上炸開，非常壯觀！這是當地流傳超過 30 年的夏日傳統活動。', suitable:'全家皆可，傍晚後現場人潮較多', duration:'約 2–3 小時（含等待 20:00 煙火）', difficulty:'交通難度：中（建議提早到場占位，可能需步行一段路）', kids:'適合，但夜間人潮多需留意走失', elders:'需留意久站，建議自備椅子或野餐墊', note:'8/15 剛好是接言辰、全員集合當天，盂蘭盆節精靈流放儀式＋20:00 煙火，體力許可可安排在當天傍晚。'},
+  {name:'小鹿田燒之里（小鹿田焼の里）', icon:'🏺', desc:'【小鹿田燒之里】是一個藏在山裡的小村落，這裡的陶器工房到現在還用「唐臼」（利用溪水的力量舂土）來製作陶土，完全沒有用電動機器！小鹿田燒已經有 300 多年的歷史，安靜的山村裡常常可以聽到「咚、咚」的搗土聲。', suitable:'對傳統工藝、陶器有興趣的大人', duration:'車程較遠，建議安排半天以上', difficulty:'交通難度：高（大分縣日田市山區聚落，山路較小）', kids:'較不適合幼兒（山路＋陶器易碎）', elders:'需留意山路與石板路不平整', note:'與北九州、山口本島行程距離較遠，建議列為機動備案，天氣好、有多餘時間再排入。'},
+  {name:'北九州市立美術館', icon:'🏛️', desc:'【北九州市立美術館】的建築本身就是一件藝術品！設計師磯崎新用兩個圓筒造型的建築，像一副大大的望遠鏡立在山丘上，他後來還得到了建築界最高榮譽「普立茲克獎」。站在美術館前，可以順便眺望北九州市區的風景。', suitable:'對建築、藝術有興趣的大人', duration:'約 1.5–2 小時', difficulty:'交通難度：中（位於山丘上，建議開車前往，有停車場）', kids:'對建築有興趣的大孩子可以，幼兒較無感', elders:'館內平緩好走，但上山路段需留意', note:'普立茲克建築獎得主磯崎新的作品，本館造型獨特，可與小倉城安排在同一天。'},
+  {name:'門司港｜出光美術館', icon:'🖼️', desc:'【出光美術館】收藏了許多古代的書法和陶瓷器，是石油公司出光興產的創辦人出光佐三先生用一生蒐集的寶物。美術館就在門司港懷舊街區裡，逛完外面熱鬧的紅磚建築後，可以進來安靜地欣賞這些珍貴的藝術品。', suitable:'對藝術、書法有興趣的大人', duration:'約 1–1.5 小時', difficulty:'交通難度：低（門司港區內，步行可達）', kids:'較不適合幼兒，展品需安靜參觀', elders:'室內平坦，適合久走後休息', note:'可安排在門司港（木構建築）行程的同一天，室內參觀正好讓長輩歇腳。'},
+  {name:'下關｜市立下關水族館 海響館', icon:'🐧', desc:'【海響館】的招牌動物是企鵝！館內飼養了全日本種類最多的企鵝，還有可愛的白海豚表演秀。水族館就蓋在關門海峽旁邊，透過大水槽可以看到河豚、海豚在眼前悠游，是小朋友最喜歡的景點之一。', suitable:'全家皆可，尤其適合小孩', duration:'約 2–3 小時', difficulty:'交通難度：中（在下關，需搭配關門大橋行程順路安排）', kids:'非常適合，有企鵝、海豚表演', elders:'館內有電梯與座位，適合久坐休息', note:'與關門大橋、唐戶市場同在下關方向，可安排同一天順遊，小孩應該會很喜歡。'},
+  {name:'Adventure Valley FUKUOKA（フォレストアドベンチャー・久山）', icon:'🌲', desc:'【Adventure Valley FUKUOKA】是一座蓋在森林裡的探險樂園，裡面有飛索、繩索橋、攀岩等超過 70 種挑戰關卡，飛天滑索的數量還是全日本同類型設施中最多的！小學一年級、身高 110 公分以上就能挑戰，很適合喜歡冒險的小朋友大展身手。', suitable:'喜歡戶外冒險的小孩與大人', duration:'約 2–3 小時（時間內遊玩不限次數）', difficulty:'交通難度：中（久山町，鄰近 TRIAS 商場，開車前往較方便）', kids:'適合，需 110 公分以上、國小一年級起', elders:'較不適合，以爬繩、攀爬活動為主', note:'可與 TRIAS 久山商場的購物、用餐安排在同一天。'},
+  {name:'蘆屋海水浴場・レジャープールAQuasian', icon:'🏖️', desc:'【蘆屋海水浴場・AQuasian】海邊有雪白的沙灘和清澈的海水，隔壁還有一座休閒泳池樂園，有全福岡縣最長、126 公尺的滑水道！海水浴場和泳池之間可以自由進出，一天可以同時玩到海邊戲水和泳池滑水道。', suitable:'全家皆可，特別適合小孩消暑', duration:'約 3–4 小時', difficulty:'交通難度：中（福岡縣蘆屋町，開車較方便）', kids:'非常適合，有兒童專用戲水區', elders:'需留意曝曬與濕滑地面', note:'每週一公休，出發前請再次確認當週是否開放；8/8–8/16 期間水上樂園天天營業。'},
+  {name:'秋吉臺自然動物公園（サファリランド）', icon:'🦁', desc:'【秋吉臺自然動物公園】是一座可以「開車」進去的動物園！獅子、長頸鹿、斑馬就在車子旁邊走來走去，感覺就像在非洲大草原探險一樣。這裡就蓋在秋吉台喀斯特台地上，逛完動物園還能順便欣賞特別的白色岩石地形。', suitable:'全家皆可，開車進場很適合幼兒', duration:'約 1.5–2 小時（開車繞園）', difficulty:'交通難度：低（可開車進入園區，不用下車走）', kids:'非常適合，幼兒也能安穩坐車觀賞', elders:'適合，全程坐在車上不用走路', note:'與秋吉台、秋芳洞在同一區域，可安排同一天順遊，一次滿足地質景觀和動物園。'},
+  {name:'下關南部町郵便局', icon:'📮', desc:'【下關南部町郵便局】是日本現在還在使用的郵局裡，歷史最悠久的一間！建於西元 1900 年，紅磚砌成的牆壁厚達 60 公分，非常堅固。門口還放著復古的圓筒型紅色郵筒，不妨在這裡寄一張明信片，留下旅行的回憶吧。', suitable:'全家皆可，順路小景點', duration:'約 20–30 分鐘', difficulty:'交通難度：低（位於唐戶地區，步行可達）', kids:'適合，可以體驗寄明信片', elders:'適合，路程短、可稍作休息', note:'與唐戶市場、關門大橋同在唐戶地區，可安排同一天順遊。'},
+  {name:'北九州響灘綠地（グリーンパーク）', icon:'🦕', desc:'【北九州響灘綠地】是北九州市內最大的公園，園內有金氏世界紀錄認證的「世界最長鞦韆」，還有可以近距離看恐龍模型的「響灘恐龍公園」跟騎小馬的「小馬廣場」。夏天還有戲水池可以消暑，是可以玩上一整天的超大公園。', suitable:'全家皆可，非常適合小孩放電', duration:'約 3–4 小時，可玩上一整天', difficulty:'交通難度：中（若松區，開車較方便，有大型停車場）', kids:'非常適合，遊具與動物互動豐富', elders:'園區平緩好走，適合散步休息', note:'週二公休，出發前請再次確認開園日。'},
+  {name:'遠見ヶ鼻（Cape Tomigahana）日落', icon:'🌅', desc:'【遠見ヶ鼻】是一個突出在響灘海邊的小海角，因為視野遼闊、完全沒有遮蔽物，是北九州數一數二漂亮的看夕陽景點。傍晚時分，火紅的太陽慢慢沉入海平面，天空跟海面都被染成橘紅色，非常浪漫。', suitable:'全家皆可，適合傍晚時段順遊', duration:'約 30–60 分鐘（含等待日落）', difficulty:'交通難度：中（若松區海岸，開車前往較方便）', kids:'適合，開闊空間可以跑跳', elders:'適合，平地好走，建議帶外套防海風', note:'可與響灘綠地、高塔山公園排在同一天的行程尾聲，順路看夕陽。'},
+  {name:'皿倉山夜景', icon:'🌃', desc:'【皿倉山】的山頂夜景被稱為「價值百億日圓的夜景」，是日本新三大夜景之一！只要搭乘纜車約 10 分鐘就能登上標高 622 公尺的山頂，萬家燈火像星星一樣灑滿整座城市、一路延伸到大海邊，晚上看特別漂亮。', suitable:'全家皆可，晚上的行程亮點', duration:'約 1.5–2 小時（含纜車來回）', difficulty:'交通難度：中（八幡東區，需搭纜車上山）', kids:'適合，纜車本身就很有趣', elders:'適合，全程搭乘纜車不需爬山', note:'建議安排在北九州行程的其中一晚，天氣晴朗時視野最佳。'},
+  {name:'高塔山公園夜景', icon:'🌆', desc:'【高塔山公園】標高只有 124 公尺，開車很快就能到達山頂展望台，可以眺望若松區的港口跟響灘的海景。跟皿倉山比起來人潮比較少、更悠閒，是當地人也很喜歡的私房夜景景點。', suitable:'全家皆可，喜歡安靜景點的人', duration:'約 30–45 分鐘', difficulty:'交通難度：低（可直接開車上山，有停車場）', kids:'適合，短時間停留即可', elders:'適合，不用下車走太多路', note:'可與響灘綠地、遠見ヶ鼻安排在同一天傍晚順遊。'},
+  {name:'門司港レトロ観光列車「潮風号」', icon:'🚃', desc:'【潮風号】是一台行駛在門司港懷舊街區的復古觀光小火車，車廂造型可愛，沿著海邊慢慢行駛，可以吹著海風、欣賞關門海峽的風景，很適合走累了的時候搭乘代替步行，順便換個角度看門司港。', suitable:'全家皆可，尤其適合走累的長輩與小孩', duration:'約 20–30 分鐘（單程）', difficulty:'交通難度：低（門司港站旁搭乘，班次固定）', kids:'非常適合，小火車本身就很吸引小孩', elders:'非常適合，可以坐著欣賞風景，不用走路', note:'可安排在門司港（木構建築）行程走累時搭乘，是很好的體力緩衝。'},
 ];
 
 // ---------- 必買清單 ----------
@@ -1031,7 +1066,9 @@ function renderWishlist(){
   const wrap = document.getElementById('wishlistGrid');
   wrap.innerHTML = WISHLIST.map(w=>`
     <div class="card">
+      <div class="wish-icon-badge">${w.icon||'📍'}</div>
       <h4>${w.name}</h4>
+      ${w.desc?`<p class="wish-desc">${w.desc}</p>`:''}
       <div class="wish-tags">
         <span>👪 ${w.suitable}</span>
         <span>⏱ ${w.duration}</span>
