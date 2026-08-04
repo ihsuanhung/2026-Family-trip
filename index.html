@@ -202,10 +202,39 @@ main.content{
   color:#fff; background:var(--ink-700); display:inline-block; padding:4px 10px; border-radius:6px; margin-bottom:10px;
 }
 .item{
-  display:grid; grid-template-columns:66px 1fr auto; gap:12px; padding:12px 0; border-top:1px solid var(--card-line);
-  align-items:start;
+  padding:12px 0; border-top:1px solid var(--card-line);
 }
 .period-block .item:first-of-type{border-top:none;}
+.item-row{
+  display:grid; grid-template-columns:66px 1fr auto; gap:12px;
+  align-items:start;
+}
+.item-who{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px;}
+.who-badge{
+  display:inline-flex; align-items:center; gap:5px; padding:4px 11px 4px 8px; border-radius:20px;
+  font-size:12.5px; font-weight:700; color:#fff; box-shadow:var(--shadow-sm); letter-spacing:.02em;
+}
+.who-legend{
+  display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:14px; padding:12px 16px;
+  background:var(--card); border:1px solid var(--card-line); border-radius:12px; box-shadow:var(--shadow-sm);
+}
+.who-legend .legend-label{font-size:12px; color:var(--ink-muted); font-weight:600; margin-right:2px;}
+.who-legend .who-badge{font-size:13px; padding:5px 13px 5px 9px;}
+.who-legend .who-badge .sub{font-weight:400; opacity:.85; font-size:11px; margin-left:2px;}
+.who-filter-btn{
+  cursor:pointer; border:2px solid transparent; transition:transform .12s ease, opacity .15s ease, box-shadow .15s ease;
+}
+.who-filter-btn:hover{transform:translateY(-1px); box-shadow:0 4px 10px -3px rgba(27,34,43,.35);}
+.who-filter-btn.active{
+  border-color:#1B222B; box-shadow:0 0 0 3px rgba(27,34,43,.12), var(--shadow-sm); transform:translateY(-1px);
+}
+.who-filter-btn.dim{opacity:.4;}
+.who-filter-btn.dim:hover{opacity:.7;}
+.who-clear-btn{
+  font-size:12px; font-weight:600; color:var(--ink-muted); background:var(--paper-deep); border:1px dashed var(--card-line);
+  padding:5px 12px; border-radius:20px; cursor:pointer;
+}
+.who-clear-btn:hover{color:var(--shu); border-color:var(--shu);}
 .item-time{font-family:var(--font-mono); font-weight:700; font-size:13px; color:var(--indigo); padding-top:2px;}
 .item-main .item-title{font-weight:600; font-size:14.5px;}
 .item-main .item-note{font-size:13px; color:var(--ink-muted); margin-top:3px; white-space:pre-line;}
@@ -407,19 +436,19 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
     <div class="brand">
       <div class="kicker">Fukuoka 2026</div>
       <h1>夏の福岡・北九州<br>・山口縣</h1>
-      <div class="sub">2026.08.10 — 2026.08.29・全程 20 天</div>
-      <div class="trip-stamp">◆ 4 大 2 小 1 幼｜8/23 起僅阿媽、戴阿媽續留</div>
+      <div class="sub">2026.08.09 — 2026.08.29・全程 21 天</div>
+      <div class="trip-stamp">⚽ 4 大 2 小 1 幼｜8/23 起僅阿媽、戴阿媽續留</div>
     </div>
 
     <div class="weather-box">
-      <h3>天氣速覽 Weather</h3>
+      <h3>🌤️ 天氣速覽 Weather</h3>
       <div id="weatherList"></div>
     </div>
 
     <nav class="menu" id="navMenu"></nav>
 
     <button class="switch-trip">
-      <span>切換旅程</span><span>⇄</span>
+      <span>🔄 切換旅程</span><span>⇄</span>
     </button>
   </aside>
 
@@ -433,7 +462,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">01 · Itinerary</div>
-          <h2>行程 Itinerary</h2>
+          <h2>🗓️ 行程 Itinerary</h2>
           <div class="status-row">
             <span class="pill planning">● 規劃中</span>
             <span style="font-size:12.5px;color:var(--ink-muted);">行程內容如需調整，請直接編輯後重新上傳</span>
@@ -441,6 +470,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
         </div>
       </div>
 
+      <div class="who-legend" id="whoLegend"></div>
       <div class="date-tabs hide-scrollbar" id="dateTabs"></div>
       <div id="dayCardWrap"></div>
     </section>
@@ -450,7 +480,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">02 · Wishlist</div>
-          <h2>願望清單 Wishlist</h2>
+          <h2>✨ 願望清單 Wishlist</h2>
         </div>
       </div>
       <p class="section-intro">想去但尚未排入正式行程的地點，先收集在這裡，視體力與天氣狀況再插入行程。</p>
@@ -462,7 +492,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">03 · Must Buy</div>
-          <h2>必買清單 Must Buy</h2>
+          <h2>🛍️ 必買清單 Must Buy</h2>
         </div>
         <button class="btn small" onclick="resetCategory('mustbuy')">重設勾選</button>
       </div>
@@ -475,7 +505,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">04 · Packing</div>
-          <h2>行李清單 Packing</h2>
+          <h2>🧳 行李清單 Packing</h2>
         </div>
         <button class="btn small" onclick="resetCategory('packing')">重設勾選</button>
       </div>
@@ -488,12 +518,12 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">05 · Calculator</div>
-          <h2>計算機 Calculator</h2>
+          <h2>🧮 計算機 Calculator</h2>
         </div>
       </div>
       <div class="calc-grid">
         <div class="card">
-          <h4>日幣 → 台幣</h4>
+          <h4>💴 日幣 → 台幣</h4>
           <div class="field">
             <label>匯率（1 JPY = ? TWD）</label>
             <input type="number" id="rate" value="0.20" step="0.001">
@@ -505,7 +535,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
           <div class="calc-result" id="jpyResult">NT$ 0<small>約略金額，匯率請以實際刷卡 / 換匯為準</small></div>
         </div>
         <div class="card">
-          <h4>分帳計算</h4>
+          <h4>🧾 分帳計算</h4>
           <div class="field">
             <label>總金額</label>
             <input type="number" id="totalAmt" placeholder="例：8400" oninput="calcSplit()">
@@ -524,7 +554,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">06 · Documents</div>
-          <h2>文件 Documents</h2>
+          <h2>📎 文件 Documents</h2>
         </div>
       </div>
       <p class="section-intro">重要文件與訂購紀錄，出國前建議全部另存 PDF 到手機相簿一份。</p>
@@ -540,7 +570,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">07 · Notes</div>
-          <h2>備忘 Notes</h2>
+          <h2>📝 備忘 Notes</h2>
         </div>
       </div>
       <div class="notes-add">
@@ -555,7 +585,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">08 · Print Book</div>
-          <h2>行程書 Print Book</h2>
+          <h2>🖨️ 行程書 Print Book</h2>
           <div class="status-row"><span style="font-size:12.5px;color:var(--ink-muted);">給長輩帶著走的紙本版本，只含每日行程、住宿與重要提醒</span></div>
         </div>
       </div>
@@ -572,7 +602,7 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
       <div class="page-head">
         <div>
           <div class="eyebrow">09 · Trip Data</div>
-          <h2>行程資料 Data</h2>
+          <h2>🗂️ 行程資料 Data</h2>
         </div>
       </div>
       <div class="data-summary" id="dataSummary"></div>
@@ -616,21 +646,30 @@ body.print-a5 .book-preview{width:138mm; font-size:12px;}
 const TRIP = {
   title:'2026 北九州・山口縣家族旅行',
   members:'4 大 2 小 1 幼',
-  start:'2026-08-10',
+  start:'2026-08-09',
   end:'2026-08-29',
 };
 
+// 三個成員分組，用來在每個行程項目前顯示「這時候誰在這裡」的文字徽章
+// 之後如果成員有異動，只需要修改這裡的 label，全網站會自動同步
+const GROUPS = {
+  parents: {label:'爸媽栩', sub:'卓軒・以璇・栩', color:'#2B4568'},
+  kids:    {label:'言辰',   sub:'言・辰（國小三年級）', color:'#B96A3D'},
+  grandmas:{label:'阿媽們', sub:'阿媽・戴阿媽', color:'#AE402C'},
+};
+const GROUP_ORDER = ['parents','kids','grandmas'];
+
 // 導覽選單
 const NAV_ITEMS = [
-  {id:'itinerary', num:'01', label:'行程 Itinerary'},
-  {id:'wishlist',  num:'02', label:'願望清單 Wishlist'},
-  {id:'mustbuy',   num:'03', label:'必買清單 Must Buy'},
-  {id:'packing',   num:'04', label:'行李清單 Packing'},
-  {id:'calculator',num:'05', label:'計算機 Calculator'},
-  {id:'documents', num:'06', label:'文件 Documents'},
-  {id:'notes',     num:'07', label:'備忘 Notes'},
-  {id:'printbook', num:'08', label:'行程書 Print Book'},
-  {id:'data',      num:'09', label:'行程資料 Data'},
+  {id:'itinerary', num:'01', emoji:'🗓️', label:'行程 Itinerary'},
+  {id:'wishlist',  num:'02', emoji:'✨', label:'願望清單 Wishlist'},
+  {id:'mustbuy',   num:'03', emoji:'🛍️', label:'必買清單 Must Buy'},
+  {id:'packing',   num:'04', emoji:'🧳', label:'行李清單 Packing'},
+  {id:'calculator',num:'05', emoji:'🧮', label:'計算機 Calculator'},
+  {id:'documents', num:'06', emoji:'📎', label:'文件 Documents'},
+  {id:'notes',     num:'07', emoji:'📝', label:'備忘 Notes'},
+  {id:'printbook', num:'08', emoji:'🖨️', label:'行程書 Print Book'},
+  {id:'data',      num:'09', emoji:'🗂️', label:'行程資料 Data'},
 ];
 
 // 天氣小欄位（連結到 tenki.jp 搜尋頁，出發前可再換成精確頁面）
@@ -650,6 +689,7 @@ const MAP_LOCATIONS = [
   {name:'門司港 Premier Hotel Mojiko', type:'lodging', lat:33.9500, lng:130.9636, note:'含車位，連住 5 晚（8/14–8/19）'},
   {name:'星野 界 長門', type:'lodging', lat:34.327723, lng:131.17317, note:'傳統客房 2 房，一泊二食（8/19–8/21）（2229-1 Fukawayumoto, Nagato）'},
   {name:'福岡 PayPay 巨蛋', type:'sight', lat:33.5951, lng:130.3622, note:'8/22（六）14:00 福岡軟銀鷹 vs 歐力士'},
+  {name:'Level-5 Stadium', type:'sight', lat:33.5766, lng:130.3986, note:'8/15（六）19:00 Avispa Fukuoka vs. Cerezo Osaka（J1 LEAGUE）璇一家'},
   // 瓦そばたかせ（山口名物瓦片蕎麥麵）分店，行程沿線經過的幾間
   {name:'瓦そばたかせ 長門湯本店', type:'food', lat:34.3325, lng:131.1730, note:'8/19 午餐候選（元祖瓦片蕎麥麵，山村別館內／533-1 Fukawayumoto, Nagato）'},
   {name:'瓦そばたかせ 角島岬店', type:'food', lat:34.3520, lng:130.8420, note:'角島大橋、角島燈台附近分店（3042 Hohokucho Oaza Tsunoshima, Shimonoseki 759-5332，2026/4 新開幕）'},
@@ -724,238 +764,250 @@ const TYPE_META = {
 // ---------- 行程 Itinerary ----------
 // periods: morning 上午 / noon 中午 / afternoon 下午 / evening 晚上
 const ITINERARY = [
-{date:'2026-08-10', dayNum:1, weekday:'一',
+{date:'2026-08-09', dayNum:1, weekday:'日',
+  theme:'言、辰／阿媽、戴阿媽 入住機場飯店，準備隔天一早搭機', weatherKey:'',
+  lodging:[{who:'言、辰、阿媽、戴阿媽',place:'桃園機場假日酒店'}],
+  periods:{
+    morning:[], noon:[], afternoon:[],
+    evening:[
+      {time:'晚上', title:'入住桃園機場假日酒店', desc:'', note:'提前一晚住進機場旁的飯店，隔天搭最早的接駁車直接到機場，不用摸黑從家裡出發趕飛機。', family:'記得設鬧鐘，飯店接駁車 4:50AM 發車', transport:'', map:'桃園機場假日酒店', confirmed:true, who:['kids','grandmas']},
+    ]
+  }},
+{date:'2026-08-10', dayNum:2, weekday:'一',
   theme:'言、辰／阿媽、戴阿媽 抵達福岡・足球移地訓練開始', weatherKey:'福岡市',
   lodging:[{who:'言、辰',place:'Global Arena, 北九州'},{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
     morning:[
-      {time:'06:50', title:'CI110　TPE T2 → FUK', note:'言、辰｜台北出發（爸爸送機）\n阿媽、戴阿媽｜台中出發', family:'阿媽記得安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true},
-      {time:'09:55', title:'抵達福岡機場 FUK INTL', note:'言辰｜參與足球訓練，落地後與銀河射手俱樂部集合，至 8/15（六）前全程隨球隊行動\n阿媽、戴阿媽｜福岡市區旅遊', family:'', transport:'flight', map:'福岡機場 FUK', confirmed:true},
+      {time:'04:50', title:'搭乘飯店接駁車前往機場', note:'桃園機場假日酒店 → 桃園機場', family:'', transport:'car', map:'桃園機場假日酒店', confirmed:true, who:['kids','grandmas']},
+      {time:'06:50', title:'CI110　TPE T2 → FUK', note:'言、辰、阿媽、戴阿媽｜由桃園機場出發', family:'', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['kids','grandmas']},
+      {time:'09:55', title:'抵達福岡機場 FUK INTL', note:'言辰｜參與足球訓練，落地後與銀河射手俱樂部集合，至 8/15（六）前全程隨球隊行動\n阿媽、戴阿媽｜福岡市區旅遊', family:'', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['kids','grandmas']},
     ], noon:[], afternoon:[], evening:[]
   }},
-{date:'2026-08-11', dayNum:2, weekday:'二',
+{date:'2026-08-11', dayNum:3, weekday:'二',
   theme:'阿媽、戴阿媽｜筑後廚房美食觀光列車一日遊', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
-    morning:[{time:'—', title:'言辰隨球隊移地訓練中', note:'', family:'', transport:'', map:'', confirmed:true}],
-    noon:[{time:'12:51', title:'筑後廚房美食觀光列車＋在地風味午餐（Trip.com 一日遊）', desc:'【筑後廚房觀光列車】車廂裡就是一間小餐廳，邊欣賞筑後平原的田園風光，邊享用當地食材做成的午餐，中途還會停靠水鄉柳川，很悠閒的一日小旅行。', note:'12:51 博多出發 → 柳川 → 15:30 抵達大牟田', family:'', transport:'train', map:'柳川', confirmed:false}],
-    afternoon:[{time:'15:30', title:'抵達大牟田，行程結束返回福岡', note:'', family:'', transport:'train', map:'大牟田', confirmed:false}],
+    morning:[{time:'—', title:'言辰隨球隊移地訓練中', note:'', family:'', transport:'', map:'', confirmed:true, who:['kids']}],
+    noon:[{time:'12:51', title:'筑後廚房美食觀光列車＋在地風味午餐（Trip.com 一日遊）', desc:'【筑後廚房觀光列車】車廂裡就是一間小餐廳，邊欣賞筑後平原的田園風光，邊享用當地食材做成的午餐，中途還會停靠水鄉柳川，很悠閒的一日小旅行。', note:'12:51 博多出發 → 柳川 → 15:30 抵達大牟田', family:'', transport:'train', map:'柳川', confirmed:false, who:['grandmas']}],
+    afternoon:[{time:'15:30', title:'抵達大牟田，行程結束返回福岡', note:'', family:'', transport:'train', map:'大牟田', confirmed:false, who:['grandmas']}],
     evening:[]
   }},
-{date:'2026-08-12', dayNum:3, weekday:'三',
+{date:'2026-08-12', dayNum:4, weekday:'三',
   theme:'阿媽｜Global Arena看球＋宗像大社。戴阿媽｜自由行', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
-    morning:[{time:'上午', title:'阿媽：前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false}],
+    morning:[{time:'上午', title:'阿媽：前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false, who:['grandmas']}],
     noon:[],
     afternoon:[
-      {time:'下午', title:'阿媽：參觀宗像大社', desc:'【宗像大社】供奉三位海之女神，是全日本自古以來守護海上交通的總本社，境內的神寶館收藏了大量從「海上正倉院」沖之島出土的國寶，2017 年整片海域還被列入世界遺產。', note:'與 Global Arena 同在宗像市，順路安排', family:'', transport:'car', map:'宗像大社', confirmed:false},
-      {time:'下午', title:'戴阿媽：自由行', note:'', family:'', transport:'', map:'', confirmed:false},
+      {time:'下午', title:'阿媽：參觀宗像大社', desc:'【宗像大社】供奉三位海之女神，是全日本自古以來守護海上交通的總本社，境內的神寶館收藏了大量從「海上正倉院」沖之島出土的國寶，2017 年整片海域還被列入世界遺產。', note:'與 Global Arena 同在宗像市，順路安排', family:'', transport:'car', map:'宗像大社', confirmed:false, who:['grandmas']},
+      {time:'下午', title:'戴阿媽：自由行', note:'', family:'', transport:'', map:'', confirmed:false, who:['grandmas']},
     ],
     evening:[]
   }},
-{date:'2026-08-13', dayNum:4, weekday:'四',
+{date:'2026-08-13', dayNum:5, weekday:'四',
   theme:'阿媽、戴阿媽｜由布院之森觀光列車一日遊', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
-    morning:[{time:'上午', title:'由布院之森觀光列車（Trip.com 一日遊）', desc:'【由布院之森】是一台墨綠色車身的復古觀光列車，木質內裝很有質感，車上還有專屬乘務員服務，是九州最有人氣的觀光列車之一。', note:'博多出發前往湯布院', family:'', transport:'train', map:'由布院', confirmed:false}],
-    noon:[{time:'中午', title:'湯布院街散策', desc:'【湯布院】是九州數一數二的溫泉小鎮，主要街道「湯之坪街道」兩旁開滿了可愛的甜點店、雜貨店，還能遠眺秀麗的由布岳，很適合悠閒散步、吃甜點。', note:'', family:'', transport:'walk', map:'由布院', confirmed:false}],
+    morning:[{time:'上午', title:'由布院之森觀光列車（Trip.com 一日遊）', desc:'【由布院之森】是一台墨綠色車身的復古觀光列車，木質內裝很有質感，車上還有專屬乘務員服務，是九州最有人氣的觀光列車之一。', note:'博多出發前往湯布院', family:'', transport:'train', map:'由布院', confirmed:false, who:['grandmas']}],
+    noon:[{time:'中午', title:'湯布院街散策', desc:'【湯布院】是九州數一數二的溫泉小鎮，主要街道「湯之坪街道」兩旁開滿了可愛的甜點店、雜貨店，還能遠眺秀麗的由布岳，很適合悠閒散步、吃甜點。', note:'', family:'', transport:'walk', map:'由布院', confirmed:false, who:['grandmas']}],
     afternoon:[
-      {time:'下午', title:'海地獄', desc:'【海地獄】是別府「地獄巡禮」裡最有名的一個，池水因為含有硫酸鐵成分，呈現出夢幻的鈷藍色，熱氣蒸騰的畫面很壯觀，但水溫高達 98 度，只能遠觀不能下水喔！', note:'', family:'', transport:'car', map:'海地獄', confirmed:false},
-      {time:'下午', title:'太宰府天満宮', desc:'【太宰府天満宮】供奉學問之神菅原道真，是全日本考生的祈願聖地。神社的守護神使是一種叫做「鷽鳥」的小鳥，這裡不但有鷽鳥造型的可愛御神籤，還有像文昌筆一樣的「合格鉛筆」。', note:'返回福岡途中順遊', family:'', transport:'car', map:'太宰府天満宮', confirmed:false},
+      {time:'下午', title:'海地獄', desc:'【海地獄】是別府「地獄巡禮」裡最有名的一個，池水因為含有硫酸鐵成分，呈現出夢幻的鈷藍色，熱氣蒸騰的畫面很壯觀，但水溫高達 98 度，只能遠觀不能下水喔！', note:'', family:'', transport:'car', map:'海地獄', confirmed:false, who:['grandmas']},
+      {time:'下午', title:'太宰府天満宮', desc:'【太宰府天満宮】供奉學問之神菅原道真，是全日本考生的祈願聖地。神社的守護神使是一種叫做「鷽鳥」的小鳥，這裡不但有鷽鳥造型的可愛御神籤，還有像文昌筆一樣的「合格鉛筆」。', note:'返回福岡途中順遊', family:'', transport:'car', map:'太宰府天満宮', confirmed:false, who:['grandmas']},
     ],
     evening:[]
   }},
-{date:'2026-08-14', dayNum:5, weekday:'五',
+{date:'2026-08-14', dayNum:6, weekday:'五',
   theme:'卓軒、以璇、木須 抵達福岡．自駕租車前往北九州', weatherKey:'福岡市',
   lodging:[{who:'言、辰',place:'Global Arena, 北九州（持續隨隊）'},{who:'阿嬤、戴阿媽、卓軒、以璇、木須',place:'門司港 Premier Hotel Mojiko（含車位）｜標準雙床－2 房 × 3 晚'}],
   periods:{
     morning:[
-      {time:'06:50', title:'CI110　台北出發', note:'卓軒、以璇、木須', family:'待安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:false},
-      {time:'09:55', title:'抵達福岡機場 FUK INTL・租車', note:'', family:'待確認租車、行李數量', transport:'car', map:'福岡機場 FUK', confirmed:false},
+      {time:'06:50', title:'CI110　台北出發', note:'卓軒、以璇、木須', family:'待安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:false, who:['parents']},
+      {time:'09:55', title:'抵達福岡機場 FUK INTL・租車', note:'', family:'待確認租車、行李數量', transport:'car', map:'福岡機場 FUK', confirmed:false, who:['parents']},
     ],
     noon:[], 
     afternoon:[
-      {time:'13:00', title:'自駕前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false},
-      {time:'15:00', title:'飯店 Check in', note:'言、辰｜今晚維持與球隊住 Global Arena\n阿嬤、戴阿媽、卓軒、以璇、木須｜門司港 Premier Hotel Mojiko（含車位）標準雙床－2 房 × 3 晚', family:'', transport:'car', map:'門司港 Premier Hotel Mojiko', confirmed:true},
+      {time:'13:00', title:'自駕前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false, who:['parents']},
+      {time:'15:00', title:'飯店 Check in', note:'言、辰｜今晚維持與球隊住 Global Arena\n阿嬤、戴阿媽、卓軒、以璇、木須｜門司港 Premier Hotel Mojiko（含車位）標準雙床－2 房 × 3 晚', family:'', transport:'car', map:'門司港 Premier Hotel Mojiko', confirmed:true, who:['parents','grandmas']},
     ],
     evening:[
-      {time:'晚上', title:'璇跟卓軒是否要去市區配眼鏡？', note:'', family:'', transport:'', map:'', confirmed:false},
+      {time:'晚上', title:'璇跟卓軒是否要去市區配眼鏡？', note:'', family:'', transport:'', map:'', confirmed:false, who:['parents']},
     ]
   }},
-{date:'2026-08-15', dayNum:6, weekday:'六',
+{date:'2026-08-15', dayNum:7, weekday:'六',
   theme:'接言辰．全員集合', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 2 晚／共 3 晚不用搬行李）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
-      {time:'上午', title:'至北九州 Global Arena 接言辰', note:'', family:'言辰行李帶回飯店', transport:'car', map:'北九州 Global Arena', confirmed:false},
+      {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true, who:['parents','grandmas']},
+      {time:'上午', title:'至北九州 Global Arena 接言辰', note:'', family:'言辰行李帶回飯店', transport:'car', map:'北九州 Global Arena', confirmed:false, who:['parents','kids']},
     ],
-    noon:[{time:'中午', title:'門司港午餐', note:'啤酒工房', family:'', transport:'walk', map:'門司港', confirmed:false}],
+    noon:[{time:'中午', title:'門司港午餐', note:'啤酒工房', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']}],
     afternoon:[
-      {time:'14:00', title:'門司港レトロ観光列車「潮風号」', desc:'【潮風号】是一台行駛在門司港懷舊街區的復古觀光小火車，車廂造型可愛，沿著海邊慢慢行駛，可以吹著海風欣賞關門海峽，很適合走累了的時候搭乘代替步行。', note:'難度最低、時間最短（單程約 20–30 分），排在最前面暖身', family:'', transport:'train', map:'門司港レトロ観光列車「潮風号」', confirmed:false},
-      {time:'14:45', title:'門司港（木構建築）散策', desc:'【門司港】保留了好多超過 100 年歷史的紅磚木造建築，走在街道上就像穿越回明治、大正時代！', note:'', family:'', transport:'walk', map:'門司港', confirmed:false},
-      {time:'15:30', title:'商店街（榮町銀天街）', desc:'【榮町銀天街】是門司港一條有屋頂的老商店街，下雨天也不怕淋濕，裡面有復古玩具店、小吃攤，可以感受道地的日本市井生活。', note:'步行為主，中等難度', family:'', transport:'walk', map:'門司港', confirmed:false},
-      {time:'16:15', title:'九州鐵道博物館', desc:'【九州鐵道博物館】展示了好幾台退休的真實火車頭，還可以進去駕駛座假裝當一日列車長，是鐵道迷小朋友的天堂。', note:'室內為主，安排在最後讓大家吹冷氣休息', family:'', transport:'walk', map:'門司港', confirmed:false},
+      {time:'14:00', title:'門司港レトロ観光列車「潮風号」', desc:'【潮風号】是一台行駛在門司港懷舊街區的復古觀光小火車，車廂造型可愛，沿著海邊慢慢行駛，可以吹著海風欣賞關門海峽，很適合走累了的時候搭乘代替步行。', note:'難度最低、時間最短（單程約 20–30 分），排在最前面暖身', family:'', transport:'train', map:'門司港レトロ観光列車「潮風号」', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'14:45', title:'門司港（木構建築）散策', desc:'【門司港】保留了好多超過 100 年歷史的紅磚木造建築，走在街道上就像穿越回明治、大正時代！', note:'', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'15:30', title:'商店街（榮町銀天街）', desc:'【榮町銀天街】是門司港一條有屋頂的老商店街，下雨天也不怕淋濕，裡面有復古玩具店、小吃攤，可以感受道地的日本市井生活。', note:'步行為主，中等難度', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'16:15', title:'九州鐵道博物館', desc:'【九州鐵道博物館】展示了好幾台退休的真實火車頭，還可以進去駕駛座假裝當一日列車長，是鐵道迷小朋友的天堂。', note:'室內為主，安排在最後讓大家吹冷氣休息', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    evening:[]
+    evening:[
+      {time:'19:00', title:'（璇一家）Avispa Fukuoka vs. Cerezo Osaka｜MEIJI YASUDA J1 LEAGUE', desc:'【Avispa Fukuoka（福岡黃蜂）】是福岡的職業足球隊，主場比賽在能容納 2 萬多人的 Level-5 Stadium 進行，可以近距離感受日本職業足球 J1 聯賽的熱血應援氣氛，對熱愛足球的言、辰來說一定很有紀念意義！', note:'19:00 開賽，地點：Level-5 Stadium（Best Denki Stadium，福岡市中央區）', family:'⚠️ 球場距離門司港飯店單程約 70 公里、開車 70–90 分鐘，跟當天已經排滿的門司港行程（潮風号、木構建築、商店街、九州鐵道博物館）銜接會很緊湊，來回加上看球，晚上恐怕會很晚才回到飯店。建議評估體力後決定是否插入，或考慮縮減下午其他行程來換取時間。', transport:'car', map:'Level-5 Stadium', confirmed:false, who:['parents','kids']},
+    ]
   }},
-{date:'2026-08-16', dayNum:7, weekday:'日',
+{date:'2026-08-16', dayNum:8, weekday:'日',
   theme:'璇一家｜下關地區漫遊．阿媽、戴阿媽｜SL 山口號', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 3 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true},
-      {time:'10:00', title:'璇一家：（開車）關門大橋、赤間神宮', desc:'【關門大橋】是連接本州和九州的紅色大橋，全長 1,068 公尺，橋下就是本州、九州間最窄的關門海峽，船隻往來熱鬧。【赤間神宮】供奉著年幼即位的安德天皇，正門是少見的龍宮造型，紅色樓門看起來就像童話裡的龍宮城。', note:'以開車、短暫下車拍照為主', family:'', transport:'car', map:'關門大橋', confirmed:false},
-      {time:'10:52', title:'阿媽、戴阿媽：SL 山口號蒸汽火車', desc:'【SL 山口號】是九州少見還在行駛的復古蒸汽火車，車頭會冒出白煙、發出汽笛聲，車廂內裝也很有懷舊風味，沿途行經山口縣山區與溪谷風光，是鐵道迷跟長輩都會喜歡的懷舊體驗。', note:'10:52 新山口出發 → 13:06 抵達津和野', family:'⚠️ 新山口車站距離門司港飯店較遠（單程開車或搭電車約需 1.5–2 小時），建議阿媽、戴阿媽提早出發，或評估與其他行程銜接的時間安排。', transport:'train', map:'新山口駅', confirmed:false},
+      {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
+      {time:'10:00', title:'璇一家：（開車）關門大橋、赤間神宮', desc:'【關門大橋】是連接本州和九州的紅色大橋，全長 1,068 公尺，橋下就是本州、九州間最窄的關門海峽，船隻往來熱鬧。【赤間神宮】供奉著年幼即位的安德天皇，正門是少見的龍宮造型，紅色樓門看起來就像童話裡的龍宮城。', note:'以開車、短暫下車拍照為主', family:'', transport:'car', map:'關門大橋', confirmed:false, who:['parents','kids']},
+      {time:'10:52', title:'阿媽、戴阿媽：SL 山口號蒸汽火車', desc:'【SL 山口號】是九州少見還在行駛的復古蒸汽火車，車頭會冒出白煙、發出汽笛聲，車廂內裝也很有懷舊風味，沿途行經山口縣山區與溪谷風光，是鐵道迷跟長輩都會喜歡的懷舊體驗。', note:'10:52 新山口出發 → 13:06 抵達津和野', family:'⚠️ 新山口車站距離門司港飯店較遠（單程開車或搭電車約需 1.5–2 小時），建議阿媽、戴阿媽提早出發，或評估與其他行程銜接的時間安排。', transport:'train', map:'新山口駅', confirmed:false, who:['grandmas']},
     ],
-    noon:[{time:'午餐', title:'午餐候選（4 選 1）', desc:'【唐戶市場】是下關最熱鬧的漁市場，假日還會變身「活跳跳海鮮市集」，攤販會現場切河豚生魚片給你看，關門海峽的新鮮漁獲都在這裡。', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 春帆樓（講和紀念館，馬關條約割讓台灣舊址）\n④ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定；選④唐戶市場的話，正好銜接下午的下關側行程', transport:'car', map:'唐戶市場', confirmed:false}],
+    noon:[{time:'午餐', title:'午餐候選（4 選 1）', desc:'【唐戶市場】是下關最熱鬧的漁市場，假日還會變身「活跳跳海鮮市集」，攤販會現場切河豚生魚片給你看，關門海峽的新鮮漁獲都在這裡。', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 春帆樓（講和紀念館，馬關條約割讓台灣舊址）\n④ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定；選④唐戶市場的話，正好銜接下午的下關側行程', transport:'car', map:'唐戶市場', confirmed:false, who:['parents','kids']}],
     afternoon:[
-      {time:'13:30', title:'璇一家：下關南部町郵便局', desc:'【下關南部町郵便局】是日本現在還在使用的郵局裡，歷史最悠久的一間！建於西元 1900 年，紅磚牆壁厚達 60 公分，門口還有復古圓筒型紅色郵筒，可以寄一張明信片留念。', note:'難度低、時間短（約 20–30 分），與唐戶市場同區順路', family:'', transport:'walk', map:'下關南部町郵便局', confirmed:false},
-      {time:'14:15', title:'璇一家：大熱天室內備案（3 選 1）', desc:'【下關市立下關水族館 海響館】招牌動物是企鵝，館內飼養了全日本種類最多的企鵝，還有白海豚表演秀。【大丸下關店】就在下關車站旁邊，是這一帶最大的百貨公司，逛累了可以進去吹冷氣、上廁所，地下美食街也好逛。【彥島八幡宮】是彥島上歷史悠久的古老神社，樹木林蔭多、氣氛清幽，適合想避開人潮、悠閒散步的時候順道造訪。', note:'① 海響館（室內、時間較長，約 2–2.5 小時）\n② 大丸下關店（室內百貨，適合單純想吹冷氣休息）\n③ 彥島八幡宮（戶外但清幽人少）', family:'依當天氣溫與體力現場決定，不必三個都排', transport:'walk', map:'下關市立下關水族館 海響館', confirmed:false},
+      {time:'13:30', title:'璇一家：下關南部町郵便局', desc:'【下關南部町郵便局】是日本現在還在使用的郵局裡，歷史最悠久的一間！建於西元 1900 年，紅磚牆壁厚達 60 公分，門口還有復古圓筒型紅色郵筒，可以寄一張明信片留念。', note:'難度低、時間短（約 20–30 分），與唐戶市場同區順路', family:'', transport:'walk', map:'下關南部町郵便局', confirmed:false, who:['parents','kids']},
+      {time:'14:15', title:'璇一家：大熱天室內備案（3 選 1）', desc:'【下關市立下關水族館 海響館】招牌動物是企鵝，館內飼養了全日本種類最多的企鵝，還有白海豚表演秀。【大丸下關店】就在下關車站旁邊，是這一帶最大的百貨公司，逛累了可以進去吹冷氣、上廁所，地下美食街也好逛。【彥島八幡宮】是彥島上歷史悠久的古老神社，樹木林蔭多、氣氛清幽，適合想避開人潮、悠閒散步的時候順道造訪。', note:'① 海響館（室內、時間較長，約 2–2.5 小時）\n② 大丸下關店（室內百貨，適合單純想吹冷氣休息）\n③ 彥島八幡宮（戶外但清幽人少）', family:'依當天氣溫與體力現場決定，不必三個都排', transport:'walk', map:'下關市立下關水族館 海響館', confirmed:false, who:['parents','kids']},
     ],
     evening:[]
   }},
-{date:'2026-08-17', dayNum:8, weekday:'一',
+{date:'2026-08-17', dayNum:9, weekday:'一',
   theme:'北九州．小倉城、市立美術館與若松夜景', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（升級為極品雙床 2 房，共 2 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'升級房型，可能要移動房間', transport:'', map:'', confirmed:true},
-      {time:'上午', title:'千佛鐘乳洞', desc:'【千佛鐘乳洞】洞穴裡有許多形狀像佛像的鐘乳石，因此得名，是日本三大鐘乳洞之一。洞內道路平緩好走，一年四季都保持涼爽的 17 度左右。', note:'', family:'', transport:'car', map:'千佛鐘乳洞', confirmed:false},
+      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'升級房型，可能要移動房間', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
+      {time:'上午', title:'千佛鐘乳洞', desc:'【千佛鐘乳洞】洞穴裡有許多形狀像佛像的鐘乳石，因此得名，是日本三大鐘乳洞之一。洞內道路平緩好走，一年四季都保持涼爽的 17 度左右。', note:'', family:'', transport:'car', map:'千佛鐘乳洞', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    noon:[{time:'午餐', title:'鰻魚飯', note:'', family:'', transport:'car', map:'小倉', confirmed:false}],
+    noon:[{time:'午餐', title:'鰻魚飯', note:'', family:'', transport:'car', map:'小倉', confirmed:false, who:['parents','kids','grandmas']}],
     afternoon:[
-      {time:'13:30', title:'小倉城、旦過市場、TOTO 博物館', desc:'【小倉城】是江戶時代的古城，屋頂由上往下逐漸變大的「唐造」建築工法在日本非常少見，天守閣裡還能體驗穿武士甲冑拍照。【旦過市場】被稱為「北九州的廚房」，可以邊走邊吃烤河豚、可樂餅。【TOTO博物館】能看到馬桶百年演進歷史，還有黑科技免治馬桶可以試坐！', note:'', family:'', transport:'car', map:'小倉城', confirmed:false},
-      {time:'16:00', title:'北九州市立美術館', desc:'【北九州市立美術館】的建築本身就是一件藝術品！設計師磯崎新用兩個圓筒造型的建築，像一副大大的望遠鏡立在山丘上，他後來還得到了建築界最高榮譽「普立茲克獎」。', note:'室內外都好走，可作為市區行程與傍晚行程間的中繼站', family:'', transport:'car', map:'北九州市立美術館', confirmed:false},
+      {time:'13:30', title:'小倉城、旦過市場、TOTO 博物館', desc:'【小倉城】是江戶時代的古城，屋頂由上往下逐漸變大的「唐造」建築工法在日本非常少見，天守閣裡還能體驗穿武士甲冑拍照。【旦過市場】被稱為「北九州的廚房」，可以邊走邊吃烤河豚、可樂餅。【TOTO博物館】能看到馬桶百年演進歷史，還有黑科技免治馬桶可以試坐！', note:'', family:'', transport:'car', map:'小倉城', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'16:00', title:'北九州市立美術館', desc:'【北九州市立美術館】的建築本身就是一件藝術品！設計師磯崎新用兩個圓筒造型的建築，像一副大大的望遠鏡立在山丘上，他後來還得到了建築界最高榮譽「普立茲克獎」。', note:'室內外都好走，可作為市區行程與傍晚行程間的中繼站', family:'', transport:'car', map:'北九州市立美術館', confirmed:false, who:['parents','kids','grandmas']},
     ],
     evening:[
-      {time:'17:30', title:'北九州響灘綠地（グリーンパーク）玩水', desc:'【響灘綠地】是北九州市內最大的公園，園內有金氏世界紀錄認證的「世界最長鞦韆」、近距離看恐龍模型的「響灘恐龍公園」，夏天還有戲水池可以消暑。', note:'體力消耗較大，安排在較涼爽的傍晚時段', family:'⚠️ 8/17 這天把小倉城區＋北九州市立美術館＋響灘綠地＋遠見ヶ鼻＋夜景全部排在一起，橫跨北九州市東西兩側（小倉／八幡在東側，若松在西側），車程加總下來會是體力很吃重的一天。建議把傍晚這幾站當作彈性清單，依現場體力決定要玩幾站，不必全部走完。', transport:'car', map:'北九州響灘綠地（グリーンパーク）', confirmed:false},
-      {time:'19:00', title:'遠見ヶ鼻看日落', desc:'【遠見ヶ鼻】是一個突出在響灘海邊的小海角，視野遼闊、完全沒有遮蔽物，是北九州數一數二漂亮的看夕陽景點，天空跟海面都會被染成橘紅色。', note:'開闊平地，適合全家散步等待日落', family:'', transport:'car', map:'遠見ヶ鼻（Cape Tomigahana）', confirmed:false},
-      {time:'20:00', title:'夜景 2 選 1：皿倉山展望台（纜車）或高塔山公園（開車）', desc:'【皿倉山】山頂夜景被稱為「價值百億日圓的夜景」，是日本新三大夜景之一，搭纜車約 10 分鐘就能登頂，萬家燈火一路延伸到大海邊。【高塔山公園】標高只有 124 公尺，開車就能直達展望台，人潮比皿倉山少、更悠閒，是當地人也喜歡的私房夜景。', note:'皿倉山纜車體驗感較強但需另外移動；高塔山開車直達較省體力，適合當天已經很累時選擇', family:'', transport:'car', map:'皿倉山夜景', confirmed:false},
+      {time:'17:30', title:'北九州響灘綠地（グリーンパーク）玩水', desc:'【響灘綠地】是北九州市內最大的公園，園內有金氏世界紀錄認證的「世界最長鞦韆」、近距離看恐龍模型的「響灘恐龍公園」，夏天還有戲水池可以消暑。', note:'體力消耗較大，安排在較涼爽的傍晚時段', family:'⚠️ 8/17 這天把小倉城區＋北九州市立美術館＋響灘綠地＋遠見ヶ鼻＋夜景全部排在一起，橫跨北九州市東西兩側（小倉／八幡在東側，若松在西側），車程加總下來會是體力很吃重的一天。建議把傍晚這幾站當作彈性清單，依現場體力決定要玩幾站，不必全部走完。', transport:'car', map:'北九州響灘綠地（グリーンパーク）', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'19:00', title:'遠見ヶ鼻看日落', desc:'【遠見ヶ鼻】是一個突出在響灘海邊的小海角，視野遼闊、完全沒有遮蔽物，是北九州數一數二漂亮的看夕陽景點，天空跟海面都會被染成橘紅色。', note:'開闊平地，適合全家散步等待日落', family:'', transport:'car', map:'遠見ヶ鼻（Cape Tomigahana）', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'20:00', title:'夜景 2 選 1：皿倉山展望台（纜車）或高塔山公園（開車）', desc:'【皿倉山】山頂夜景被稱為「價值百億日圓的夜景」，是日本新三大夜景之一，搭纜車約 10 分鐘就能登頂，萬家燈火一路延伸到大海邊。【高塔山公園】標高只有 124 公尺，開車就能直達展望台，人潮比皿倉山少、更悠閒，是當地人也喜歡的私房夜景。', note:'皿倉山纜車體驗感較強但需另外移動；高塔山開車直達較省體力，適合當天已經很累時選擇', family:'', transport:'car', map:'皿倉山夜景', confirmed:false, who:['parents','kids','grandmas']},
     ]
   }},
-{date:'2026-08-18', dayNum:9, weekday:'二',
+{date:'2026-08-18', dayNum:10, weekday:'二',
   theme:'山口．秋吉台喀斯特台地、防府天滿宮', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（極品雙床 2 房，第 2 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true},
-      {time:'09:30', title:'秋吉臺自然動物公園（サファリランド）', desc:'【秋吉臺自然動物公園】是一座可以「開車」進去的動物園！獅子、長頸鹿、斑馬就在車子旁邊走來走去，感覺就像在非洲大草原探險一樣。', note:'全程開車繞園、不用下車，難度最低，排在最前面', family:'', transport:'car', map:'秋吉臺自然動物公園', confirmed:false},
-      {time:'11:15', title:'秋吉台', desc:'【秋吉台】是日本最大的喀斯特高原，放眼望去像是綠色草原上灑滿了一顆顆白色的石灰岩，非常特別！這些石頭是幾億年前珊瑚礁變成的，草原上還能看到牛群悠閒吃草。', note:'平緩步道，全家皆可（約 1 小時）', family:'', transport:'car', map:'秋吉台', confirmed:false},
-      {time:'12:15', title:'秋芳洞', desc:'【秋芳洞】是日本第二長、也是規模最大的鐘乳洞之一，位於地下 100 公尺處，洞內涼爽，全年 17 度！洞窟內有許多石筍與鐘乳石，以及巨大石灰岩形成的梯田，這些都是貴重的地質學標本，於 100 多萬年前形成，能感受到大自然不可思議的力量。', note:'洞內平緩好走但較費時、需一段上下起伏（約 1–1.5 小時），安排在體力最好的上午時段', family:'', transport:'car', map:'秋芳洞', confirmed:false},
+      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
+      {time:'09:30', title:'秋吉臺自然動物公園（サファリランド）', desc:'【秋吉臺自然動物公園】是一座可以「開車」進去的動物園！獅子、長頸鹿、斑馬就在車子旁邊走來走去，感覺就像在非洲大草原探險一樣。', note:'全程開車繞園、不用下車，難度最低，排在最前面', family:'', transport:'car', map:'秋吉臺自然動物公園', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'11:15', title:'秋吉台', desc:'【秋吉台】是日本最大的喀斯特高原，放眼望去像是綠色草原上灑滿了一顆顆白色的石灰岩，非常特別！這些石頭是幾億年前珊瑚礁變成的，草原上還能看到牛群悠閒吃草。', note:'平緩步道，全家皆可（約 1 小時）', family:'', transport:'car', map:'秋吉台', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'12:15', title:'秋芳洞', desc:'【秋芳洞】是日本第二長、也是規模最大的鐘乳洞之一，位於地下 100 公尺處，洞內涼爽，全年 17 度！洞窟內有許多石筍與鐘乳石，以及巨大石灰岩形成的梯田，這些都是貴重的地質學標本，於 100 多萬年前形成，能感受到大自然不可思議的力量。', note:'洞內平緩好走但較費時、需一段上下起伏（約 1–1.5 小時），安排在體力最好的上午時段', family:'', transport:'car', map:'秋芳洞', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    noon:[{time:'13:45', title:'モンベル山口店（附設 Harvest Terrace 咖啡廳）', desc:'【モンベル山口店】是登山露營用品店，裡面還可以體驗室內攀岩和獨木舟，累了可以在附設咖啡廳「ハーベステラス」吃飯休息，是很棒的中途休息站。', note:'室內用餐、有休息空間，安排在移動中段讓大家喘口氣', family:'', transport:'car', map:'モンベル山口店', confirmed:false}],
+    noon:[{time:'13:45', title:'モンベル山口店（附設 Harvest Terrace 咖啡廳）', desc:'【モンベル山口店】是登山露營用品店，裡面還可以體驗室內攀岩和獨木舟，累了可以在附設咖啡廳「ハーベステラス」吃飯休息，是很棒的中途休息站。', note:'室內用餐、有休息空間，安排在移動中段讓大家喘口氣', family:'', transport:'car', map:'モンベル山口店', confirmed:false, who:['parents','kids','grandmas']}],
     afternoon:[
-      {time:'15:00', title:'防府天満宮', desc:'【防府天満宮】是日本最早創建的天神廟，比京都北野天満宮、太宰府天満宮還要早，主要祭拜學問之神菅原道真。想要考試順利的話，可以來這裡祈求好成績！', note:'表參道有較長石階，體力需求中等，安排在最後一站', family:'⚠️ 這天從門司港飯店南下到秋吉台、再到防府市，單程車程約 2–2.5 小時，來回加上四個景點會是長距離、長時間的一天。建議把防府天満宮視為彈性選項，若上午行程已經比較累，可以考慮只去モンベル休息用餐、跳過防府，直接返回門司港。', transport:'car', map:'防府天満宮', confirmed:false},
+      {time:'15:00', title:'防府天満宮', desc:'【防府天満宮】是日本最早創建的天神廟，比京都北野天満宮、太宰府天満宮還要早，主要祭拜學問之神菅原道真。想要考試順利的話，可以來這裡祈求好成績！', note:'表參道有較長石階，體力需求中等，安排在最後一站', family:'⚠️ 這天從門司港飯店南下到秋吉台、再到防府市，單程車程約 2–2.5 小時，來回加上四個景點會是長距離、長時間的一天。建議把防府天満宮視為彈性選項，若上午行程已經比較累，可以考慮只去モンベル休息用餐、跳過防府，直接返回門司港。', transport:'car', map:'防府天満宮', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    evening:[{time:'晚上', title:'收行李', note:'', family:'明天要往山口（長門）移動囉', transport:'', map:'', confirmed:true}]
+    evening:[{time:'晚上', title:'收行李', note:'', family:'明天要往山口（長門）移動囉', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']}]
   }},
-{date:'2026-08-19', dayNum:10, weekday:'三',
+{date:'2026-08-19', dayNum:11, weekday:'三',
   theme:'移動至山口．川棚溫泉、角島大橋', weatherKey:'長門市',
   lodging:[{who:'全員',place:'星野 界 長門（傳統客房 2 房，共 2 晚，一泊二食）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'今日 Check out（門司港飯店）', family:'', transport:'', map:'', confirmed:true},
-      {time:'09:00', title:'川棚溫泉♨️溫泉街', desc:'【川棚溫泉】溫泉街裡有一隻大大的可愛河豚雕像，傳說是因為以前有人在溫泉裡發現河豚，這裡才開始挖出溫泉的！', note:'難度最低、時間最短（約 30 分），排在最前面暖身', family:'', transport:'car', map:'川棚溫泉', confirmed:false},
-      {time:'09:45', title:'角島大橋', desc:'【角島大橋】是一座橫跨湛藍海面的白色大橋，全長 1,780 公尺，開車經過就像飄浮在海上一樣，是超人氣的拍照景點。', note:'難度低、時間短（約 30–45 分，多為拍照停留）', family:'', transport:'car', map:'角島大橋', confirmed:false},
+      {time:'早餐', title:'飯店早餐', note:'今日 Check out（門司港飯店）', family:'', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
+      {time:'09:00', title:'川棚溫泉♨️溫泉街', desc:'【川棚溫泉】溫泉街裡有一隻大大的可愛河豚雕像，傳說是因為以前有人在溫泉裡發現河豚，這裡才開始挖出溫泉的！', note:'難度最低、時間最短（約 30 分），排在最前面暖身', family:'', transport:'car', map:'川棚溫泉', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'09:45', title:'角島大橋', desc:'【角島大橋】是一座橫跨湛藍海面的白色大橋，全長 1,780 公尺，開車經過就像飄浮在海上一樣，是超人氣的拍照景點。', note:'難度低、時間短（約 30–45 分，多為拍照停留）', family:'', transport:'car', map:'角島大橋', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    noon:[{time:'午餐', title:'瓦そばたかせ 角島岬店', desc:'【瓦そば】是山口名物瓦片蕎麥麵，把茶蕎麥麵鋪在燒熱的瓦片上煎得微焦，再淋上柴魚醬汁，口感外酥內Q，是很特別的吃法。', note:'2026/4 新開幕的角島岬店，就在角島大橋附近，順路用餐', family:'', transport:'car', map:'瓦そばたかせ 角島岬店', confirmed:false}],
+    noon:[{time:'午餐', title:'瓦そばたかせ 角島岬店', desc:'【瓦そば】是山口名物瓦片蕎麥麵，把茶蕎麥麵鋪在燒熱的瓦片上煎得微焦，再淋上柴魚醬汁，口感外酥內Q，是很特別的吃法。', note:'2026/4 新開幕的角島岬店，就在角島大橋附近，順路用餐', family:'', transport:'car', map:'瓦そばたかせ 角島岬店', confirmed:false, who:['parents','kids','grandmas']}],
     afternoon:[],
-    evening:[{time:'晚餐', title:'飯店用餐（一泊二食）', note:'星野 界 長門｜傳統客房 2 房 × 2 晚', family:'請寫信與飯店確認人數，或詢問可否調整，否則怕會少餐', transport:'', map:'星野 界 長門', confirmed:false}]
+    evening:[{time:'晚餐', title:'飯店用餐（一泊二食）', note:'星野 界 長門｜傳統客房 2 房 × 2 晚', family:'請寫信與飯店確認人數，或詢問可否調整，否則怕會少餐', transport:'', map:'星野 界 長門', confirmed:false, who:['parents','kids','grandmas']}]
   }},
-{date:'2026-08-20', dayNum:11, weekday:'四',
+{date:'2026-08-20', dayNum:12, weekday:'四',
   theme:'山口．元乃隅神社、棚田、千疊敷', weatherKey:'長門市',
   lodging:[{who:'全員',place:'星野 界 長門（傳統客房 2 房，第 2 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'', family:'確認是否含早餐', transport:'', map:'', confirmed:false},
-      {time:'上午', title:'東後畑棚田、元乃隅神社、千疊敷', desc:'【東後畑棚田】是層層疊疊蓋在山坡上的稻田，形狀像一片片的階梯，傍晚時分還能同時看到夕陽和大海。【元乃隅神社】沿著山坡立著 123 座朱紅色鳥居，一路通往懸崖邊的大海，美國 CNN 還曾把這裡選為「日本最美的 31 個地方」之一！【千疊敷】是一片鋪滿整片山頭的大草原，因為草地遼闊得像鋪了一千張榻榻米而得名，可以在這裡遠眺日本海。', note:'', family:'', transport:'car', map:'元乃隅神社', confirmed:false},
+      {time:'早餐', title:'飯店早餐', note:'', family:'確認是否含早餐', transport:'', map:'', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'上午', title:'東後畑棚田、元乃隅神社、千疊敷', desc:'【東後畑棚田】是層層疊疊蓋在山坡上的稻田，形狀像一片片的階梯，傍晚時分還能同時看到夕陽和大海。【元乃隅神社】沿著山坡立著 123 座朱紅色鳥居，一路通往懸崖邊的大海，美國 CNN 還曾把這裡選為「日本最美的 31 個地方」之一！【千疊敷】是一片鋪滿整片山頭的大草原，因為草地遼闊得像鋪了一千張榻榻米而得名，可以在這裡遠眺日本海。', note:'', family:'', transport:'car', map:'元乃隅神社', confirmed:false, who:['parents','kids','grandmas']},
     ],
     noon:[], afternoon:[],
     evening:[
-      {time:'晚餐', title:'飯店用餐', note:'', family:'', transport:'', map:'星野 界 長門', confirmed:false},
-      {time:'晚上', title:'收行李', note:'', family:'明天要 check out 囉', transport:'', map:'', confirmed:true},
+      {time:'晚餐', title:'飯店用餐', note:'', family:'', transport:'', map:'星野 界 長門', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'晚上', title:'收行李', note:'', family:'明天要 check out 囉', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
     ]
   }},
-{date:'2026-08-21', dayNum:12, weekday:'五',
+{date:'2026-08-21', dayNum:13, weekday:'五',
   theme:'璇一家開車回福岡．阿媽、戴阿媽山口自由行（8/21–8/29）', weatherKey:'福岡市',
   lodging:[{who:'璇一家（卓軒、以璇、木須、言、辰）',place:'東急stay福岡天神｜雙床房 × 2 晚（不含餐）'},{who:'阿媽、戴阿媽',place:'山口自由行中，住宿待訂'}],
   periods:{
-    morning:[{time:'早餐', title:'飯店早餐', note:'今日 Check out（星野 界 長門）', family:'', transport:'', map:'', confirmed:true}],
-    noon:[{time:'途中', title:'Adventure Valley FUKUOKA（フォレストアドベンチャー・久山）', desc:'【Adventure Valley FUKUOKA】是一座蓋在森林裡的探險樂園，裡面有飛索、繩索橋、攀岩等超過 70 種挑戰關卡，飛天滑索的數量還是全日本同類型設施中最多的！小學一年級、身高 110 公分以上就能挑戰，很適合喜歡冒險的小朋友大展身手。', note:'璇一家開車回福岡途中停留，久山町鄰近 TRIAS 商場，可順便用餐、買伴手禮', family:'需 110 公分以上、國小一年級起才能參加，出發前先確認小朋友的身高', transport:'car', map:'Adventure Valley FUKUOKA', confirmed:false}],
-    afternoon:[{time:'下午', title:'璇一家開車回福岡，兩位阿媽續遊山口', note:'璇一家：飯店 Check in、租車返還', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false}],
-    evening:[{time:'晚餐', title:'晚餐候選（2 選 1）', desc:'【一蘭拉麵】的座位是一格一格的「讀書式吧檯」，可以專心品嚐豚骨拉麵的濃郁湯頭，點餐前還要先在單子上勾選湯頭濃淡、麵條軟硬，客製化自己專屬的一碗拉麵。', note:'① 一蘭拉麵總店（含表演）\n② 日式燒肉', family:'', transport:'', map:'一蘭拉麵 天神本店', confirmed:false}]
+    morning:[{time:'早餐', title:'飯店早餐', note:'今日 Check out（星野 界 長門）', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']}],
+    noon:[{time:'途中', title:'Adventure Valley FUKUOKA（フォレストアドベンチャー・久山）', desc:'【Adventure Valley FUKUOKA】是一座蓋在森林裡的探險樂園，裡面有飛索、繩索橋、攀岩等超過 70 種挑戰關卡，飛天滑索的數量還是全日本同類型設施中最多的！小學一年級、身高 110 公分以上就能挑戰，很適合喜歡冒險的小朋友大展身手。', note:'璇一家開車回福岡途中停留，久山町鄰近 TRIAS 商場，可順便用餐、買伴手禮', family:'需 110 公分以上、國小一年級起才能參加，出發前先確認小朋友的身高', transport:'car', map:'Adventure Valley FUKUOKA', confirmed:false, who:['parents','kids']}],
+    afternoon:[{time:'下午', title:'璇一家開車回福岡，兩位阿媽續遊山口', note:'璇一家：飯店 Check in、租車返還', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false, who:['parents','kids']}],
+    evening:[{time:'晚餐', title:'晚餐候選（2 選 1）', desc:'【一蘭拉麵】的座位是一格一格的「讀書式吧檯」，可以專心品嚐豚骨拉麵的濃郁湯頭，點餐前還要先在單子上勾選湯頭濃淡、麵條軟硬，客製化自己專屬的一碗拉麵。', note:'① 一蘭拉麵總店（含表演）\n② 日式燒肉', family:'', transport:'', map:'一蘭拉麵 天神本店', confirmed:false, who:['parents','kids']}]
   }},
-{date:'2026-08-22', dayNum:13, weekday:'六',
+{date:'2026-08-22', dayNum:14, weekday:'六',
   theme:'璇一家福岡市區看球賽逛街．阿媽、戴阿媽山口自由行', weatherKey:'福岡市',
   lodging:[{who:'璇一家',place:'東急stay福岡天神｜雙床房 × 2 晚（不含餐，連住第 2 晚）'},{who:'阿媽、戴阿媽',place:'山口自由行中'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true},
-      {time:'上午', title:'博多運河城買球鞋、逛街買伴手禮', desc:'【博多運河城】是一座超大型購物中心，最特別的是中央有一條人工運河貫穿整棟建築，每到整點還有音樂噴泉秀，晚上打燈後特別漂亮。', note:'', family:'', transport:'walk', map:'博多運河城 Canal City Hakata', confirmed:false},
+      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']},
+      {time:'上午', title:'博多運河城買球鞋、逛街買伴手禮', desc:'【博多運河城】是一座超大型購物中心，最特別的是中央有一條人工運河貫穿整棟建築，每到整點還有音樂噴泉秀，晚上打燈後特別漂亮。', note:'', family:'', transport:'walk', map:'博多運河城 Canal City Hakata', confirmed:false, who:['parents','kids']},
     ],
     noon:[],
-    afternoon:[{time:'14:00', title:'福岡軟銀鷹 vs 歐力士｜PayPay Dome', desc:'【福岡 PayPay 巨蛋】是軟銀鷹隊的主場，屋頂可以打開關閉，是日本第一座有開闔式屋頂的棒球場，可以現場感受日本職棒的熱血應援文化！', note:'有可能會很無聊，保留彈性去隔壁逛街、王貞治棒球博物館玩（門票可免費去玩）', family:'為防中暑，可單獨或同時攜帶：\n① 塑膠瓶與鋁箔包（皆 1L 以內，每人最多一瓶）\n② 水壺與隨身杯（皆 2L 以下）', transport:'walk', map:'福岡 PayPay 巨蛋', confirmed:true}],
-    evening:[{time:'晚上', title:'收行李', note:'', family:'明天要 check out 回台灣囉～', transport:'', map:'', confirmed:true}]
+    afternoon:[{time:'14:00', title:'福岡軟銀鷹 vs 歐力士｜PayPay Dome', desc:'【福岡 PayPay 巨蛋】是軟銀鷹隊的主場，屋頂可以打開關閉，是日本第一座有開闔式屋頂的棒球場，可以現場感受日本職棒的熱血應援文化！', note:'有可能會很無聊，保留彈性去隔壁逛街、王貞治棒球博物館玩（門票可免費去玩）', family:'為防中暑，可單獨或同時攜帶：\n① 塑膠瓶與鋁箔包（皆 1L 以內，每人最多一瓶）\n② 水壺與隨身杯（皆 2L 以下）', transport:'walk', map:'福岡 PayPay 巨蛋', confirmed:true, who:['parents','kids']}],
+    evening:[{time:'晚上', title:'收行李', note:'', family:'明天要 check out 回台灣囉～', transport:'', map:'', confirmed:true, who:['parents','kids']}]
   }},
-{date:'2026-08-23', dayNum:14, weekday:'日',
+{date:'2026-08-23', dayNum:15, weekday:'日',
   theme:'璇一家返台．阿媽、戴阿媽持續山口自由行', weatherKey:'福岡市',
   lodging:[{who:'璇一家',place:'Check out → 返台'},{who:'阿媽、戴阿媽',place:'山口自由行中'}],
   periods:{
     morning:[
-      {time:'上午', title:'Checkout', note:'', family:'', transport:'', map:'', confirmed:true},
-      {time:'11:00', title:'CI111　福岡 FUK → 台北 TPE T2（12:30 抵達）', note:'璇一家搭乘', family:'可考慮搭機捷返家或安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true},
+      {time:'上午', title:'Checkout', note:'', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']},
+      {time:'11:00', title:'CI111　福岡 FUK → 台北 TPE T2（12:30 抵達）', note:'璇一家搭乘', family:'可考慮搭機捷返家或安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['parents','kids']},
     ], noon:[], afternoon:[], evening:[]
   }},
-{date:'2026-08-24', dayNum:15, weekday:'一',
+{date:'2026-08-24', dayNum:16, weekday:'一',
   theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'8/21–8/29 阿媽、戴阿媽於山口及福岡市自由行，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
-{date:'2026-08-25', dayNum:16, weekday:'二',
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'8/21–8/29 阿媽、戴阿媽於山口及福岡市自由行，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-25', dayNum:17, weekday:'二',
   theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
-{date:'2026-08-26', dayNum:17, weekday:'三',
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-26', dayNum:18, weekday:'三',
   theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
-{date:'2026-08-27', dayNum:18, weekday:'四',
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-27', dayNum:19, weekday:'四',
   theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
-{date:'2026-08-28', dayNum:19, weekday:'五',
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-28', dayNum:20, weekday:'五',
   theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'自由行中，住宿待訂'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'明天準備返台，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false}], noon:[], afternoon:[], evening:[]}},
-{date:'2026-08-29', dayNum:20, weekday:'六',
+  periods:{morning:[{time:'—', title:'行程待規劃', note:'明天準備返台，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+{date:'2026-08-29', dayNum:21, weekday:'六',
   theme:'阿媽、戴阿媽 返台', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'Check out → 返台'}],
   periods:{
     morning:[], noon:[], afternoon:[],
-    evening:[{time:'21:00', title:'CI117　福岡 FUK（國際航廈）→ 桃園 TPE T2（22:30 抵達）', note:'阿媽、戴阿媽搭乘', family:'記得安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true}]
+    evening:[{time:'21:00', title:'CI117　福岡 FUK（國際航廈）→ 桃園 TPE T2（22:30 抵達）', note:'阿媽、戴阿媽搭乘', family:'記得安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['grandmas']}]
   }},
 ];
 
 // ---------- 願望清單 ----------
 const WISHLIST = [
   // 神社與御神籤巡禮
-  {name:'和布刈神社｜河豚御神籤', category:'神社與御神籤巡禮', icon:'🐡', desc:'【和布刈神社】就蓋在關門大橋正下方，是九州最北端的神社，已經有將近 1800 年的歷史！這裡賣的木製河豚御神籤造型超可愛，因為「河豚」的日文發音跟「幸福」很像，帶有吉祥的寓意，很多人專程來抽一支帶回家。', suitable:'全家皆可，順路小景點', duration:'約 20–30 分鐘', difficulty:'交通難度：中（門司港北端，開車或搭巴士較方便）', kids:'適合，抽籤很有趣', elders:'需留意神社周邊石階', note:'可與門司港（木構建築）、關門海峽人道隧道排在同一天，就在關門大橋旁邊。'},
-  {name:'志賀海神社｜飛魚御神籤', category:'神社與御神籤巡禮', icon:'🐟', desc:'【志賀海神社】蓋在志賀島的小山丘上，因為供奉海神，被稱為「海神的總本社」，也被叫做「龍之都」。這裡的飛魚御神籤，象徵著像飛魚一樣跳出水面、飛躍困難迎向成功，還有保佑好運上升的龍神勝守。', suitable:'全家皆可，喜歡海景與神社的人', duration:'約 1–1.5 小時（含渡船或開車時間）', difficulty:'交通難度：高（位於志賀島，需開車經海之中道或搭渡輪前往）', kids:'適合，抽飛魚籤很有趣', elders:'參道有石階，需留意體力', note:'距離市區較遠，建議跟其他福岡市區行程排在同一天，或列為機動備案。'},
+  {name:'和布刈神社｜河豚御神籤', category:'⛩️ 神社與御神籤巡禮', icon:'🐡', desc:'【和布刈神社】就蓋在關門大橋正下方，是九州最北端的神社，已經有將近 1800 年的歷史！這裡賣的木製河豚御神籤造型超可愛，因為「河豚」的日文發音跟「幸福」很像，帶有吉祥的寓意，很多人專程來抽一支帶回家。', suitable:'全家皆可，順路小景點', duration:'約 20–30 分鐘', difficulty:'交通難度：中（門司港北端，開車或搭巴士較方便）', kids:'適合，抽籤很有趣', elders:'需留意神社周邊石階', note:'可與門司港（木構建築）、關門海峽人道隧道排在同一天，就在關門大橋旁邊。'},
+  {name:'志賀海神社｜飛魚御神籤', category:'⛩️ 神社與御神籤巡禮', icon:'🐟', desc:'【志賀海神社】蓋在志賀島的小山丘上，因為供奉海神，被稱為「海神的總本社」，也被叫做「龍之都」。這裡的飛魚御神籤，象徵著像飛魚一樣跳出水面、飛躍困難迎向成功，還有保佑好運上升的龍神勝守。', suitable:'全家皆可，喜歡海景與神社的人', duration:'約 1–1.5 小時（含渡船或開車時間）', difficulty:'交通難度：高（位於志賀島，需開車經海之中道或搭渡輪前往）', kids:'適合，抽飛魚籤很有趣', elders:'參道有石階，需留意體力', note:'距離市區較遠，建議跟其他福岡市區行程排在同一天，或列為機動備案。'},
   // 陶藝之旅：遠州七窯與山村古窯
-  {name:'東峰村｜小石原燒', category:'陶藝之旅：遠州七窯與山村古窯', icon:'🎨', desc:'【小石原燒】的陶土來自靈山英彥山的紅土，燒製時會用一種叫「飛鉋」的工具，在陶器表面刻出一圈一圈整齊的花紋，摸起來凹凹凸凸很有趣。1958 年還在世界博覽會上得過大獎，是江戶時代茶人們最愛用的名窯之一。', suitable:'對陶藝、手作有興趣的大人', duration:'約 1.5–2 小時（含逛窯元、體驗）', difficulty:'交通難度：高（東峰村山區，車程較遠，約需 1 小時以上）', kids:'可以體驗手拉坯，但年紀太小需大人陪同', elders:'部分窯元在山坡上，需留意路況', note:'與上野燒同屬「遠州七窯」，地理位置也相近，建議排在同一天順遊比較兩種陶器風格。'},
-  {name:'上野燒', category:'陶藝之旅：遠州七窯與山村古窯', icon:'🍵', desc:'【上野燒】跟小石原燒一樣，都是江戶時代茶人喜愛的名窯「遠州七窯」成員。上野燒的特色是胎土做得比較輕薄，釉料顏色豐富，燒製過程中顏色會自然變化，每一件作品呈現出來的花紋都不一樣，獨一無二。', suitable:'對陶藝、茶道文化有興趣的大人', duration:'約 1–1.5 小時', difficulty:'交通難度：高（田川郡福智町，車程較遠）', kids:'較不適合幼兒，展品易碎', elders:'館內平緩好走', note:'與小石原燒車程距離不遠，可安排在同一天順遊。'},
-  {name:'小鹿田燒之里（小鹿田焼の里）', category:'陶藝之旅：遠州七窯與山村古窯', icon:'🏺', desc:'【小鹿田燒之里】是一個藏在山裡的小村落，這裡的陶器工房到現在還用「唐臼」（利用溪水的力量舂土）來製作陶土，完全沒有用電動機器！小鹿田燒已經有 300 多年的歷史，安靜的山村裡常常可以聽到「咚、咚」的搗土聲。', suitable:'對傳統工藝、陶器有興趣的大人', duration:'車程較遠，建議安排半天以上', difficulty:'交通難度：高（大分縣日田市山區聚落，山路較小）', kids:'較不適合幼兒（山路＋陶器易碎）', elders:'需留意山路與石板路不平整', note:'與小石原燒、上野燒同在福岡、大分交界山區，三處距離不算太遠，但仍建議列為機動備案，天氣好、有多餘時間再排入。'},
+  {name:'東峰村｜小石原燒', category:'🏺 陶藝之旅：遠州七窯與山村古窯', icon:'🎨', desc:'【小石原燒】的陶土來自靈山英彥山的紅土，燒製時會用一種叫「飛鉋」的工具，在陶器表面刻出一圈一圈整齊的花紋，摸起來凹凹凸凸很有趣。1958 年還在世界博覽會上得過大獎，是江戶時代茶人們最愛用的名窯之一。', suitable:'對陶藝、手作有興趣的大人', duration:'約 1.5–2 小時（含逛窯元、體驗）', difficulty:'交通難度：高（東峰村山區，車程較遠，約需 1 小時以上）', kids:'可以體驗手拉坯，但年紀太小需大人陪同', elders:'部分窯元在山坡上，需留意路況', note:'與上野燒同屬「遠州七窯」，地理位置也相近，建議排在同一天順遊比較兩種陶器風格。'},
+  {name:'上野燒', category:'🏺 陶藝之旅：遠州七窯與山村古窯', icon:'🍵', desc:'【上野燒】跟小石原燒一樣，都是江戶時代茶人喜愛的名窯「遠州七窯」成員。上野燒的特色是胎土做得比較輕薄，釉料顏色豐富，燒製過程中顏色會自然變化，每一件作品呈現出來的花紋都不一樣，獨一無二。', suitable:'對陶藝、茶道文化有興趣的大人', duration:'約 1–1.5 小時', difficulty:'交通難度：高（田川郡福智町，車程較遠）', kids:'較不適合幼兒，展品易碎', elders:'館內平緩好走', note:'與小石原燒車程距離不遠，可安排在同一天順遊。'},
+  {name:'小鹿田燒之里（小鹿田焼の里）', category:'🏺 陶藝之旅：遠州七窯與山村古窯', icon:'🏺', desc:'【小鹿田燒之里】是一個藏在山裡的小村落，這裡的陶器工房到現在還用「唐臼」（利用溪水的力量舂土）來製作陶土，完全沒有用電動機器！小鹿田燒已經有 300 多年的歷史，安靜的山村裡常常可以聽到「咚、咚」的搗土聲。', suitable:'對傳統工藝、陶器有興趣的大人', duration:'車程較遠，建議安排半天以上', difficulty:'交通難度：高（大分縣日田市山區聚落，山路較小）', kids:'較不適合幼兒（山路＋陶器易碎）', elders:'需留意山路與石板路不平整', note:'與小石原燒、上野燒同在福岡、大分交界山區，三處距離不算太遠，但仍建議列為機動備案，天氣好、有多餘時間再排入。'},
   // 戶外冒險與水上樂園
-  {name:'蘆屋海水浴場・レジャープールAQuasian', category:'戶外冒險與水上樂園', icon:'🏖️', desc:'【蘆屋海水浴場・AQuasian】海邊有雪白的沙灘和清澈的海水，隔壁還有一座休閒泳池樂園，有全福岡縣最長、126 公尺的滑水道！海水浴場和泳池之間可以自由進出，一天可以同時玩到海邊戲水和泳池滑水道。', suitable:'全家皆可，特別適合小孩消暑', duration:'約 3–4 小時', difficulty:'交通難度：中（福岡縣蘆屋町，開車較方便）', kids:'非常適合，有兒童專用戲水區', elders:'需留意曝曬與濕滑地面', note:'每週一公休，出發前請再次確認當週是否開放；8/8–8/16 期間水上樂園天天營業。'},
+  {name:'蘆屋海水浴場・レジャープールAQuasian', category:'🏕️ 戶外冒險與水上樂園', icon:'🏖️', desc:'【蘆屋海水浴場・AQuasian】海邊有雪白的沙灘和清澈的海水，隔壁還有一座休閒泳池樂園，有全福岡縣最長、126 公尺的滑水道！海水浴場和泳池之間可以自由進出，一天可以同時玩到海邊戲水和泳池滑水道。', suitable:'全家皆可，特別適合小孩消暑', duration:'約 3–4 小時', difficulty:'交通難度：中（福岡縣蘆屋町，開車較方便）', kids:'非常適合，有兒童專用戲水區', elders:'需留意曝曬與濕滑地面', note:'每週一公休，出發前請再次確認當週是否開放；8/8–8/16 期間水上樂園天天營業。'},
   // 祭典與活動
-  {name:'マリナタウン海浜公園（8/15 精霊流し＋煙火）', category:'祭典與活動', icon:'🎆', desc:'【マリナタウン海浜公園】每年 8 月 15 日這裡都會舉辦「精霊流し（送靈儀式）」，人們會在傍晚點起燈火、送別祖先的靈魂，晚上 8 點還有將近 1,200 發的煙火在海面上炸開，非常壯觀！這是當地流傳超過 30 年的夏日傳統活動。', suitable:'全家皆可，傍晚後現場人潮較多', duration:'約 2–3 小時（含等待 20:00 煙火）', difficulty:'交通難度：中（會場在福岡市西區愛宕浜，距離門司港飯店單程約 70 公里、開車約 70–90 分鐘）', kids:'適合，但夜間人潮多需留意走失', elders:'需留意久站與往返車程長，建議自備椅子或野餐墊', note:'8/15 當天已排定接言辰、全員集合的行程，來回車程長、恐怕會很晚才回到飯店，建議評估體力後再決定是否插入，或只安排部分大人前往。'},
+  {name:'マリナタウン海浜公園（8/15 精霊流し＋煙火）', category:'🎆 祭典與活動', icon:'🎆', desc:'【マリナタウン海浜公園】每年 8 月 15 日這裡都會舉辦「精霊流し（送靈儀式）」，人們會在傍晚點起燈火、送別祖先的靈魂，晚上 8 點還有將近 1,200 發的煙火在海面上炸開，非常壯觀！這是當地流傳超過 30 年的夏日傳統活動。', suitable:'全家皆可，傍晚後現場人潮較多', duration:'約 2–3 小時（含等待 20:00 煙火）', difficulty:'交通難度：中（會場在福岡市西區愛宕浜，距離門司港飯店單程約 70 公里、開車約 70–90 分鐘）', kids:'適合，但夜間人潮多需留意走失', elders:'需留意久站與往返車程長，建議自備椅子或野餐墊', note:'8/15 當天已排定接言辰、全員集合的行程，來回車程長、恐怕會很晚才回到飯店，建議評估體力後再決定是否插入，或只安排部分大人前往。'},
   // 歷史文化景點
-  {name:'廣島', category:'歷史文化景點', icon:'🕊️', desc:'【廣島】曾經歷史上第一顆原子彈就落在這裡，現在的廣島和平紀念公園是為了紀念那段歷史、祈禱世界和平而建的。園區裡有一座「原爆圓頂館」，是當年少數沒有完全倒塌的建築，被列為世界遺產保留至今。走在公園裡，能感受到大家對和平深深的期盼。', suitable:'體力較好的大人／學齡以上小孩', duration:'單日來回約 6–8 小時', difficulty:'交通難度：中（新幹線＋市內電車）', kids:'較適合', elders:'體力挑戰較大', note:'若插入需犧牲一天山口行程，建議列為機動備案。'},
-  {name:'松下村塾', category:'歷史文化景點', icon:'📜', desc:'【松下村塾】是江戶時代末期一間小小的私塾，老師吉田松陰在這裡教出了好多後來改變日本歷史的學生！雖然教室看起來很樸素，只有幾坪大，卻被稱為「改變日本的教室」，這裡也被列入世界遺產喔。', suitable:'對歷史有興趣的大人', duration:'約 1 小時（含周邊萩市散策可延長）', difficulty:'交通難度：中（山口縣萩市，車程較遠）', kids:'較不適合幼兒', elders:'可，但需久走', note:'與元乃隅神社同天安排較順路。'},
-  {name:'門司港｜出光美術館', category:'歷史文化景點', icon:'🖼️', desc:'【出光美術館】收藏了許多古代的書法和陶瓷器，是石油公司出光興產的創辦人出光佐三先生用一生蒐集的寶物。美術館就在門司港懷舊街區裡，逛完外面熱鬧的紅磚建築後，可以進來安靜地欣賞這些珍貴的藝術品。', suitable:'對藝術、書法有興趣的大人', duration:'約 1–1.5 小時', difficulty:'交通難度：低（門司港區內，步行可達）', kids:'較不適合幼兒，展品需安靜參觀', elders:'室內平坦，適合久走後休息', note:'可安排在門司港（木構建築）行程的同一天，室內參觀正好讓長輩歇腳。'},
+  {name:'廣島', category:'🏛️ 歷史文化景點', icon:'🕊️', desc:'【廣島】曾經歷史上第一顆原子彈就落在這裡，現在的廣島和平紀念公園是為了紀念那段歷史、祈禱世界和平而建的。園區裡有一座「原爆圓頂館」，是當年少數沒有完全倒塌的建築，被列為世界遺產保留至今。走在公園裡，能感受到大家對和平深深的期盼。', suitable:'體力較好的大人／學齡以上小孩', duration:'單日來回約 6–8 小時', difficulty:'交通難度：中（新幹線＋市內電車）', kids:'較適合', elders:'體力挑戰較大', note:'若插入需犧牲一天山口行程，建議列為機動備案。'},
+  {name:'松下村塾', category:'🏛️ 歷史文化景點', icon:'📜', desc:'【松下村塾】是江戶時代末期一間小小的私塾，老師吉田松陰在這裡教出了好多後來改變日本歷史的學生！雖然教室看起來很樸素，只有幾坪大，卻被稱為「改變日本的教室」，這裡也被列入世界遺產喔。', suitable:'對歷史有興趣的大人', duration:'約 1 小時（含周邊萩市散策可延長）', difficulty:'交通難度：中（山口縣萩市，車程較遠）', kids:'較不適合幼兒', elders:'可，但需久走', note:'與元乃隅神社同天安排較順路。'},
+  {name:'門司港｜出光美術館', category:'🏛️ 歷史文化景點', icon:'🖼️', desc:'【出光美術館】收藏了許多古代的書法和陶瓷器，是石油公司出光興產的創辦人出光佐三先生用一生蒐集的寶物。美術館就在門司港懷舊街區裡，逛完外面熱鬧的紅磚建築後，可以進來安靜地欣賞這些珍貴的藝術品。', suitable:'對藝術、書法有興趣的大人', duration:'約 1–1.5 小時', difficulty:'交通難度：低（門司港區內，步行可達）', kids:'較不適合幼兒，展品需安靜參觀', elders:'室內平坦，適合久走後休息', note:'可安排在門司港（木構建築）行程的同一天，室內參觀正好讓長輩歇腳。'},
   // 美食伴手禮
-  {name:'石村萬盛堂本店｜棉花糖冰淇淋', category:'美食伴手禮', icon:'🍬', desc:'【石村萬盛堂】創業超過 100 年，是發明「鶴乃子」棉花糖點心的老店，也是日本白色情人節的發源地！本店限定的棉花糖冰淇淋口感輕盈綿密，吃起來像在吃雲朵一樣。', suitable:'全家皆可，尤其適合喜歡甜點的人', duration:'約 20–30 分鐘', difficulty:'交通難度：低（博多區內，鄰近中洲，步行可達）', kids:'非常適合，棉花糖冰淇淋很受小孩歡迎', elders:'適合，室內用餐可稍作休息', note:'可安排在博多運河城逛街行程的同一天，順路買伴手禮。'},
+  {name:'石村萬盛堂本店｜棉花糖冰淇淋', category:'🍡 美食伴手禮', icon:'🍬', desc:'【石村萬盛堂】創業超過 100 年，是發明「鶴乃子」棉花糖點心的老店，也是日本白色情人節的發源地！本店限定的棉花糖冰淇淋口感輕盈綿密，吃起來像在吃雲朵一樣。', suitable:'全家皆可，尤其適合喜歡甜點的人', duration:'約 20–30 分鐘', difficulty:'交通難度：低（博多區內，鄰近中洲，步行可達）', kids:'非常適合，棉花糖冰淇淋很受小孩歡迎', elders:'適合，室內用餐可稍作休息', note:'可安排在博多運河城逛街行程的同一天，順路買伴手禮。'},
 ];
 
 // ---------- 必買清單 ----------
@@ -978,20 +1030,23 @@ const PACKING = {
 };
 
 // ---------- 文件 Documents ----------
-// link 欄位請貼「Google Drive / iCloud」的限定分享連結（僅特定 email 可檢視），
-// 不要把護照、訂房確認信等檔案直接放進這個 repo，因為 repo 是公開的。
+// orderInfo 欄位放訂單編號、金額、房型等文字內容（不是連結）。
+// 如果需要放護照、訂房確認信「檔案」，請放到 Google Drive 資料夾（見上方按鈕），
+// 不要把檔案直接放進這個 repo，因為 repo 是公開的。
 const DOCUMENTS = [
-  {name:'CI110 台北→福岡（8/10、8/14）', type:'機票', note:'兩梯次，8/10、8/14 出發各一組', link:''},
-  {name:'CI111 福岡→台北（8/23）', type:'機票', note:'璇一家｜11:00 福岡起飛，12:30 抵台北 TPE T2', link:''},
-  {name:'CI117 福岡→台北（8/29）', type:'機票', note:'阿媽、戴阿媽｜21:00 福岡起飛（國際航廈），22:30 抵桃園 TPE T2', link:''},
-  {name:'東急stay博多', type:'住宿', note:'阿媽、戴阿媽｜8/10 入住', link:''},
-  {name:'門司港 Premier Hotel Mojiko', type:'住宿', note:'8/14–8/19，含車位，共 5 晚（標準雙床→極品雙床）', link:''},
-  {name:'星野 界 長門', type:'住宿', note:'8/19–8/21，傳統客房 2 房，一泊二食，需再確認人數', link:''},
-  {name:'東急stay福岡天神', type:'住宿', note:'璇一家 8/21–8/23 入住，雙床房×2晚（不含餐）', link:''},
-  {name:'自駕租車', type:'租車', note:'8/14 福岡機場取車，待確認車型與行李空間', link:''},
-  {name:'福岡 PayPay Dome 棒球票', type:'棒球票', note:'8/22（六）14:00 福岡軟銀鷹 vs 歐力士，座位待確認', link:''},
-  {name:'旅平險 / 海外突發疾病險', type:'保險', note:'全員 7 人，建議含足球運動傷害條款', link:''},
-  {name:'護照影本（全員）', type:'護照影本', note:'另存雲端＋紙本各一份分開攜帶', link:''},
+  {name:'桃園機場假日酒店', type:'住宿', note:'言、辰、阿媽、戴阿媽｜8/9 入住，隔天搭 4:50AM 接駁車前往機場', orderInfo:''},
+  {name:'CI110 台北→福岡（8/10、8/14）', type:'機票', note:'兩梯次，8/10、8/14 出發各一組', orderInfo:''},
+  {name:'CI111 福岡→台北（8/23）', type:'機票', note:'璇一家｜11:00 福岡起飛，12:30 抵台北 TPE T2', orderInfo:''},
+  {name:'CI117 福岡→台北（8/29）', type:'機票', note:'阿媽、戴阿媽｜21:00 福岡起飛（國際航廈），22:30 抵桃園 TPE T2', orderInfo:''},
+  {name:'東急stay博多', type:'住宿', note:'阿媽、戴阿媽｜8/10 入住', orderInfo:'8/10–8/13．4 晚\n2 人・雙床・非吸煙・含早餐\nNT$24,456（NT$12,400/大人）\nHotel.com｜7/1 已付\n訂單號碼：#73486087348266'},
+  {name:'門司港 Premier Hotel Mojiko', type:'住宿', note:'8/14–8/19，含車位，共 5 晚（標準雙床→極品雙床）', orderInfo:''},
+  {name:'星野 界 長門', type:'住宿', note:'8/19–8/21，傳統客房 2 房，一泊二食，需再確認人數', orderInfo:''},
+  {name:'東急stay福岡天神', type:'住宿', note:'璇一家 8/21–8/23 入住，雙床房×2晚（不含餐）', orderInfo:''},
+  {name:'自駕租車', type:'租車', note:'8/14 福岡機場取車，待確認車型與行李空間', orderInfo:''},
+  {name:'福岡 PayPay Dome 棒球票', type:'棒球票', note:'8/22（六）14:00 福岡軟銀鷹 vs 歐力士，座位待確認', orderInfo:''},
+  {name:'Avispa Fukuoka 足球票', type:'球賽票', note:'8/15（六）19:00 vs. Cerezo Osaka，Level-5 Stadium，座位待確認', orderInfo:''},
+  {name:'旅平險 / 海外突發疾病險', type:'保險', note:'全員 7 人，建議含足球運動傷害條款', orderInfo:''},
+  {name:'護照影本（全員）', type:'護照影本', note:'另存雲端＋紙本各一份分開攜帶', orderInfo:''},
 ];
 
 // ---------- 緊急聯絡資訊（行程書用）----------
@@ -1008,6 +1063,7 @@ const EMERGENCY = [
    ============================================================ */
 let currentPage = 'itinerary';
 let currentDateIdx = 0;
+let activeWhoFilters = new Set(); // 空集合＝顯示全部
 
 function renderNav(){
   const menu = document.getElementById('navMenu');
@@ -1016,13 +1072,13 @@ function renderNav(){
   NAV_ITEMS.forEach(item=>{
     const a = document.createElement('button');
     a.className = 'nav-item' + (item.id===currentPage?' active':'');
-    a.innerHTML = `<span class="num">${item.num}</span><span>${item.label}</span>`;
+    a.innerHTML = `<span class="num">${item.num}</span><span>${item.emoji} ${item.label}</span>`;
     a.onclick = ()=>gotoPage(item.id);
     menu.appendChild(a);
 
     const b = document.createElement('button');
     b.className = 'nav-item' + (item.id===currentPage?' active':'');
-    b.innerHTML = `<span class="num">${item.num}</span><span>${item.label.split(' ')[0]}</span>`;
+    b.innerHTML = `<span class="num">${item.emoji}</span><span>${item.label.split(' ')[0]}</span>`;
     b.onclick = ()=>gotoPage(item.id);
     mobile.appendChild(b);
   });
@@ -1052,6 +1108,32 @@ const TRANSPORT_LABEL = {flight:'✈ 飛機', car:'🚗 自駕', walk:'🚶 步�
 
 function weekdayJa(w){return '週'+w;}
 
+function renderWhoLegend(){
+  const el = document.getElementById('whoLegend');
+  if(!el) return;
+  const hasFilter = activeWhoFilters.size > 0;
+  el.innerHTML = `<span class="legend-label">誰在這裡：</span>` + GROUP_ORDER.map(g=>{
+    const grp = GROUPS[g];
+    const active = activeWhoFilters.has(g);
+    const dim = hasFilter && !active;
+    return `<button type="button" class="who-badge who-filter-btn ${active?'active':''} ${dim?'dim':''}" style="background:${grp.color}" onclick="toggleWhoFilter('${g}')">
+      ${active?'✓ ':''}${grp.label}<span class="sub">（${grp.sub}）</span>
+    </button>`;
+  }).join('') + (hasFilter?`<button type="button" class="who-clear-btn" onclick="clearWhoFilter()">顯示全部 ✕</button>`:'');
+}
+
+function toggleWhoFilter(g){
+  if(activeWhoFilters.has(g)) activeWhoFilters.delete(g);
+  else activeWhoFilters.add(g);
+  renderWhoLegend();
+  renderDayCard();
+}
+function clearWhoFilter(){
+  activeWhoFilters.clear();
+  renderWhoLegend();
+  renderDayCard();
+}
+
 function renderDateTabs(){
   const wrap = document.getElementById('dateTabs');
   wrap.innerHTML = ITINERARY.map((d,i)=>{
@@ -1066,6 +1148,15 @@ function selectDate(i){
   renderDayCard();
 }
 
+function renderWhoBadges(who){
+  if(!who || who.length===0) return '';
+  return `<div class="item-who">${who.map(g=>{
+    const grp = GROUPS[g];
+    if(!grp) return '';
+    return `<span class="who-badge" style="background:${grp.color}" title="${grp.sub}">${grp.label}</span>`;
+  }).join('')}</div>`;
+}
+
 function renderPeriodItems(items){
   if(!items || items.length===0) return '';
   return items.map(it=>{
@@ -1075,16 +1166,19 @@ function renderPeriodItems(items){
     const descNote = it.desc ? `<div class="item-desc">${it.desc}</div>` : '';
     return `
     <div class="item">
-      <div class="item-time">${it.time}</div>
-      <div class="item-main">
-        <div class="item-title">${it.title}</div>
-        ${it.note?`<div class="item-note">${it.note}</div>`:''}
-        ${descNote}
-        ${familyNote}
-        <div class="item-meta">${transBtn}${mapBtn}</div>
-      </div>
-      <div class="item-status">
-        <div class="hanko ${it.confirmed?'':'pending'}">${it.confirmed?'確認<br>済':'未確<br>認'}</div>
+      ${renderWhoBadges(it.who)}
+      <div class="item-row">
+        <div class="item-time">${it.time}</div>
+        <div class="item-main">
+          <div class="item-title">${it.title}</div>
+          ${it.note?`<div class="item-note">${it.note}</div>`:''}
+          ${descNote}
+          ${familyNote}
+          <div class="item-meta">${transBtn}${mapBtn}</div>
+        </div>
+        <div class="item-status">
+          <div class="hanko ${it.confirmed?'':'pending'}">${it.confirmed?'確認<br>済':'未確<br>認'}</div>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -1092,6 +1186,11 @@ function renderPeriodItems(items){
 
 function mapSearchUrl(name){
   return 'https://www.google.com/maps/search/' + encodeURIComponent(name);
+}
+
+function filterItemsByWho(items){
+  if(activeWhoFilters.size===0) return items;
+  return (items||[]).filter(it=> it.who && it.who.some(g=>activeWhoFilters.has(g)));
 }
 
 function renderDayCard(){
@@ -1103,11 +1202,15 @@ function renderDayCard(){
     {key:'afternoon', label:'下午 AFTERNOON'},
     {key:'evening', label:'晚上 EVENING'},
   ];
+  let anyMatched = false;
   const periodsHtml = periodDefs.map(p=>{
-    const items = d.periods[p.key];
+    const items = filterItemsByWho(d.periods[p.key]);
     if(!items || items.length===0) return '';
+    anyMatched = true;
     return `<div class="period-block"><div class="period-label">${p.label}</div>${renderPeriodItems(items)}</div>`;
-  }).join('') || `<div class="empty-note">此時段尚無安排。</div>`;
+  }).join('') || (activeWhoFilters.size>0
+      ? `<div class="empty-note">這天沒有找到「${Array.from(activeWhoFilters).map(g=>GROUPS[g].label).join('、')}」的行程。<button type="button" class="btn small" style="margin-left:8px;" onclick="clearWhoFilter()">顯示全部</button></div>`
+      : `<div class="empty-note">此時段尚無安排。</div>`);
 
   const lodgingHtml = d.lodging.map(l=>`<span><b>${l.who}：</b>${l.place}</span>`).join(' ／ ');
 
@@ -1120,8 +1223,7 @@ function renderDayCard(){
           <h3>${d.theme}</h3>
         </div>
         <div class="day-weather">
-          ${d.weatherKey}<br>
-          <a href="${tenkiUrl(d.weatherKey)}" target="_blank" rel="noopener">查看 tenki.jp 天氣 ↗</a>
+          ${d.weatherKey ? `${d.weatherKey}<br><a href="${tenkiUrl(d.weatherKey)}" target="_blank" rel="noopener">查看 tenki.jp 天氣 ↗</a>` : '台灣桃園（出發前）'}
         </div>
       </div>
       <div class="day-lodging">🛏 ${lodgingHtml}</div>
@@ -1183,6 +1285,13 @@ function saveChecked(storeKey, data){
   localStorage.setItem(storeKey, JSON.stringify(data));
 }
 
+// 分類名稱對應的裝飾用 emoji（僅用於顯示，不影響 localStorage 的 key，
+// 這樣加 emoji 不會讓大家原本勾好的清單狀態被重置）
+const CATEGORY_EMOJI = {
+  '藥妝':'💊', '小孩玩具':'🧸', '便利商店':'🏪', '伴手禮':'🎁', '球賽周邊':'⚽',
+  '證件文件':'📑', '電子用品':'🔌', '小孩用品':'👕', '藥品':'💊', '衣物':'👚', '租車用品':'🚗',
+};
+
 function renderChecklist(data, storeKey, wrapId){
   const state = loadChecked(storeKey);
   const wrap = document.getElementById(wrapId);
@@ -1202,7 +1311,7 @@ function renderChecklist(data, storeKey, wrapId){
     const pct = total? Math.round(doneCount/total*100):0;
     return `
       <div class="category">
-        <h3>${cat}　<small style="font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);">${doneCount}/${total}</small></h3>
+        <h3>${CATEGORY_EMOJI[cat]?CATEGORY_EMOJI[cat]+' ':''}${cat}　<small style="font-family:var(--font-mono);font-size:11px;color:var(--ink-muted);">${doneCount}/${total}</small></h3>
         <div class="progress-bar"><span style="width:${pct}%"></span></div>
         <div class="check-list" style="margin-top:10px;">${rows}</div>
       </div>`;
@@ -1247,14 +1356,14 @@ function renderDocuments(){
   const wrap = document.getElementById('documentsWrap');
   wrap.innerHTML = `
     <table class="doc-table">
-      <thead><tr><th>文件名稱</th><th>類型</th><th>備註</th><th>連結</th></tr></thead>
+      <thead><tr><th>文件名稱</th><th>類型</th><th>備註</th><th>訂單內容</th></tr></thead>
       <tbody>
         ${DOCUMENTS.map(d=>`
           <tr>
             <td>${d.name}</td>
             <td><span class="doc-type">${d.type}</span></td>
             <td>${d.note}</td>
-            <td>${d.link?`<a href="${d.link}" target="_blank">開啟連結 ↗</a>`:'<span style="color:var(--ink-muted);">尚未貼上 Drive／iCloud 連結</span>'}</td>
+            <td>${d.orderInfo?`<span style="white-space:pre-line;">${d.orderInfo}</span>`:'<span style="color:var(--ink-muted);">尚未填寫</span>'}</td>
           </tr>`).join('')}
       </tbody>
     </table>`;
@@ -1307,7 +1416,8 @@ function renderBook(){
     const allItems = ['morning','noon','afternoon','evening'].flatMap(k=>d.periods[k]||[]);
     const lines = allItems.map(it=>{
       const fam = it.family?`（提醒：${it.family}）`:'';
-      return `<div class="pb-line"><b>${it.time}</b>${it.title}${fam}</div>`;
+      const whoIcons = (it.who||[]).map(g=>GROUPS[g]?`[${GROUPS[g].label}]`:'').join(' ');
+      return `<div class="pb-line"><b>${it.time}</b>${whoIcons?whoIcons+' ':''}${it.title}${fam}</div>`;
     }).join('') || `<div class="pb-line" style="color:var(--ink-muted);">行程待規劃</div>`;
     return `
       <div class="pb-day">
@@ -1327,14 +1437,15 @@ function renderBook(){
       <div style="font-family:var(--font-mono);font-size:11px;color:var(--kaki);letter-spacing:.14em;">FUKUOKA 2026</div>
       <h2 style="font-family:var(--font-display);font-size:22px;margin-top:4px;">${TRIP.title}</h2>
       <div style="font-size:12.5px;color:var(--ink-muted);margin-top:4px;">${TRIP.start} — ${TRIP.end}｜${TRIP.members}</div>
+      <div style="font-size:12px;color:var(--ink-muted);margin-top:8px;">${GROUP_ORDER.map(g=>GROUPS[g].label).join('　／　')}</div>
     </div>
     ${daysHtml}
     <div class="emergency-box">
-      <h4>重要文件提醒</h4>
+      <h4>📎 重要文件提醒</h4>
       ${docReminders}
     </div>
     <div class="emergency-box">
-      <h4>緊急聯絡資訊</h4>
+      <h4>🚨 緊急聯絡資訊</h4>
       ${emergencyHtml}
     </div>`;
 }
@@ -1459,6 +1570,7 @@ function closeMapSheet(){
 function init(){
   renderNav();
   renderWeather();
+  renderWhoLegend();
   renderDateTabs();
   renderDayCard();
   renderWishlist();
