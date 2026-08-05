@@ -654,7 +654,7 @@ const TRIP = {
 // 之後如果成員有異動，只需要修改這裡的 label，全網站會自動同步
 const GROUPS = {
   parents: {label:'爸媽栩', sub:'卓軒・以璇・栩', color:'#2B4568'},
-  kids:    {label:'言辰',   sub:'言・辰（國小三年級）', color:'#B96A3D'},
+  kids:    {label:'言辰',   sub:'', color:'#B96A3D'},
   grandmas:{label:'阿媽們', sub:'阿媽・戴阿媽', color:'#AE402C'},
 };
 const GROUP_ORDER = ['parents','kids','grandmas'];
@@ -684,6 +684,13 @@ function tenkiUrl(keyword){return 'https://tenki.jp/search/?keyword=' + encodeUR
 const MAP_LOCATIONS = [
   {name:'福岡機場 FUK', type:'transport', lat:33.5859, lng:130.4506, note:'國際線 / 8/10、8/14 入境'},
   {name:'北九州 Global Arena', type:'sight', lat:33.793512, lng:130.635519, note:'足球移地訓練場地，8/10–8/15（46-1 Yoshidome, Munakata, Fukuoka）'},
+  // 言辰足球移地訓練場地
+  {name:'福岡足球中心', type:'sight', lat:33.6742, lng:130.4267, note:'言辰｜8/10、8/11 訓練與練習賽（福岡市東区香椎浜ふ頭1-2-16）'},
+  {name:'三菱ケミカルグラウンド', type:'sight', lat:33.8607, lng:130.7642, note:'言辰｜8/11 上午訓練（チャレンジ広場）'},
+  {name:'新門司球技場', type:'sight', lat:33.9700, lng:131.0100, note:'言辰｜8/12 上午觀摩一線隊訓練'},
+  {name:'北九州三國世界體育場', type:'sight', lat:33.8862, lng:130.8823, note:'言辰｜8/12 烤肉＋主場球場導覽（Mikuni World Stadium Kitakyushu，福岡県北九州市小倉北区浅野3-9-33）'},
+  {name:'Marine World 海之中道水族館', type:'sight', lat:33.6659, lng:130.3453, note:'言辰｜8/13 上午觀光'},
+  {name:'福岡市立壱岐東小学校', type:'sight', lat:33.5873, lng:130.3397, note:'言辰｜8/13 下午練習賽'},
   {name:'東急stay博多', type:'lodging', lat:33.5902, lng:130.4207, note:'阿媽、戴阿媽 8/10 住宿'},
   {name:'東急stay福岡天神', type:'lodging', lat:33.5903, lng:130.4001, note:'璇一家 8/21–8/23 入住（雙床房×2晚，不含餐）'},
   {name:'門司港 Premier Hotel Mojiko', type:'lodging', lat:33.9500, lng:130.9636, note:'含車位，連住 5 晚（8/14–8/19）'},
@@ -781,38 +788,58 @@ const ITINERARY = [
       {time:'04:50', title:'搭乘飯店接駁車前往機場', note:'桃園機場假日酒店 → 桃園機場', family:'', transport:'car', map:'桃園機場假日酒店', confirmed:true, who:['kids','grandmas']},
       {time:'06:50', title:'CI110　TPE T2 → FUK', note:'言、辰、阿媽、戴阿媽｜由桃園機場出發', family:'', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['kids','grandmas']},
       {time:'09:55', title:'抵達福岡機場 FUK INTL', note:'言辰｜參與足球訓練，落地後與銀河射手俱樂部集合，至 8/15（六）前全程隨球隊行動\n阿媽、戴阿媽｜福岡市區旅遊', family:'', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['kids','grandmas']},
-    ], noon:[], afternoon:[], evening:[]
+    ],
+    noon:[],
+    afternoon:[
+      {time:'15:00', title:'（言辰）JFA 講習與訓練', desc:'', note:'15:00–20:00', family:'', transport:'', map:'福岡足球中心', confirmed:true, who:['kids']},
+    ],
+    evening:[]
   }},
 {date:'2026-08-11', dayNum:3, weekday:'二',
   theme:'阿媽、戴阿媽｜筑後廚房美食觀光列車一日遊', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
-    morning:[{time:'—', title:'言辰隨球隊移地訓練中', note:'', family:'', transport:'', map:'', confirmed:true, who:['kids']}],
+    morning:[{time:'09:00', title:'（言辰）訓練 90 分鐘', desc:'', note:'09:00–13:00', family:'', transport:'', map:'三菱ケミカルグラウンド', confirmed:true, who:['kids']}],
     noon:[{time:'12:51', title:'筑後廚房美食觀光列車＋在地風味午餐（Trip.com 一日遊）', desc:'【筑後廚房觀光列車】車廂裡就是一間小餐廳，邊欣賞筑後平原的田園風光，邊享用當地食材做成的午餐，中途還會停靠水鄉柳川，很悠閒的一日小旅行。', note:'12:51 博多出發 → 柳川 → 15:30 抵達大牟田', family:'', transport:'train', map:'柳川', confirmed:false, who:['grandmas']}],
-    afternoon:[{time:'15:30', title:'抵達大牟田，行程結束返回福岡', note:'', family:'', transport:'train', map:'大牟田', confirmed:false, who:['grandmas']}],
+    afternoon:[
+      {time:'15:30', title:'抵達大牟田，行程結束返回福岡', note:'', family:'', transport:'train', map:'大牟田', confirmed:false, who:['grandmas']},
+      {time:'15:00', title:'（言辰）練習賽', desc:'', note:'15:00–20:00', family:'', transport:'', map:'福岡足球中心', confirmed:true, who:['kids']},
+    ],
     evening:[]
   }},
 {date:'2026-08-12', dayNum:4, weekday:'三',
   theme:'阿媽｜Global Arena看球＋宗像大社。戴阿媽｜自由行', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
-    morning:[{time:'上午', title:'阿媽：前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false, who:['grandmas']}],
-    noon:[],
+    morning:[
+      {time:'上午', title:'阿媽：前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false, who:['grandmas']},
+      {time:'09:00', title:'（言辰）觀摩一線隊訓練', desc:'', note:'09:00–13:00', family:'', transport:'', map:'新門司球技場', confirmed:true, who:['kids']},
+    ],
+    noon:[
+      {time:'13:00', title:'（言辰）烤肉', desc:'', note:'13:00–15:00', family:'', transport:'', map:'北九州三國世界體育場', confirmed:true, who:['kids']},
+    ],
     afternoon:[
       {time:'下午', title:'阿媽：參觀宗像大社', desc:'【宗像大社】供奉三位海之女神，是全日本自古以來守護海上交通的總本社，境內的神寶館收藏了大量從「海上正倉院」沖之島出土的國寶，2017 年整片海域還被列入世界遺產。', note:'與 Global Arena 同在宗像市，順路安排', family:'', transport:'car', map:'宗像大社', confirmed:false, who:['grandmas']},
       {time:'下午', title:'戴阿媽：自由行', note:'', family:'', transport:'', map:'', confirmed:false, who:['grandmas']},
+      {time:'15:00', title:'（言辰）主場球場導覽', desc:'', note:'15:00–17:00', family:'', transport:'', map:'北九州三國世界體育場', confirmed:true, who:['kids']},
     ],
-    evening:[]
+    evening:[
+      {time:'19:00', title:'（言辰）訓練', desc:'', note:'19:00–21:00', family:'', transport:'', map:'北九州 Global Arena', confirmed:true, who:['kids']},
+    ]
   }},
 {date:'2026-08-13', dayNum:5, weekday:'四',
   theme:'阿媽、戴阿媽｜由布院之森觀光列車一日遊', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
-    morning:[{time:'上午', title:'由布院之森觀光列車（Trip.com 一日遊）', desc:'【由布院之森】是一台墨綠色車身的復古觀光列車，木質內裝很有質感，車上還有專屬乘務員服務，是九州最有人氣的觀光列車之一。', note:'博多出發前往湯布院', family:'', transport:'train', map:'由布院', confirmed:false, who:['grandmas']}],
+    morning:[
+      {time:'上午', title:'由布院之森觀光列車（Trip.com 一日遊）', desc:'【由布院之森】是一台墨綠色車身的復古觀光列車，木質內裝很有質感，車上還有專屬乘務員服務，是九州最有人氣的觀光列車之一。', note:'博多出發前往湯布院', family:'', transport:'train', map:'由布院', confirmed:false, who:['grandmas']},
+      {time:'09:00', title:'（言辰）觀光', desc:'', note:'09:00–13:00', family:'', transport:'', map:'Marine World 海之中道水族館', confirmed:true, who:['kids']},
+    ],
     noon:[{time:'中午', title:'湯布院街散策', desc:'【湯布院】是九州數一數二的溫泉小鎮，主要街道「湯之坪街道」兩旁開滿了可愛的甜點店、雜貨店，還能遠眺秀麗的由布岳，很適合悠閒散步、吃甜點。', note:'', family:'', transport:'walk', map:'由布院', confirmed:false, who:['grandmas']}],
     afternoon:[
       {time:'下午', title:'海地獄', desc:'【海地獄】是別府「地獄巡禮」裡最有名的一個，池水因為含有硫酸鐵成分，呈現出夢幻的鈷藍色，熱氣蒸騰的畫面很壯觀，但水溫高達 98 度，只能遠觀不能下水喔！', note:'', family:'', transport:'car', map:'海地獄', confirmed:false, who:['grandmas']},
       {time:'下午', title:'太宰府天満宮', desc:'【太宰府天満宮】供奉學問之神菅原道真，是全日本考生的祈願聖地。神社的守護神使是一種叫做「鷽鳥」的小鳥，這裡不但有鷽鳥造型的可愛御神籤，還有像文昌筆一樣的「合格鉛筆」。', note:'返回福岡途中順遊', family:'', transport:'car', map:'太宰府天満宮', confirmed:false, who:['grandmas']},
+      {time:'15:00', title:'（言辰）練習賽', desc:'', note:'15:00–20:00', family:'', transport:'', map:'福岡市立壱岐東小学校', confirmed:true, who:['kids']},
     ],
     evening:[]
   }},
@@ -823,6 +850,7 @@ const ITINERARY = [
     morning:[
       {time:'06:50', title:'CI110　台北出發', note:'卓軒、以璇、木須', family:'待安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:false, who:['parents']},
       {time:'09:55', title:'抵達福岡機場 FUK INTL・租車', note:'', family:'待確認租車、行李數量', transport:'car', map:'福岡機場 FUK', confirmed:false, who:['parents']},
+      {time:'09:00', title:'（言辰）訓練', desc:'', note:'09:00–13:00', family:'', transport:'', map:'', confirmed:true, who:['kids']},
     ],
     noon:[], 
     afternoon:[
@@ -831,6 +859,7 @@ const ITINERARY = [
     ],
     evening:[
       {time:'晚上', title:'璇跟卓軒是否要去市區配眼鏡？', note:'', family:'', transport:'', map:'', confirmed:false, who:['parents']},
+      {time:'18:30', title:'（言辰）練習賽', desc:'', note:'18:30–21:00', family:'', transport:'', map:'北九州 Global Arena', confirmed:true, who:['kids']},
     ]
   }},
 {date:'2026-08-15', dayNum:7, weekday:'六',
@@ -838,6 +867,7 @@ const ITINERARY = [
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 2 晚／共 3 晚不用搬行李）'}],
   periods:{
     morning:[
+      {time:'07:00', title:'（言辰）訓練', desc:'', note:'07:00–08:00', family:'', transport:'', map:'北九州 Global Arena', confirmed:true, who:['kids']},
       {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true, who:['parents','grandmas']},
       {time:'上午', title:'至北九州 Global Arena 接言辰', note:'', family:'言辰行李帶回飯店', transport:'car', map:'北九州 Global Arena', confirmed:false, who:['parents','kids']},
     ],
@@ -1012,10 +1042,10 @@ const WISHLIST = [
 
 // ---------- 必買清單 ----------
 const MUSTBUY = {
-  '藥妝':['羅氏鮮／防蚊液','曼秀雷敦系列','面速力達母','小林製藥退熱貼','眼藥水'],
+  '藥妝':['羅氏鮮／防蚊液','曼秀雷敦系列','曼秀雷敦 AD 止癢乳液（含抗組織胺）','涼感濕紙巾','小林製藥退熱貼','口內炎貼紙','足底支撐墊（小孩）','眼藥水'],
   '小孩玩具':['UNIQLO 聯名玩偶','扭蛋','足球隊周邊小物'],
-  '便利商店':['金鑵咖啡','日本啤酒（大人）','季節限定零食'],
-  '伴手禮':['博多通饅頭','明太子','白色戀人（如經過北海道櫃）','地酒／清酒','茅乃舍高湯包','福砂屋 蜂蜜蛋糕','福太郎 明太子風味仙貝'],
+  '便利商店':['金鑵咖啡','日本啤酒（大人）','季節限定零食','風味起司塊','生火腿'],
+  '伴手禮':['博多通饅頭','明太子','白色戀人（如經過北海道櫃）','地酒／清酒','茅乃舍高湯包','蜂蜜蛋糕（福砂屋、文明堂、松翁軒等九州名店）','福太郎 明太子風味仙貝','八女抹茶粉','茶筅'],
   '球賽周邊':['PayPay Dome 主場周邊','應援毛巾','球員周邊卡'],
 };
 
@@ -1117,7 +1147,7 @@ function renderWhoLegend(){
     const active = activeWhoFilters.has(g);
     const dim = hasFilter && !active;
     return `<button type="button" class="who-badge who-filter-btn ${active?'active':''} ${dim?'dim':''}" style="background:${grp.color}" onclick="toggleWhoFilter('${g}')">
-      ${active?'✓ ':''}${grp.label}<span class="sub">（${grp.sub}）</span>
+      ${active?'✓ ':''}${grp.label}${grp.sub?`<span class="sub">（${grp.sub}）</span>`:''}
     </button>`;
   }).join('') + (hasFilter?`<button type="button" class="who-clear-btn" onclick="clearWhoFilter()">顯示全部 ✕</button>`:'');
 }
