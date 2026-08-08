@@ -872,7 +872,8 @@ const ITINERARY = [
   periods:{
     morning:[
       {time:'06:50', title:'CI110　台北出發', note:'卓軒、以璇、木須', family:'待安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:false, who:['parents']},
-      {time:'09:55', title:'抵達福岡機場 FUK INTL・租車', note:'', family:'待確認租車、行李數量', transport:'car', map:'福岡機場 FUK', confirmed:false, who:['parents']},
+      {time:'09:55', title:'抵達福岡機場 FUK INTL', note:'', family:'', transport:'flight', map:'福岡機場 FUK', confirmed:false, who:['parents']},
+      {time:'10:30', title:'ハコレンタカー 福岡空港店 取車', desc:'', note:'預約號碼 HK-2608040050，還車時間 8/21（五）18:00', family:'', transport:'car', map:'福岡機場 FUK', confirmed:true, who:['parents']},
       {time:'09:00', title:'（言辰）訓練', desc:'', note:'09:00–13:00', family:'', transport:'', map:'', confirmed:true, who:['kids']},
     ],
     noon:[], 
@@ -993,7 +994,8 @@ const ITINERARY = [
     ],
     noon:[{time:'途中', title:'Adventure Valley FUKUOKA（フォレストアドベンチャー・久山）', desc:'【Adventure Valley FUKUOKA】是一座蓋在森林裡的探險樂園，裡面有飛索、繩索橋、攀岩等超過 70 種挑戰關卡，飛天滑索的數量還是全日本同類型設施中最多的！小學一年級、身高 110 公分以上就能挑戰，很適合喜歡冒險的小朋友大展身手。', note:'璇一家開車回福岡途中停留，久山町鄰近 TRIAS 商場，可順便用餐、買伴手禮', family:'需 110 公分以上、國小一年級起才能參加，出發前先確認小朋友的身高', transport:'car', map:'Adventure Valley FUKUOKA', confirmed:false, who:['parents','kids']}],
     afternoon:[
-      {time:'下午', title:'璇一家開車回福岡，兩位阿媽續遊山口', note:'璇一家：飯店 Check in、租車返還', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false, who:['parents','kids']},
+      {time:'下午', title:'璇一家開車回福岡，兩位阿媽續遊山口', note:'璇一家：飯店 Check in', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false, who:['parents','kids']},
+      {time:'18:00', title:'ハコレンタカー 福岡空港店 還車', desc:'', note:'預約號碼 HK-2608040050', family:'還車地點在福岡機場，需另外安排從飯店往返機場的時間', transport:'car', map:'福岡機場 FUK', confirmed:true, who:['parents']},
       {time:'下午', title:'阿媽、戴阿媽：萩八景遊覽船', desc:'【萩八景遊覽船】搭乘小船遊覽萩市橋本川、松本川的河口三角洲，可以從水上欣賞武家屋敷的白牆、松林景緻，是認識萩市地形的最佳方式。', note:'', family:'', transport:'', map:'萩八景遊覽船', confirmed:false, who:['grandmas']},
       {time:'下午', title:'阿媽、戴阿媽：萩城下町（世界遺產）', desc:'【萩城下町】保留了江戶時代武士居住的街區，白牆與黑瓦交錯，是山口縣歷史氣息最濃厚的地方，2015 年被列入世界文化遺產。可以租電動腳踏車穿梭巷弄間，感受「侘寂」的沉靜美學。', note:'', family:'', transport:'walk', map:'萩城下町', confirmed:false, who:['grandmas']},
     ],
@@ -1145,7 +1147,7 @@ const DOCUMENTS = [
   {name:'東急stay福岡天神', type:'住宿', note:'璇一家 8/21–8/23 入住，雙床房×2晚（不含餐）', orderInfo:'予約番号：T429755F1C9B4\nチェックイン：2026年8月21日 15:00\nチェックアウト：2026年8月23日\n合計人数：5名\n部屋タイプ：レジデンシャルツイン【禁煙】30㎡／洗濯乾燥機付き／ベッド110cm×2\nプラン：【連泊ファミリー】小学生までのお子様添い寝無料！（素泊）\n住所：福岡県福岡市中央区春吉3-21-24\n電話：092-762-0109'},
   {name:'新山口站東急INN（阿媽、戴阿媽）', type:'住宿', note:'8/24–8/28，4晚，標準雙床、非吸煙、含全套早餐', orderInfo:'Hotel.com｜5/28 已付\n行程編號：73459883581606\nNT$4,440/大人'},
   {name:'蒙特利飯店福岡（阿媽、戴阿媽）', type:'住宿', note:'8/28 入住，標準雙床、非吸煙，24㎡', orderInfo:'8/25 前可全額取消\nHotel.com｜7/26 已付 NT$4,842\n訂單號碼：#73506992908254'},
-  {name:'自駕租車', type:'租車', note:'8/14 福岡機場取車，待確認車型與行李空間', orderInfo:''},
+  {name:'自駕租車（ハコレンタカー）', type:'租車', note:'福岡空港店取車 8/14（五）10:30 → 還車 8/21（五）18:00', orderInfo:'預約番號：HK-2608040050\n利用料金：¥153,350（含稅）'},
   {name:'福岡 PayPay Dome 棒球票', type:'棒球票', note:'8/22（六）14:00 福岡軟銀鷹 vs 歐力士，座位待確認', orderInfo:'ID：1005617｜福岡軟銀鷹隊 2026 棒球門票\n演出日期：Sat, Aug 22, 2026 at 2:00pm\n場館：MIZUHO PayPay Dome FUKUOKA\n購買數量：4 張\n單張票價：8,400 JPY，總金額：33,600 JPY（含手續費）\nPayPal 發票 ID：p01005617_1783223092_088643'},
   {name:'Avispa Fukuoka 足球票', type:'球賽票', note:'8/15（六）19:00 vs. Cerezo Osaka，Level-5 Stadium，座位待確認', orderInfo:''},
   {name:'旅平險 / 海外突發疾病險', type:'保險', note:'全員 7 人，建議含足球運動傷害條款', orderInfo:''},
