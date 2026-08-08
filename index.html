@@ -1076,11 +1076,14 @@ const ITINERARY = [
     evening:[{time:'晚上', title:'收行李', note:'', family:'明天要 check out 回台灣囉～', transport:'', map:'', confirmed:true, who:['grandmas']}]
   }},
 {date:'2026-08-29', dayNum:21, weekday:'六',
-  theme:'阿媽、戴阿媽 返台', weatherKey:'福岡市',
-  lodging:[{who:'阿媽、戴阿媽',place:'Check out → 返台'}],
+  theme:'阿媽、戴阿媽 返台，入住桃園CP飯店（城市商旅）一晚', weatherKey:'福岡市',
+  lodging:[{who:'阿媽、戴阿媽',place:'Check out → 返台 → 桃園CP飯店（城市商旅）住一晚'}],
   periods:{
     morning:[], noon:[], afternoon:[],
-    evening:[{time:'21:00', title:'CI117　福岡 FUK（國際航廈）→ 桃園 TPE T2（22:30 抵達）', note:'阿媽、戴阿媽搭乘', family:'記得安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['grandmas']}]
+    evening:[
+      {time:'21:00', title:'CI117　福岡 FUK（國際航廈）→ 桃園 TPE T2（22:30 抵達）', note:'阿媽、戴阿媽搭乘', family:'', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['grandmas']},
+      {time:'22:30後', title:'入住桃園CP飯店（城市商旅）', note:'落地後不需安排機場接送，已預訂飯店住一晚', family:'', transport:'car', map:'桃園CP飯店（城市商旅）', confirmed:true, who:['grandmas']},
+    ]
   }},
 ];
 
@@ -1130,6 +1133,7 @@ const PACKING = {
 // 不要把檔案直接放進這個 repo，因為 repo 是公開的。
 const DOCUMENTS = [
   {name:'桃園機場假日酒店', type:'住宿', note:'言、辰、阿媽、戴阿媽｜8/9 入住，隔天搭 4:50AM 接駁車前往機場', orderInfo:'行程編號：73512165180059\nNT$4,297 已付款'},
+  {name:'桃園CP飯店（城市商旅）', type:'住宿', note:'阿媽、戴阿媽｜8/29 落地後入住一晚，不需安排機場接送', orderInfo:''},
   {name:'CI110 台北→福岡（8/10、8/14）', type:'機票', note:'兩梯次，8/10、8/14 出發各一組', orderInfo:''},
   {name:'CI111 福岡→台北（8/23）', type:'機票', note:'璇一家｜11:00 福岡起飛，12:30 抵台北 TPE T2', orderInfo:''},
   {name:'CI117 福岡→台北（8/29）', type:'機票', note:'阿媽、戴阿媽｜21:00 福岡起飛（國際航廈），22:30 抵桃園 TPE T2', orderInfo:''},
