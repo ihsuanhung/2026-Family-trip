@@ -653,9 +653,9 @@ const TRIP = {
 // 三個成員分組，用來在每個行程項目前顯示「這時候誰在這裡」的文字徽章
 // 之後如果成員有異動，只需要修改這裡的 label，全網站會自動同步
 const GROUPS = {
-  parents: {label:'爸媽栩', sub:'卓軒・以璇・栩', color:'#2B4568'},
+  parents: {label:'爸媽栩', sub:'', color:'#2B4568'},
   kids:    {label:'言辰',   sub:'', color:'#B96A3D'},
-  grandmas:{label:'阿媽們', sub:'阿媽・戴阿媽', color:'#AE402C'},
+  grandmas:{label:'阿媽們', sub:'', color:'#AE402C'},
 };
 const GROUP_ORDER = ['parents','kids','grandmas'];
 
@@ -694,6 +694,22 @@ const MAP_LOCATIONS = [
   {name:'東急stay博多', type:'lodging', lat:33.5902, lng:130.4207, note:'阿媽、戴阿媽 8/10 住宿'},
   {name:'東急stay福岡天神', type:'lodging', lat:33.5903, lng:130.4001, note:'璇一家 8/21–8/23 入住（雙床房×2晚，不含餐）'},
   {name:'萩本鎮旅館', type:'lodging', lat:34.4084, lng:131.3993, note:'阿媽、戴阿媽 8/21–8/24 入住（3晚，城市景觀、日式禁菸雙人房，一泊二食）'},
+  // 阿媽、戴阿媽個別行程新增地點
+  {name:'萩市', type:'transport', lat:34.4084, lng:131.3993, note:'阿媽、戴阿媽｜8/21–8/24 自由行據點'},
+  {name:'萩八景遊覽船', type:'sight', lat:34.4103, lng:131.4010, note:'阿媽、戴阿媽｜8/21 已排入行程'},
+  {name:'萩城下町', type:'sight', lat:34.4096, lng:131.3958, note:'阿媽、戴阿媽｜8/21 已排入行程，世界文化遺產'},
+  {name:'浦上紀念館', type:'sight', lat:34.4103, lng:131.3833, note:'阿媽、戴阿媽｜8/22 已排入行程，萩燒收藏'},
+  {name:'大屋窯', type:'sight', lat:34.3980, lng:131.3806, note:'阿媽、戴阿媽｜8/22 已排入行程，萩燒窯元'},
+  {name:'萩玻璃工坊', type:'sight', lat:34.4200, lng:131.3700, note:'阿媽、戴阿媽｜8/23 已排入行程'},
+  {name:'香月泰南美術館', type:'sight', lat:34.3919, lng:131.2319, note:'阿媽、戴阿媽｜8/23 已排入行程（長門市三隅）'},
+  {name:'糸島半島', type:'sight', lat:33.5686, lng:130.1900, note:'戴阿媽｜8/12 已排入行程，夫婦岩、天使之羽、芥屋大門'},
+  {name:'一蘭之森', type:'food', lat:33.5619, lng:130.2072, note:'戴阿媽｜8/12 已排入行程，糸島森林系拉麵店'},
+  {name:'琉璃光寺五重塔', type:'sight', lat:34.1917, lng:131.4736, note:'阿媽、戴阿媽｜8/24 已排入行程，山口市地標'},
+  {name:'錦川清流線', type:'transport', lat:34.1547, lng:132.1908, note:'阿媽、戴阿媽｜8/26 已排入行程'},
+  {name:'岩國壽司', type:'food', lat:34.1667, lng:132.2167, note:'阿媽、戴阿媽｜8/26 午餐候選'},
+  {name:'錦帶橋', type:'sight', lat:34.1667, lng:132.1806, note:'阿媽、戴阿媽｜8/26 已排入行程，日本三大名橋'},
+  {name:'毛利氏庭園', type:'sight', lat:34.0578, lng:131.5717, note:'阿媽、戴阿媽｜8/27 已排入行程'},
+  {name:'防府圖書館', type:'sight', lat:34.0522, lng:131.5644, note:'阿媽、戴阿媽｜8/27 已排入行程'},
   {name:'新山口站東急INN', type:'lodging', lat:34.1493, lng:131.4728, note:'阿媽、戴阿媽 8/24–8/28 入住（4晚，標準雙床、非吸煙、含全套早餐）'},
   {name:'蒙特利飯店福岡', type:'lodging', lat:33.5904, lng:130.4017, note:'阿媽、戴阿媽 8/28 入住（標準雙床、非吸煙，24㎡）'},
   {name:'門司港 Premier Hotel Mojiko', type:'lodging', lat:33.9500, lng:130.9636, note:'含車位，連住 5 晚（8/14–8/19）'},
@@ -740,6 +756,7 @@ const MAP_LOCATIONS = [
   // 阿媽、戴阿媽個別行程地點
   {name:'柳川', type:'sight', lat:33.1667, lng:130.4000, note:'8/11（二）已排入行程，筑後廚房觀光列車途經水鄉柳川'},
   {name:'大牟田', type:'transport', lat:33.0333, lng:130.4500, note:'8/11（二）已排入行程，觀光列車終點站'},
+  {name:'三池港', type:'sight', lat:33.0089, lng:130.4442, note:'8/11（二）已排入行程，世界遺產明治工業遺跡（含宮原坑）'},
   {name:'宗像大社', type:'sight', lat:33.8113, lng:130.5119, note:'8/12（三）已排入行程，阿媽與 Global Arena 同天順遊'},
   {name:'由布院', type:'sight', lat:33.2645, lng:131.3554, note:'8/13（四）已排入行程，由布院之森觀光列車終點、湯之坪街道'},
   {name:'海地獄', type:'sight', lat:33.2822, lng:131.4989, note:'8/13（四）已排入行程，別府地獄巡禮'},
@@ -805,26 +822,29 @@ const ITINERARY = [
     morning:[{time:'09:00', title:'（言辰）訓練 90 分鐘', desc:'', note:'09:00–13:00', family:'', transport:'', map:'三菱ケミカルグラウンド', confirmed:true, who:['kids']}],
     noon:[{time:'12:51', title:'筑後廚房美食觀光列車＋在地風味午餐（Trip.com 一日遊）', desc:'【筑後廚房觀光列車】車廂裡就是一間小餐廳，邊欣賞筑後平原的田園風光，邊享用當地食材做成的午餐，中途還會停靠水鄉柳川，很悠閒的一日小旅行。', note:'12:51 博多出發 → 柳川 → 15:30 抵達大牟田', family:'', transport:'train', map:'柳川', confirmed:false, who:['grandmas']}],
     afternoon:[
-      {time:'15:30', title:'抵達大牟田，行程結束返回福岡', note:'', family:'', transport:'train', map:'大牟田', confirmed:false, who:['grandmas']},
+      {time:'15:30', title:'抵達大牟田．UNESCO 宮原坑、三池港', desc:'【宮原坑】是明治時代的煤礦坑遺址，已列入世界文化遺產「明治日本の産業革命遺產」，紅磚建築與高聳的捲揚機塔，走進去彷彿穿越回工業革命時代。【三池港】是明治時代為了運送煤礦而建造的港口，設計時特別考慮潮汐差讓大船隨時能進出，是當時工程技術的精華。', note:'', family:'', transport:'train', map:'三池港', confirmed:false, who:['grandmas']},
       {time:'15:00', title:'（言辰）練習賽', desc:'', note:'15:00–20:00', family:'', transport:'', map:'福岡足球中心', confirmed:true, who:['kids']},
     ],
-    evening:[]
+    evening:[
+      {time:'18:00', title:'柳川遊船', desc:'【柳川遊船】搭乘小船穿梭在柳川市區的水路運河間，船夫還會沿路唱歌、介紹沿岸風光，是柳川最具代表性的體驗。', note:'遊船無屋頂，建議做好防曬；船家公司營業至晚上 8 點，20:30 返回博多', family:'', transport:'', map:'柳川', confirmed:false, who:['grandmas']},
+    ]
   }},
 {date:'2026-08-12', dayNum:4, weekday:'三',
-  theme:'阿媽｜Global Arena看球＋宗像大社。戴阿媽｜自由行', weatherKey:'福岡市',
+  theme:'阿媽｜宗像大社＋加入言辰行程。戴阿媽｜糸島一日遊（暫定）', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
     morning:[
-      {time:'上午', title:'阿媽：前往北九州 Global Arena 看言辰踢球', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:false, who:['grandmas']},
       {time:'09:00', title:'（言辰）觀摩一線隊訓練', desc:'', note:'09:00–13:00', family:'', transport:'', map:'新門司球技場', confirmed:true, who:['kids']},
+      {time:'上午', title:'阿媽：參觀宗像大社', desc:'【宗像大社】供奉三位海之女神，是全日本自古以來守護海上交通的總本社，境內的神寶館收藏了大量從「海上正倉院」沖之島出土的國寶，2017 年整片海域還被列入世界遺產。', note:'', family:'', transport:'car', map:'宗像大社', confirmed:false, who:['grandmas']},
+      {time:'上午', title:'戴阿媽：糸島一日遊（暫定）－夫婦岩、天使之羽、芥屋大門', desc:'【夫婦岩】是位在二見浦海邊的兩塊大石頭，中間用粗繩相連，象徵夫妻相守，退潮時甚至能走到岩石旁邊，是糸島最具代表性的打卡景點。【天使之羽】是一座白色翅膀造型的裝置藝術，站在前面拍照，就像自己也長出天使翅膀一樣，超人氣浪漫打卡點。【芥屋大門】是日本三大玄武岩洞門之一，由海浪長年侵蝕火山岩形成的巨大海蝕洞，可搭遊覽船近距離觀賞。', note:'', family:'', transport:'car', map:'糸島半島', confirmed:false, who:['grandmas']},
     ],
     noon:[
       {time:'13:00', title:'（言辰）烤肉', desc:'', note:'13:00–15:00', family:'', transport:'', map:'北九州三國世界體育場', confirmed:true, who:['kids']},
+      {time:'中午', title:'戴阿媽：一蘭之森', desc:'【一蘭之森】是知名拉麵店「一蘭」開設的森林系概念店，坐落在竹林環繞的建築裡，除了吃拉麵，還能感受不同於一般分店的悠閒氛圍。', note:'', family:'', transport:'car', map:'一蘭之森', confirmed:false, who:['grandmas']},
     ],
     afternoon:[
-      {time:'下午', title:'阿媽：參觀宗像大社', desc:'【宗像大社】供奉三位海之女神，是全日本自古以來守護海上交通的總本社，境內的神寶館收藏了大量從「海上正倉院」沖之島出土的國寶，2017 年整片海域還被列入世界遺產。', note:'與 Global Arena 同在宗像市，順路安排', family:'', transport:'car', map:'宗像大社', confirmed:false, who:['grandmas']},
-      {time:'下午', title:'戴阿媽：自由行', note:'', family:'', transport:'', map:'', confirmed:false, who:['grandmas']},
-      {time:'15:00', title:'（言辰）主場球場導覽', desc:'', note:'15:00–17:00', family:'', transport:'', map:'北九州三國世界體育場', confirmed:true, who:['kids']},
+      {time:'15:00', title:'（言辰）主場球場導覽', desc:'', note:'15:00–17:00', family:'阿媽下午加入言辰的行程，一起參加球場導覽', transport:'', map:'北九州三國世界體育場', confirmed:true, who:['kids','grandmas']},
+      {time:'下午', title:'戴阿媽：太宰府天満宮', desc:'【太宰府天満宮】供奉學問之神菅原道真，是全日本考生的祈願聖地，也是糸島一日遊回程順遊的熱門景點。', note:'糸島行程尾聲順遊', family:'', transport:'car', map:'太宰府天満宮', confirmed:false, who:['grandmas']},
     ],
     evening:[
       {time:'19:00', title:'（言辰）訓練', desc:'', note:'19:00–21:00', family:'', transport:'', map:'北九州 Global Arena', confirmed:true, who:['kids']},
@@ -835,7 +855,7 @@ const ITINERARY = [
   lodging:[{who:'阿媽、戴阿媽',place:'東急stay博多'}],
   periods:{
     morning:[
-      {time:'上午', title:'由布院之森觀光列車（Trip.com 一日遊）', desc:'【由布院之森】是一台墨綠色車身的復古觀光列車，木質內裝很有質感，車上還有專屬乘務員服務，是九州最有人氣的觀光列車之一。', note:'博多出發前往湯布院', family:'', transport:'train', map:'由布院', confirmed:false, who:['grandmas']},
+      {time:'08:00', title:'由布院之森觀光列車（Trip.com 一日遊）', desc:'【由布院之森】是一台墨綠色車身的復古觀光列車，木質內裝很有質感，車上還有專屬乘務員服務，是九州最有人氣的觀光列車之一。', note:'08:00 博多東方飯店集合，全程約 10 小時', family:'', transport:'train', map:'由布院', confirmed:false, who:['grandmas']},
       {time:'09:00', title:'（言辰）觀光', desc:'', note:'09:00–13:00', family:'', transport:'', map:'Marine World 海之中道水族館', confirmed:true, who:['kids']},
     ],
     noon:[{time:'中午', title:'湯布院街散策', desc:'【湯布院】是九州數一數二的溫泉小鎮，主要街道「湯之坪街道」兩旁開滿了可愛的甜點店、雜貨店，還能遠眺秀麗的由布岳，很適合悠閒散步、吃甜點。', note:'', family:'', transport:'walk', map:'由布院', confirmed:false, who:['grandmas']}],
@@ -892,7 +912,7 @@ const ITINERARY = [
     morning:[
       {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
       {time:'10:00', title:'璇一家：（開車）關門大橋、赤間神宮', desc:'【關門大橋】是連接本州和九州的紅色大橋，全長 1,068 公尺，橋下就是本州、九州間最窄的關門海峽，船隻往來熱鬧。【赤間神宮】供奉著年幼即位的安德天皇，正門是少見的龍宮造型，紅色樓門看起來就像童話裡的龍宮城。', note:'以開車、短暫下車拍照為主', family:'', transport:'car', map:'關門大橋', confirmed:false, who:['parents','kids']},
-      {time:'10:52', title:'阿媽、戴阿媽：SL 山口號蒸汽火車', desc:'【SL 山口號】是九州少見還在行駛的復古蒸汽火車，車頭會冒出白煙、發出汽笛聲，車廂內裝也很有懷舊風味，沿途行經山口縣山區與溪谷風光，是鐵道迷跟長輩都會喜歡的懷舊體驗。', note:'10:52 新山口出發 → 13:06 抵達津和野', family:'⚠️ 新山口車站距離門司港飯店較遠（單程開車或搭電車約需 1.5–2 小時），建議阿媽、戴阿媽提早出發，或評估與其他行程銜接的時間安排。', transport:'train', map:'新山口駅', confirmed:false, who:['grandmas']},
+      {time:'10:52', title:'阿媽、戴阿媽：SL 山口號蒸汽火車', desc:'【SL 山口號】是九州少見還在行駛的復古蒸汽火車，車頭會冒出白煙、發出汽笛聲，車廂內裝也很有懷舊風味，沿途行經山口縣山區與溪谷風光，是鐵道迷跟長輩都會喜歡的懷舊體驗。抵達的【津和野】有「山陰小京都」之稱，是保存完整的城下町，可以散步走訪太皷谷稻成神社與殿町通老街。', note:'10:52 新山口出發 → 13:06 抵達津和野', family:'⚠️ 新山口車站距離門司港飯店較遠（單程開車或搭電車約需 1.5–2 小時），建議阿媽、戴阿媽提早出發，或評估與其他行程銜接的時間安排。\n💡 需事先預訂往返車票：門司→新山口；津和野→新山口→門司。', transport:'train', map:'新山口駅', confirmed:false, who:['grandmas']},
     ],
     noon:[{time:'午餐', title:'午餐候選（4 選 1）', desc:'【唐戶市場】是下關最熱鬧的漁市場，假日還會變身「活跳跳海鮮市集」，攤販會現場切河豚生魚片給你看，關門海峽的新鮮漁獲都在這裡。', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 春帆樓（講和紀念館，馬關條約割讓台灣舊址）\n④ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定；選④唐戶市場的話，正好銜接下午的下關側行程', transport:'car', map:'唐戶市場', confirmed:false, who:['parents','kids']}],
     afternoon:[
@@ -967,10 +987,20 @@ const ITINERARY = [
   theme:'璇一家開車回福岡．阿媽、戴阿媽山口自由行（8/21–8/29）', weatherKey:'福岡市',
   lodging:[{who:'璇一家（卓軒、以璇、木須、言、辰）',place:'東急stay福岡天神｜雙床房 × 2 晚（不含餐）'},{who:'阿媽、戴阿媽',place:'萩本鎮旅館｜城市景觀、日式禁菸雙人房，一泊二食'}],
   periods:{
-    morning:[{time:'早餐', title:'飯店早餐', note:'今日 Check out（星野 界 長門）', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']}],
+    morning:[
+      {time:'早餐', title:'飯店早餐', note:'今日 Check out（星野 界 長門）', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']},
+      {time:'上午', title:'阿媽、戴阿媽：搭乘超級萩號特急巴士前往萩市', desc:'', note:'長門往萩市，車程約 1 小時', family:'', transport:'car', map:'萩市', confirmed:false, who:['grandmas']},
+    ],
     noon:[{time:'途中', title:'Adventure Valley FUKUOKA（フォレストアドベンチャー・久山）', desc:'【Adventure Valley FUKUOKA】是一座蓋在森林裡的探險樂園，裡面有飛索、繩索橋、攀岩等超過 70 種挑戰關卡，飛天滑索的數量還是全日本同類型設施中最多的！小學一年級、身高 110 公分以上就能挑戰，很適合喜歡冒險的小朋友大展身手。', note:'璇一家開車回福岡途中停留，久山町鄰近 TRIAS 商場，可順便用餐、買伴手禮', family:'需 110 公分以上、國小一年級起才能參加，出發前先確認小朋友的身高', transport:'car', map:'Adventure Valley FUKUOKA', confirmed:false, who:['parents','kids']}],
-    afternoon:[{time:'下午', title:'璇一家開車回福岡，兩位阿媽續遊山口', note:'璇一家：飯店 Check in、租車返還', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false, who:['parents','kids']}],
-    evening:[{time:'晚餐', title:'晚餐候選（2 選 1）', desc:'【一蘭拉麵】的座位是一格一格的「讀書式吧檯」，可以專心品嚐豚骨拉麵的濃郁湯頭，點餐前還要先在單子上勾選湯頭濃淡、麵條軟硬，客製化自己專屬的一碗拉麵。', note:'① 一蘭拉麵總店（含表演）\n② 日式燒肉', family:'', transport:'', map:'一蘭拉麵 天神本店', confirmed:false, who:['parents','kids']}]
+    afternoon:[
+      {time:'下午', title:'璇一家開車回福岡，兩位阿媽續遊山口', note:'璇一家：飯店 Check in、租車返還', family:'', transport:'car', map:'東急stay福岡天神', confirmed:false, who:['parents','kids']},
+      {time:'下午', title:'阿媽、戴阿媽：萩八景遊覽船', desc:'【萩八景遊覽船】搭乘小船遊覽萩市橋本川、松本川的河口三角洲，可以從水上欣賞武家屋敷的白牆、松林景緻，是認識萩市地形的最佳方式。', note:'', family:'', transport:'', map:'萩八景遊覽船', confirmed:false, who:['grandmas']},
+      {time:'下午', title:'阿媽、戴阿媽：萩城下町（世界遺產）', desc:'【萩城下町】保留了江戶時代武士居住的街區，白牆與黑瓦交錯，是山口縣歷史氣息最濃厚的地方，2015 年被列入世界文化遺產。可以租電動腳踏車穿梭巷弄間，感受「侘寂」的沉靜美學。', note:'', family:'', transport:'walk', map:'萩城下町', confirmed:false, who:['grandmas']},
+    ],
+    evening:[
+      {time:'晚餐', title:'晚餐候選（2 選 1）', desc:'【一蘭拉麵】的座位是一格一格的「讀書式吧檯」，可以專心品嚐豚骨拉麵的濃郁湯頭，點餐前還要先在單子上勾選湯頭濃淡、麵條軟硬，客製化自己專屬的一碗拉麵。', note:'① 一蘭拉麵總店（含表演）\n② 日式燒肉', family:'', transport:'', map:'一蘭拉麵 天神本店', confirmed:false, who:['parents','kids']},
+      {time:'晚餐', title:'阿媽、戴阿媽：晚餐候選（2 選 1）', note:'① 海鮮市集（見島牛）\n② 飯店懷石料理', family:'', transport:'', map:'', confirmed:false, who:['grandmas']},
+    ]
   }},
 {date:'2026-08-22', dayNum:14, weekday:'六',
   theme:'璇一家福岡市區看球賽逛街．阿媽、戴阿媽山口自由行', weatherKey:'福岡市',
@@ -979,9 +1009,13 @@ const ITINERARY = [
     morning:[
       {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']},
       {time:'上午', title:'博多運河城買球鞋、逛街買伴手禮', desc:'【博多運河城】是一座超大型購物中心，最特別的是中央有一條人工運河貫穿整棟建築，每到整點還有音樂噴泉秀，晚上打燈後特別漂亮。', note:'', family:'', transport:'walk', map:'博多運河城 Canal City Hakata', confirmed:false, who:['parents','kids']},
+      {time:'上午', title:'阿媽、戴阿媽：浦上紀念館（萩燒）', desc:'【浦上紀念館】收藏了大量萩燒陶器精品，萩燒是日本茶道界公認「一楽二萩三唐津」的名窯之一，胎土吸水性強，使用越久茶碗顏色會慢慢產生變化，被稱為「萩之七化」。', note:'', family:'', transport:'walk', map:'浦上紀念館', confirmed:false, who:['grandmas']},
     ],
     noon:[],
-    afternoon:[{time:'14:00', title:'福岡軟銀鷹 vs 歐力士｜PayPay Dome', desc:'【福岡 PayPay 巨蛋】是軟銀鷹隊的主場，屋頂可以打開關閉，是日本第一座有開闔式屋頂的棒球場，可以現場感受日本職棒的熱血應援文化！', note:'有可能會很無聊，保留彈性去隔壁逛街、王貞治棒球博物館玩（門票可免費去玩）', family:'為防中暑，可單獨或同時攜帶：\n① 塑膠瓶與鋁箔包（皆 1L 以內，每人最多一瓶）\n② 水壺與隨身杯（皆 2L 以下）', transport:'walk', map:'福岡 PayPay 巨蛋', confirmed:true, who:['parents','kids']}],
+    afternoon:[
+      {time:'14:00', title:'福岡軟銀鷹 vs 歐力士｜PayPay Dome', desc:'【福岡 PayPay 巨蛋】是軟銀鷹隊的主場，屋頂可以打開關閉，是日本第一座有開闔式屋頂的棒球場，可以現場感受日本職棒的熱血應援文化！', note:'有可能會很無聊，保留彈性去隔壁逛街、王貞治棒球博物館玩（門票可免費去玩）', family:'為防中暑，可單獨或同時攜帶：\n① 塑膠瓶與鋁箔包（皆 1L 以內，每人最多一瓶）\n② 水壺與隨身杯（皆 2L 以下）', transport:'walk', map:'福岡 PayPay 巨蛋', confirmed:true, who:['parents','kids']},
+      {time:'下午', title:'阿媽、戴阿媽：大屋窯', desc:'【大屋窯】是萩燒的老字號窯元之一，可以參觀陶藝家現場製作陶器的過程，也能挑選喜歡的萩燒作品帶回家做紀念。', note:'', family:'', transport:'walk', map:'大屋窯', confirmed:false, who:['grandmas']},
+    ],
     evening:[{time:'晚上', title:'收行李', note:'', family:'明天要 check out 回台灣囉～', transport:'', map:'', confirmed:true, who:['parents','kids']}]
   }},
 {date:'2026-08-23', dayNum:15, weekday:'日',
@@ -991,28 +1025,56 @@ const ITINERARY = [
     morning:[
       {time:'上午', title:'Checkout', note:'', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']},
       {time:'11:00', title:'CI111　福岡 FUK → 台北 TPE T2（12:30 抵達）', note:'璇一家搭乘', family:'可考慮搭機捷返家或安排機場接送', transport:'flight', map:'福岡機場 FUK', confirmed:true, who:['parents','kids']},
-    ], noon:[], afternoon:[], evening:[]
+      {time:'上午', title:'阿媽、戴阿媽：萩玻璃工坊', desc:'【萩玻璃工坊】製作一種叫「萩玻璃」的琉璃工藝品，特色是加入當地城下町瓦片的成分，燒製出獨特的淡綠色澤，可以看到職人現場吹製玻璃的過程。', note:'', family:'', transport:'walk', map:'萩玻璃工坊', confirmed:false, who:['grandmas']},
+    ],
+    noon:[], 
+    afternoon:[
+      {time:'下午', title:'阿媽、戴阿媽：香月泰男美術館', desc:'【香月泰男美術館】展示了出身山口縣的知名畫家香月泰男的作品，他曾經歷戰爭與西伯利亞戰俘生活，畫作充滿深刻的生命故事。', note:'', family:'', transport:'car', map:'香月泰男美術館', confirmed:false, who:['grandmas']},
+    ],
+    evening:[]
   }},
 {date:'2026-08-24', dayNum:16, weekday:'一',
-  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  theme:'阿媽、戴阿媽｜山口市自由行．琉璃光寺五重塔', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'新山口站東急INN｜標準雙床、非吸煙、含全套早餐（4晚）'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'8/21–8/29 阿媽、戴阿媽於山口及福岡市自由行，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+  periods:{
+    morning:[{time:'上午', title:'琉璃光寺五重塔＆庭園', desc:'【琉璃光寺五重塔】是日本三大名塔之一，被譽為「西の京都」山口市的象徵，塔身優雅的比例倒映在旁邊的池水中，四季都有不同的美，晚上還會點燈，氣氛很夢幻。', note:'從 JR 山口站搭巴士約 10 分鐘至「縣廳前」下車，步行 10 分鐘抵達', family:'', transport:'car', map:'琉璃光寺五重塔', confirmed:false, who:['grandmas']}],
+    noon:[], afternoon:[],
+    evening:[{time:'晚上', title:'夜間點燈', desc:'', note:'琉璃光寺五重塔每日皆有夜間點燈，夢幻氛圍，若體力許可可以傍晚後再去一次', family:'', transport:'', map:'琉璃光寺五重塔', confirmed:false, who:['grandmas']}]
+  }},
 {date:'2026-08-25', dayNum:17, weekday:'二',
-  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  theme:'阿媽、戴阿媽｜新山口自由行（待規劃）', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'新山口站東急INN｜連住第 2 晚'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+  periods:{morning:[{time:'—', title:'新山口市區自由活動', note:'筆記中這天僅標註地點「新山口」，詳細行程待補充，可安排市區採買、休息或彈性調整前後天行程。', family:'', transport:'', map:'新山口駅', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
 {date:'2026-08-26', dayNum:18, weekday:'三',
-  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  theme:'阿媽、戴阿媽｜岩國一日遊．錦帶橋', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'新山口站東急INN｜連住第 3 晚'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+  periods:{
+    morning:[{time:'上午', title:'錦川清流線', desc:'【錦川清流線】是一條沿著清澈錦川行駛的地方鐵路，全長 38.3 公里（JR 岩國－錦町站），坐在小巧的列車上可以欣賞沿途溪谷與山林景色，是很療癒的鐵道小旅行。', note:'', family:'', transport:'train', map:'錦川清流線', confirmed:false, who:['grandmas']}],
+    noon:[{time:'午餐', title:'岩國壽司（方型）', desc:'', note:'岩國特有的方型押壽司，一層一層疊起來很有特色', family:'', transport:'', map:'岩國壽司', confirmed:false, who:['grandmas']}],
+    afternoon:[{time:'下午', title:'錦帶橋', desc:'【錦帶橋】是日本三大名橋之一，五段木造拱橋橫跨錦川，完全不使用一根釘子就能屹立超過 300 年，橋身的曲線非常優雅，是岩國的象徵地標。', note:'', family:'', transport:'walk', map:'錦帶橋', confirmed:false, who:['grandmas']}],
+    evening:[]
+  }},
 {date:'2026-08-27', dayNum:19, weekday:'四',
-  theme:'阿媽、戴阿媽 山口及福岡市自由行（待規劃）', weatherKey:'福岡市',
+  theme:'阿媽、戴阿媽｜防府一日遊．防府天滿宮、毛利氏庭園', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'新山口站東急INN｜連住第 4 晚（Check out 8/28）'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+  periods:{
+    morning:[{time:'上午', title:'防府天滿宮（含兒玉神社）', desc:'【防府天滿宮】供奉學問之神菅原道真，是日本最早創建的天神廟之一。境內的【兒玉神社】供奉的兒玉源太郎曾擔任台灣總督，對台灣歷史發展有深遠影響，是很有意義的一段台日連結。', note:'', family:'', transport:'car', map:'防府天満宮', confirmed:false, who:['grandmas']}],
+    noon:[],
+    afternoon:[
+      {time:'下午', title:'毛利氏庭園', desc:'【毛利氏庭園】是山口藩主毛利家的舊宅邸庭園，佔地廣大，池泉迴遊式的日式庭園四季景色都很美，還能參觀收藏武具、美術品的毛利博物館。', note:'', family:'', transport:'car', map:'毛利氏庭園', confirmed:false, who:['grandmas']},
+      {time:'下午', title:'防府圖書館', desc:'', note:'', family:'', transport:'walk', map:'防府圖書館', confirmed:false, who:['grandmas']},
+    ],
+    evening:[]
+  }},
 {date:'2026-08-28', dayNum:20, weekday:'五',
-  theme:'阿媽、戴阿媽 移動回福岡．入住蒙特利飯店福岡（待規劃）', weatherKey:'福岡市',
+  theme:'阿媽、戴阿媽 移動回福岡．入住蒙特利飯店福岡', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'蒙特利飯店福岡｜標準雙床、非吸煙，24㎡'}],
-  periods:{morning:[{time:'—', title:'行程待規劃', note:'明天準備返台，請先保留這一頁位置。', family:'', transport:'', map:'', confirmed:false, who:['grandmas']}], noon:[], afternoon:[], evening:[]}},
+  periods:{
+    morning:[{time:'上午', title:'新山口站東急INN Check out', note:'今日 Check out，移動回福岡（天神）', family:'', transport:'', map:'新山口駅', confirmed:true, who:['grandmas']}],
+    noon:[],
+    afternoon:[{time:'下午', title:'新山口 → 福岡（天神），飯店 Check in', note:'蒙特利飯店福岡｜標準雙床、非吸煙，24㎡', family:'', transport:'train', map:'蒙特利飯店福岡', confirmed:true, who:['grandmas']}],
+    evening:[{time:'晚上', title:'收行李', note:'', family:'明天要 check out 回台灣囉～', transport:'', map:'', confirmed:true, who:['grandmas']}]
+  }},
 {date:'2026-08-29', dayNum:21, weekday:'六',
   theme:'阿媽、戴阿媽 返台', weatherKey:'福岡市',
   lodging:[{who:'阿媽、戴阿媽',place:'Check out → 返台'}],
