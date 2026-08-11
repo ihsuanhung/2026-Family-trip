@@ -175,6 +175,9 @@ main.content{
 .date-tab .dow{opacity:.65; margin-left:3px; font-size:11px;}
 .date-tab:hover{border-color:var(--indigo);}
 .date-tab.active{background:var(--indigo); border-color:var(--indigo); color:#fff;}
+.date-tab.is-today{border-color:var(--shu); border-width:2px;}
+.today-dot{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--shu); margin-right:5px; vertical-align:middle;}
+.date-tab.active .today-dot{background:#fff;}
 
 /* -------------------- DAY CARD -------------------- */
 .day-card{
@@ -1115,7 +1118,7 @@ const MUSTBUY = {
   '藥妝':['羅氏鮮／防蚊液','曼秀雷敦系列','曼秀雷敦 AD 止癢乳液（含抗組織胺）','涼感濕紙巾','小林製藥退熱貼','口內炎貼紙','足底支撐墊（小孩）','眼藥水'],
   '小孩玩具':['UNIQLO 聯名玩偶','扭蛋','足球隊周邊小物'],
   '便利商店':['金鑵咖啡','日本啤酒（大人）','季節限定零食','風味起司塊','生火腿'],
-  '伴手禮':['博多通饅頭','明太子','白色戀人（如經過北海道櫃）','地酒／清酒','茅乃舍高湯包','蜂蜜蛋糕（福砂屋、文明堂、松翁軒等九州名店）','福太郎 明太子風味仙貝','八女抹茶粉','茶筅'],
+  '伴手禮':['博多通饅頭','明太子','白色戀人（如經過北海道櫃）','地酒／清酒','茅乃舍高湯包','蜂蜜蛋糕（福砂屋、文明堂、松翁軒等九州名店）','福太郎 明太子風味仙貝','八女抹茶粉','茶筅','Sugar Butter Tree 砂糖奶油樹（福岡限定草莓口味）'],
   '球賽周邊':['PayPay Dome 主場周邊','應援毛巾','球員周邊卡'],
 };
 
@@ -1241,10 +1244,15 @@ function clearWhoFilter(){
 
 function renderDateTabs(){
   const wrap = document.getElementById('dateTabs');
+  const now = new Date();
+  const todayStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
   wrap.innerHTML = ITINERARY.map((d,i)=>{
     const md = d.date.slice(5).replace('-','/');
-    return `<button class="date-tab ${i===currentDateIdx?'active':''}" onclick="selectDate(${i})">${md}<span class="dow">(${d.weekday})</span></button>`;
+    const isToday = d.date === todayStr;
+    return `<button class="date-tab ${i===currentDateIdx?'active':''} ${isToday?'is-today':''}" onclick="selectDate(${i})">${isToday?'<span class="today-dot"></span>':''}${md}<span class="dow">(${d.weekday})</span></button>`;
   }).join('');
+  const activeTab = wrap.querySelector('.date-tab.active');
+  if(activeTab) activeTab.scrollIntoView({inline:'center', block:'nearest'});
 }
 
 function selectDate(i){
@@ -1672,10 +1680,23 @@ function closeMapSheet(){
 /* ============================================================
    13. INIT
    ============================================================ */
+// 依照今天的實際日期，找出對應的行程頁籤索引；
+// 如果今天在行程日期範圍之前，停在第一天；範圍之後，停在最後一天。
+function setInitialDateIndex(){
+  const now = new Date();
+  const todayStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+  const idx = ITINERARY.findIndex(day => day.date === todayStr);
+  if(idx !== -1){ currentDateIdx = idx; return; }
+  if(todayStr < ITINERARY[0].date){ currentDateIdx = 0; return; }
+  if(todayStr > ITINERARY[ITINERARY.length-1].date){ currentDateIdx = ITINERARY.length-1; return; }
+  currentDateIdx = 0;
+}
+
 function init(){
   renderNav();
   renderWeather();
   renderWhoLegend();
+  setInitialDateIndex();
   renderDateTabs();
   renderDayCard();
   renderWishlist();
