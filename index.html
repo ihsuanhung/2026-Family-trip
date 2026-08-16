@@ -890,56 +890,62 @@ const ITINERARY = [
     ]
   }},
 {date:'2026-08-15', dayNum:7, weekday:'六',
-  theme:'接言辰．全員集合', weatherKey:'北九州市',
+  theme:'言辰結訓．全家團聚．太宰府與購物', weatherKey:'福岡市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 2 晚／共 3 晚不用搬行李）'}],
   periods:{
     morning:[
-      {time:'07:00', title:'（言辰）訓練', desc:'', note:'07:00–08:00', family:'', transport:'', map:'北九州 Global Arena', confirmed:true, who:['kids']},
       {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true, who:['parents','grandmas']},
-      {time:'上午', title:'至北九州 Global Arena 接言辰', note:'', family:'言辰行李帶回飯店', transport:'car', map:'北九州 Global Arena', confirmed:false, who:['parents','kids']},
+      {time:'07:30', title:'（言辰）整理行李、房間清潔', desc:'', note:'07:30–08:10', family:'', transport:'', map:'北九州 Global Arena', confirmed:true, who:['kids']},
+      {time:'08:20', title:'（言辰）早餐', desc:'', note:'08:20–09:00', family:'', transport:'', map:'北九州 Global Arena', confirmed:true, who:['kids']},
+      {time:'09:30', title:'準時出發', desc:'', note:'', family:'', transport:'car', map:'北九州 Global Arena', confirmed:true, who:['parents','kids']},
+      {time:'10:30', title:'太宰府參觀', desc:'【太宰府天満宮】供奉學問之神菅原道真，是全日本考生的祈願聖地。神社的守護神使是一種叫做「鷽鳥」的小鳥，這裡不但有鷽鳥造型的可愛御神籤，還有像文昌筆一樣的「合格鉛筆」。', note:'10:30–12:30', family:'', transport:'car', map:'太宰府天満宮', confirmed:true, who:['parents','kids']},
     ],
-    noon:[{time:'中午', title:'門司港午餐', note:'啤酒工房', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']}],
+    noon:[],
     afternoon:[
-      {time:'14:00', title:'門司港レトロ観光列車「潮風号」', desc:'【潮風号】是一台行駛在門司港懷舊街區的復古觀光小火車，車廂造型可愛，沿著海邊慢慢行駛，可以吹著海風欣賞關門海峽，很適合走累了的時候搭乘代替步行。', note:'難度最低、時間最短（單程約 20–30 分），排在最前面暖身', family:'', transport:'train', map:'門司港レトロ観光列車「潮風号」', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'14:45', title:'門司港（木構建築）散策', desc:'【門司港】保留了好多超過 100 年歷史的紅磚木造建築，走在街道上就像穿越回明治、大正時代！', note:'', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'15:30', title:'商店街（榮町銀天街）', desc:'【榮町銀天街】是門司港一條有屋頂的老商店街，下雨天也不怕淋濕，裡面有復古玩具店、小吃攤，可以感受道地的日本市井生活。', note:'步行為主，中等難度', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'16:15', title:'九州鐵道博物館', desc:'【九州鐵道博物館】展示了好幾台退休的真實火車頭，還可以進去駕駛座假裝當一日列車長，是鐵道迷小朋友的天堂。', note:'室內為主，安排在最後讓大家吹冷氣休息', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'13:30', title:'Shopping 購物行程', desc:'', note:'13:30–16:00', family:'', transport:'car', map:'', confirmed:true, who:['parents','kids']},
     ],
     evening:[
-      {time:'19:00', title:'（璇一家）Avispa Fukuoka vs. Cerezo Osaka｜MEIJI YASUDA J1 LEAGUE', desc:'【Avispa Fukuoka（福岡黃蜂）】是福岡的職業足球隊，主場比賽在能容納 2 萬多人的 Level-5 Stadium 進行，可以近距離感受日本職業足球 J1 聯賽的熱血應援氣氛，對熱愛足球的言、辰來說一定很有紀念意義！', note:'19:00 開賽，地點：Level-5 Stadium（Best Denki Stadium，福岡市中央區）', family:'⚠️ 球場距離門司港飯店單程約 70 公里、開車 70–90 分鐘，跟當天已經排滿的門司港行程（潮風号、木構建築、商店街、九州鐵道博物館）銜接會很緊湊，來回加上看球，晚上恐怕會很晚才回到飯店。建議評估體力後決定是否插入，或考慮縮減下午其他行程來換取時間。', transport:'car', map:'Level-5 Stadium', confirmed:false, who:['parents','kids']},
+      {time:'19:00', title:'（璇一家）Avispa Fukuoka vs. Cerezo Osaka｜MEIJI YASUDA J1 LEAGUE', desc:'【Avispa Fukuoka（福岡黃蜂）】是福岡的職業足球隊，主場比賽在能容納 2 萬多人的 Level-5 Stadium 進行，可以近距離感受日本職業足球 J1 聯賽的熱血應援氣氛，對熱愛足球的言、辰來說一定很有紀念意義！', note:'19:00 開賽，地點：Level-5 Stadium（Best Denki Stadium，福岡市中央區）', family:'⚠️ 球場距離門司港飯店單程約 70 公里、開車 70–90 分鐘，看完球回飯店可能會很晚。建議評估體力後決定是否插入，或考慮縮短購物行程時間來換取時間。', transport:'car', map:'Level-5 Stadium', confirmed:false, who:['parents','kids']},
     ]
   }},
 {date:'2026-08-16', dayNum:8, weekday:'日',
-  theme:'璇一家｜下關地區漫遊．阿媽、戴阿媽｜SL 山口號', weatherKey:'北九州市',
+  theme:'言辰、爸媽栩｜門司港懷舊街區一日遊', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（標準雙床 2 房，連住第 3 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
-      {time:'10:00', title:'璇一家：（開車）關門大橋、赤間神宮', desc:'【關門大橋】是連接本州和九州的紅色大橋，全長 1,068 公尺，橋下就是本州、九州間最窄的關門海峽，船隻往來熱鬧。【赤間神宮】供奉著年幼即位的安德天皇，正門是少見的龍宮造型，紅色樓門看起來就像童話裡的龍宮城。', note:'以開車、短暫下車拍照為主', family:'', transport:'car', map:'關門大橋', confirmed:false, who:['parents','kids']},
-      {time:'10:52', title:'阿媽、戴阿媽：SL 山口號蒸汽火車', desc:'【SL 山口號】是九州少見還在行駛的復古蒸汽火車，車頭會冒出白煙、發出汽笛聲，車廂內裝也很有懷舊風味，沿途行經山口縣山區與溪谷風光，是鐵道迷跟長輩都會喜歡的懷舊體驗。抵達的【津和野】有「山陰小京都」之稱，是保存完整的城下町，可以散步走訪太皷谷稻成神社與殿町通老街。', note:'10:52 新山口出發 → 13:06 抵達津和野', family:'⚠️ 新山口車站距離門司港飯店較遠（單程開車或搭電車約需 1.5–2 小時），建議阿媽、戴阿媽提早出發，或評估與其他行程銜接的時間安排。\n💡 需事先預訂往返車票：門司→新山口；津和野→新山口→門司。', transport:'train', map:'新山口駅', confirmed:false, who:['grandmas']},
+      {time:'早餐', title:'飯店早餐', note:'連住 3 晚，不用搬行李', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']},
     ],
-    noon:[{time:'午餐', title:'午餐候選（4 選 1）', desc:'【唐戶市場】是下關最熱鬧的漁市場，假日還會變身「活跳跳海鮮市集」，攤販會現場切河豚生魚片給你看，關門海峽的新鮮漁獲都在這裡。', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 春帆樓（講和紀念館，馬關條約割讓台灣舊址）\n④ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定；選④唐戶市場的話，正好銜接下午的下關側行程', transport:'car', map:'唐戶市場', confirmed:false, who:['parents','kids']}],
+    noon:[{time:'中午', title:'門司港午餐', note:'啤酒工房', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids']}],
     afternoon:[
-      {time:'13:30', title:'璇一家：下關南部町郵便局', desc:'【下關南部町郵便局】是日本現在還在使用的郵局裡，歷史最悠久的一間！建於西元 1900 年，紅磚牆壁厚達 60 公分，門口還有復古圓筒型紅色郵筒，可以寄一張明信片留念。', note:'難度低、時間短（約 20–30 分），與唐戶市場同區順路', family:'', transport:'walk', map:'下關南部町郵便局', confirmed:false, who:['parents','kids']},
-      {time:'14:15', title:'璇一家：大熱天室內備案（3 選 1）', desc:'【下關市立下關水族館 海響館】招牌動物是企鵝，館內飼養了全日本種類最多的企鵝，還有白海豚表演秀。【大丸下關店】就在下關車站旁邊，是這一帶最大的百貨公司，逛累了可以進去吹冷氣、上廁所，地下美食街也好逛。【彥島八幡宮】是彥島上歷史悠久的古老神社，樹木林蔭多、氣氛清幽，適合想避開人潮、悠閒散步的時候順道造訪。', note:'① 海響館（室內、時間較長，約 2–2.5 小時）\n② 大丸下關店（室內百貨，適合單純想吹冷氣休息）\n③ 彥島八幡宮（戶外但清幽人少）', family:'依當天氣溫與體力現場決定，不必三個都排', transport:'walk', map:'下關市立下關水族館 海響館', confirmed:false, who:['parents','kids']},
+      {time:'14:00', title:'門司港レトロ観光列車「潮風号」', desc:'【潮風号】是一台行駛在門司港懷舊街區的復古觀光小火車，車廂造型可愛，沿著海邊慢慢行駛，可以吹著海風欣賞關門海峽，很適合走累了的時候搭乘代替步行。', note:'難度最低、時間最短（單程約 20–30 分），排在最前面暖身', family:'', transport:'train', map:'門司港レトロ観光列車「潮風号」', confirmed:false, who:['parents','kids']},
+      {time:'14:45', title:'門司港（木構建築）散策', desc:'【門司港】保留了好多超過 100 年歷史的紅磚木造建築，走在街道上就像穿越回明治、大正時代！', note:'', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids']},
+      {time:'15:30', title:'商店街（榮町銀天街）', desc:'【榮町銀天街】是門司港一條有屋頂的老商店街，下雨天也不怕淋濕，裡面有復古玩具店、小吃攤，可以感受道地的日本市井生活。', note:'步行為主，中等難度', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids']},
+      {time:'16:15', title:'九州鐵道博物館', desc:'【九州鐵道博物館】展示了好幾台退休的真實火車頭，還可以進去駕駛座假裝當一日列車長，是鐵道迷小朋友的天堂。', note:'室內為主，安排在最後讓大家吹冷氣休息', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids']},
     ],
     evening:[]
   }},
 {date:'2026-08-17', dayNum:9, weekday:'一',
-  theme:'北九州．小倉城、市立美術館與若松夜景', weatherKey:'北九州市',
+  theme:'北九州＋下關全天行程（原 8/16＋8/17 合併）', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（升級為極品雙床 2 房，共 2 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'升級房型，可能要移動房間', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
+      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'升級房型，可能要移動房間\n⚠️ 本日已將原 8/16（璇一家下關漫遊＋阿媽戴阿媽 SL 山口號）與原 8/17（小倉城區＋市立美術館＋若松夜景）行程合併在同一天，內容非常多，下關與小倉／若松又分屬北九州市東西兩側，車程加總會相當可觀。強烈建議依現場體力挑重點景點，不必全部走完，或考慮把部分行程移回其他較空的日期。', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
+      {time:'10:00', title:'璇一家：（開車）關門大橋、赤間神宮', desc:'【關門大橋】是連接本州和九州的紅色大橋，全長 1,068 公尺，橋下就是本州、九州間最窄的關門海峽，船隻往來熱鬧。【赤間神宮】供奉著年幼即位的安德天皇，正門是少見的龍宮造型，紅色樓門看起來就像童話裡的龍宮城。', note:'以開車、短暫下車拍照為主', family:'', transport:'car', map:'關門大橋', confirmed:false, who:['parents','kids']},
+      {time:'10:52', title:'阿媽、戴阿媽：SL 山口號蒸汽火車', desc:'【SL 山口號】是九州少見還在行駛的復古蒸汽火車，車頭會冒出白煙、發出汽笛聲，車廂內裝也很有懷舊風味，沿途行經山口縣山區與溪谷風光，是鐵道迷跟長輩都會喜歡的懷舊體驗。抵達的【津和野】有「山陰小京都」之稱，是保存完整的城下町，可以散步走訪太皷谷稻成神社與殿町通老街。', note:'10:52 新山口出發 → 13:06 抵達津和野', family:'⚠️ 新山口車站距離門司港飯店較遠（單程開車或搭電車約需 1.5–2 小時），建議阿媽、戴阿媽提早出發，或評估與其他行程銜接的時間安排。\n💡 需事先預訂往返車票：門司→新山口；津和野→新山口→門司。', transport:'train', map:'新山口駅', confirmed:false, who:['grandmas']},
       {time:'上午', title:'千佛鐘乳洞', desc:'【千佛鐘乳洞】洞穴裡有許多形狀像佛像的鐘乳石，因此得名，是日本三大鐘乳洞之一。洞內道路平緩好走，一年四季都保持涼爽的 17 度左右。', note:'', family:'', transport:'car', map:'千佛鐘乳洞', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    noon:[{time:'午餐', title:'鰻魚飯', note:'', family:'', transport:'car', map:'小倉', confirmed:false, who:['parents','kids','grandmas']}],
+    noon:[
+      {time:'午餐', title:'午餐候選（4 選 1）', desc:'【唐戶市場】是下關最熱鬧的漁市場，假日還會變身「活跳跳海鮮市集」，攤販會現場切河豚生魚片給你看，關門海峽的新鮮漁獲都在這裡。', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 春帆樓（講和紀念館，馬關條約割讓台灣舊址）\n④ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定；選④唐戶市場的話，正好銜接下午的下關側行程', transport:'car', map:'唐戶市場', confirmed:false, who:['parents','kids']},
+      {time:'午餐', title:'鰻魚飯', note:'', family:'', transport:'car', map:'小倉', confirmed:false, who:['parents','kids','grandmas']},
+    ],
     afternoon:[
-      {time:'13:30', title:'小倉城、旦過市場、TOTO 博物館', desc:'【小倉城】是江戶時代的古城，屋頂由上往下逐漸變大的「唐造」建築工法在日本非常少見，天守閣裡還能體驗穿武士甲冑拍照。【旦過市場】被稱為「北九州的廚房」，可以邊走邊吃烤河豚、可樂餅。【TOTO博物館】能看到馬桶百年演進歷史，還有黑科技免治馬桶可以試坐！', note:'', family:'', transport:'car', map:'小倉城', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'16:00', title:'北九州市立美術館', desc:'【北九州市立美術館】的建築本身就是一件藝術品！設計師磯崎新用兩個圓筒造型的建築，像一副大大的望遠鏡立在山丘上，他後來還得到了建築界最高榮譽「普立茲克獎」。', note:'室內外都好走，可作為市區行程與傍晚行程間的中繼站', family:'', transport:'car', map:'北九州市立美術館', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'13:30', title:'璇一家：下關南部町郵便局', desc:'【下關南部町郵便局】是日本現在還在使用的郵局裡，歷史最悠久的一間！建於西元 1900 年，紅磚牆壁厚達 60 公分，門口還有復古圓筒型紅色郵筒，可以寄一張明信片留念。', note:'難度低、時間短（約 20–30 分），與唐戶市場同區順路', family:'', transport:'walk', map:'下關南部町郵便局', confirmed:false, who:['parents','kids']},
+      {time:'14:15', title:'璇一家：大熱天室內備案（3 選 1）', desc:'【下關市立下關水族館 海響館】招牌動物是企鵝，館內飼養了全日本種類最多的企鵝，還有白海豚表演秀。【大丸下關店】就在下關車站旁邊，是這一帶最大的百貨公司，逛累了可以進去吹冷氣、上廁所，地下美食街也好逛。【彥島八幡宮】是彥島上歷史悠久的古老神社，樹木林蔭多、氣氛清幽，適合想避開人潮、悠閒散步的時候順道造訪。', note:'① 海響館（室內、時間較長，約 2–2.5 小時）\n② 大丸下關店（室內百貨，適合單純想吹冷氣休息）\n③ 彥島八幡宮（戶外但清幽人少）', family:'依當天氣溫與體力現場決定，不必三個都排', transport:'walk', map:'下關市立下關水族館 海響館', confirmed:false, who:['parents','kids']},
+      {time:'下午', title:'小倉城、旦過市場、TOTO 博物館', desc:'【小倉城】是江戶時代的古城，屋頂由上往下逐漸變大的「唐造」建築工法在日本非常少見，天守閣裡還能體驗穿武士甲冑拍照。【旦過市場】被稱為「北九州的廚房」，可以邊走邊吃烤河豚、可樂餅。【TOTO博物館】能看到馬桶百年演進歷史，還有黑科技免治馬桶可以試坐！', note:'', family:'', transport:'car', map:'小倉城', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'下午', title:'北九州市立美術館', desc:'【北九州市立美術館】的建築本身就是一件藝術品！設計師磯崎新用兩個圓筒造型的建築，像一副大大的望遠鏡立在山丘上，他後來還得到了建築界最高榮譽「普立茲克獎」。', note:'室內外都好走，可作為市區行程與傍晚行程間的中繼站', family:'', transport:'car', map:'北九州市立美術館', confirmed:false, who:['parents','kids','grandmas']},
     ],
     evening:[
-      {time:'17:30', title:'北九州響灘綠地（グリーンパーク）玩水', desc:'【響灘綠地】是北九州市內最大的公園，園內有金氏世界紀錄認證的「世界最長鞦韆」、近距離看恐龍模型的「響灘恐龍公園」，夏天還有戲水池可以消暑。', note:'體力消耗較大，安排在較涼爽的傍晚時段', family:'⚠️ 8/17 這天把小倉城區＋北九州市立美術館＋響灘綠地＋遠見ヶ鼻＋夜景全部排在一起，橫跨北九州市東西兩側（小倉／八幡在東側，若松在西側），車程加總下來會是體力很吃重的一天。建議把傍晚這幾站當作彈性清單，依現場體力決定要玩幾站，不必全部走完。', transport:'car', map:'北九州響灘綠地（グリーンパーク）', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'17:30', title:'北九州響灘綠地（グリーンパーク）玩水', desc:'【響灘綠地】是北九州市內最大的公園，園內有金氏世界紀錄認證的「世界最長鞦韆」、近距離看恐龍模型的「響灘恐龍公園」，夏天還有戲水池可以消暑。', note:'體力消耗較大，安排在較涼爽的傍晚時段', family:'這天行程已經非常滿，若體力不足建議直接跳過響灘綠地、遠見ヶ鼻、夜景這三站，回飯店休息。', transport:'car', map:'北九州響灘綠地（グリーンパーク）', confirmed:false, who:['parents','kids','grandmas']},
       {time:'19:00', title:'遠見ヶ鼻看日落', desc:'【遠見ヶ鼻】是一個突出在響灘海邊的小海角，視野遼闊、完全沒有遮蔽物，是北九州數一數二漂亮的看夕陽景點，天空跟海面都會被染成橘紅色。', note:'開闊平地，適合全家散步等待日落', family:'', transport:'car', map:'遠見ヶ鼻（Cape Tomigahana）', confirmed:false, who:['parents','kids','grandmas']},
       {time:'20:00', title:'夜景 2 選 1：皿倉山展望台（纜車）或高塔山公園（開車）', desc:'【皿倉山】山頂夜景被稱為「價值百億日圓的夜景」，是日本新三大夜景之一，搭纜車約 10 分鐘就能登頂，萬家燈火一路延伸到大海邊。【高塔山公園】標高只有 124 公尺，開車就能直達展望台，人潮比皿倉山少、更悠閒，是當地人也喜歡的私房夜景。', note:'皿倉山纜車體驗感較強但需另外移動；高塔山開車直達較省體力，適合當天已經很累時選擇', family:'', transport:'car', map:'皿倉山夜景', confirmed:false, who:['parents','kids','grandmas']},
     ]
