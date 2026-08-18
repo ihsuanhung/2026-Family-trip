@@ -740,11 +740,11 @@ const MAP_LOCATIONS = [
   {name:'Adventure Valley FUKUOKA', type:'sight', lat:33.6170, lng:130.4900, note:'8/21（五）已排入行程，璇一家開車回福岡途中停留（久山町，鄰近 TRIAS 商場）'},
   {name:'蘆屋海水浴場・AQuasian', type:'backup', lat:33.8870, lng:130.6650, note:'願望清單：週一公休，8/8–8/16 水上樂園天天營業'},
   {name:'秋吉臺自然動物公園', type:'sight', lat:34.2150, lng:131.3300, note:'8/18（二）已排入行程，開車進場的野生動物園'},
-  {name:'下關南部町郵便局', type:'sight', lat:33.9513, lng:130.9407, note:'8/16（日）已排入行程，與唐戶市場同區順路'},
+  {name:'下關南部町郵便局', type:'sight', lat:33.9513, lng:130.9407, note:'8/19（三）已排入行程，與唐戶市場同區順路'},
   {name:'大丸下關店', type:'sight', lat:33.9481, lng:130.9186, note:'8/16（日）大熱天室內備案（3 選 1），下關車站旁百貨公司'},
   {name:'彥島八幡宮', type:'sight', lat:33.9346, lng:130.9098, note:'8/16（日）備案（3 選 1），彥島上清幽古老神社'},
-  {name:'北九州響灘綠地（グリーンパーク）', type:'sight', lat:33.8850, lng:130.7550, note:'8/17（一）已排入行程，傍晚玩水'},
-  {name:'遠見ヶ鼻（Cape Tomigahana）', type:'sight', lat:33.8970, lng:130.7350, note:'8/17（一）已排入行程，傍晚看日落'},
+  {name:'北九州響灘綠地（グリーンパーク）', type:'backup', lat:33.8850, lng:130.7550, note:'願望清單：若松區，已從 8/17 行程取消（改成傍晚直接去看夜景）'},
+  {name:'遠見ヶ鼻（Cape Tomigahana）', type:'backup', lat:33.8970, lng:130.7350, note:'願望清單：若松區海角，日落景點（已從 8/17 行程取消）'},
   {name:'皿倉山夜景', type:'sight', lat:33.8391, lng:130.8206, note:'8/17（一）已排入行程，夜景 2 選 1 之一'},
   {name:'高塔山公園夜景', type:'sight', lat:33.9067, lng:130.7906, note:'8/17（一）已排入行程，夜景 2 選 1 之一'},
   {name:'門司港レトロ観光列車「潮風号」', type:'sight', lat:33.9490, lng:130.9650, note:'8/15（六）14:00 已排入門司港行程'},
@@ -773,6 +773,8 @@ const MAP_LOCATIONS = [
 const PLACE_COORDS = {
   '門司港':          {lat:33.9486, lng:130.9636, type:'sight'},
   '唐戶市場':        {lat:33.9505, lng:130.9432, type:'food'},
+  '春帆樓':          {lat:33.9558, lng:130.9422, type:'sight'},
+  '赤間神宮':        {lat:33.9564, lng:130.9414, type:'sight'},
   '關門大橋':        {lat:33.9581, lng:130.9525, type:'sight'},
   '千佛鐘乳洞':      {lat:33.7761, lng:130.7767, type:'sight'},
   '小倉':            {lat:33.8834, lng:130.8752, type:'food'},
@@ -926,69 +928,78 @@ const ITINERARY = [
     evening:[]
   }},
 {date:'2026-08-17', dayNum:9, weekday:'一',
-  theme:'北九州＋下關全天行程（原 8/16＋8/17 合併）', weatherKey:'北九州市',
+  theme:'北九州．小倉城區＋美術館．傍晚關門大橋與夜景', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（升級為極品雙床 2 房，共 2 晚）'}],
   periods:{
     morning:[
-      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'升級房型，可能要移動房間\n⚠️ 本日已將原 8/16（璇一家下關漫遊＋阿媽戴阿媽 SL 山口號）與原 8/17（小倉城區＋市立美術館＋若松夜景）行程合併在同一天，內容非常多，下關與小倉／若松又分屬北九州市東西兩側，車程加總會相當可觀。強烈建議依現場體力挑重點景點，不必全部走完，或考慮把部分行程移回其他較空的日期。', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
-      {time:'10:00', title:'璇一家：（開車）關門大橋、赤間神宮', desc:'【關門大橋】是連接本州和九州的紅色大橋，全長 1,068 公尺，橋下就是本州、九州間最窄的關門海峽，船隻往來熱鬧。【赤間神宮】供奉著年幼即位的安德天皇，正門是少見的龍宮造型，紅色樓門看起來就像童話裡的龍宮城。', note:'以開車、短暫下車拍照為主', family:'', transport:'car', map:'關門大橋', confirmed:false, who:['parents','kids']},
-      {time:'上午', title:'千佛鐘乳洞', desc:'【千佛鐘乳洞】洞穴裡有許多形狀像佛像的鐘乳石，因此得名，是日本三大鐘乳洞之一。洞內道路平緩好走，一年四季都保持涼爽的 17 度左右。', note:'', family:'', transport:'car', map:'千佛鐘乳洞', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'升級房型，可能要移動房間', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
+      {time:'上午', title:'小倉城、旦過市場', desc:'【小倉城】是江戶時代的古城，屋頂由上往下逐漸變大的「唐造」建築工法在日本非常少見，天守閣裡還能體驗穿武士甲冑拍照。【旦過市場】被稱為「北九州的廚房」，可以邊走邊吃烤河豚、可樂餅。', note:'', family:'', transport:'car', map:'小倉城', confirmed:false, who:['parents','kids','grandmas']},
     ],
     noon:[
-      {time:'午餐', title:'午餐候選（4 選 1）', desc:'【唐戶市場】是下關最熱鬧的漁市場，假日還會變身「活跳跳海鮮市集」，攤販會現場切河豚生魚片給你看，關門海峽的新鮮漁獲都在這裡。', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 春帆樓（講和紀念館，馬關條約割讓台灣舊址）\n④ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定；選④唐戶市場的話，正好銜接下午的下關側行程', transport:'car', map:'唐戶市場', confirmed:false, who:['parents','kids']},
+      {time:'午餐', title:'午餐候選（3 選 1）', desc:'【唐戶市場】是下關最熱鬧的漁市場，假日還會變身「活跳跳海鮮市集」，攤販會現場切河豚生魚片給你看，關門海峽的新鮮漁獲都在這裡。', note:'① 木造三宜樓（富美）無菜單料理\n② 館（櫻花啤酒）\n③ 唐戶市場－福豚之關（河豚生魚片、炸河豚、火鍋）', family:'依人數與體力現場決定；選③唐戶市場的話，正好銜接下午的下關側行程', transport:'car', map:'唐戶市場', confirmed:false, who:['parents','kids']},
       {time:'午餐', title:'鰻魚飯', note:'', family:'', transport:'car', map:'小倉', confirmed:false, who:['parents','kids','grandmas']},
     ],
     afternoon:[
-      {time:'13:30', title:'璇一家：下關南部町郵便局', desc:'【下關南部町郵便局】是日本現在還在使用的郵局裡，歷史最悠久的一間！建於西元 1900 年，紅磚牆壁厚達 60 公分，門口還有復古圓筒型紅色郵筒，可以寄一張明信片留念。', note:'難度低、時間短（約 20–30 分），與唐戶市場同區順路', family:'', transport:'walk', map:'下關南部町郵便局', confirmed:false, who:['parents','kids']},
       {time:'14:15', title:'璇一家：大熱天室內備案（3 選 1）', desc:'【下關市立下關水族館 海響館】招牌動物是企鵝，館內飼養了全日本種類最多的企鵝，還有白海豚表演秀。【大丸下關店】就在下關車站旁邊，是這一帶最大的百貨公司，逛累了可以進去吹冷氣、上廁所，地下美食街也好逛。【彥島八幡宮】是彥島上歷史悠久的古老神社，樹木林蔭多、氣氛清幽，適合想避開人潮、悠閒散步的時候順道造訪。', note:'① 海響館（室內、時間較長，約 2–2.5 小時）\n② 大丸下關店（室內百貨，適合單純想吹冷氣休息）\n③ 彥島八幡宮（戶外但清幽人少）', family:'依當天氣溫與體力現場決定，不必三個都排', transport:'walk', map:'下關市立下關水族館 海響館', confirmed:false, who:['parents','kids']},
-      {time:'下午', title:'小倉城、旦過市場、TOTO 博物館', desc:'【小倉城】是江戶時代的古城，屋頂由上往下逐漸變大的「唐造」建築工法在日本非常少見，天守閣裡還能體驗穿武士甲冑拍照。【旦過市場】被稱為「北九州的廚房」，可以邊走邊吃烤河豚、可樂餅。【TOTO博物館】能看到馬桶百年演進歷史，還有黑科技免治馬桶可以試坐！', note:'', family:'', transport:'car', map:'小倉城', confirmed:false, who:['parents','kids','grandmas']},
       {time:'下午', title:'北九州市立美術館', desc:'【北九州市立美術館】的建築本身就是一件藝術品！設計師磯崎新用兩個圓筒造型的建築，像一副大大的望遠鏡立在山丘上，他後來還得到了建築界最高榮譽「普立茲克獎」。', note:'室內外都好走，可作為市區行程與傍晚行程間的中繼站', family:'', transport:'car', map:'北九州市立美術館', confirmed:false, who:['parents','kids','grandmas']},
     ],
     evening:[
-      {time:'17:30', title:'北九州響灘綠地（グリーンパーク）玩水', desc:'【響灘綠地】是北九州市內最大的公園，園內有金氏世界紀錄認證的「世界最長鞦韆」、近距離看恐龍模型的「響灘恐龍公園」，夏天還有戲水池可以消暑。', note:'體力消耗較大，安排在較涼爽的傍晚時段', family:'這天行程已經非常滿，若體力不足建議直接跳過響灘綠地、遠見ヶ鼻、夜景這三站，回飯店休息。', transport:'car', map:'北九州響灘綠地（グリーンパーク）', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'19:00', title:'遠見ヶ鼻看日落', desc:'【遠見ヶ鼻】是一個突出在響灘海邊的小海角，視野遼闊、完全沒有遮蔽物，是北九州數一數二漂亮的看夕陽景點，天空跟海面都會被染成橘紅色。', note:'開闊平地，適合全家散步等待日落', family:'', transport:'car', map:'遠見ヶ鼻（Cape Tomigahana）', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'20:00', title:'夜景 2 選 1：皿倉山展望台（纜車）或高塔山公園（開車）', desc:'【皿倉山】山頂夜景被稱為「價值百億日圓的夜景」，是日本新三大夜景之一，搭纜車約 10 分鐘就能登頂，萬家燈火一路延伸到大海邊。【高塔山公園】標高只有 124 公尺，開車就能直達展望台，人潮比皿倉山少、更悠閒，是當地人也喜歡的私房夜景。', note:'皿倉山纜車體驗感較強但需另外移動；高塔山開車直達較省體力，適合當天已經很累時選擇', family:'', transport:'car', map:'皿倉山夜景', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'18:00', title:'夜景 2 選 1：皿倉山展望台（纜車）或高塔山公園（開車）', desc:'【皿倉山】山頂夜景被稱為「價值百億日圓的夜景」，是日本新三大夜景之一，搭纜車約 10 分鐘就能登頂，萬家燈火一路延伸到大海邊。【高塔山公園】標高只有 124 公尺，開車就能直達展望台，人潮比皿倉山少、更悠閒，是當地人也喜歡的私房夜景。', note:'18:00 直接前往，皿倉山纜車體驗感較強但需另外移動，高塔山開車直達較省體力', family:'⚠️ 這天橫跨小倉、下關、若松幾個不同區域，行程仍然偏滿，建議依現場體力彈性刪減。', transport:'car', map:'皿倉山夜景', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'21:00', title:'璇一家：（開車）經過關門大橋', desc:'【關門大橋】是連接本州和九州的紅色大橋，全長 1,068 公尺，橋下就是本州、九州間最窄的關門海峽，晚上點燈後船隻往來、橋身燈光相映，別有一番夜景風情。', note:'看完夜景後開車經過，不下車', family:'', transport:'car', map:'關門大橋', confirmed:false, who:['parents','kids']},
     ]
   }},
 {date:'2026-08-18', dayNum:10, weekday:'二',
-  theme:'山口．秋吉台喀斯特台地、防府天滿宮', weatherKey:'北九州市',
+  theme:'北九州．千佛鐘乳洞．傍晚門司港逛街', weatherKey:'北九州市',
   lodging:[{who:'全員',place:'門司港 Premier Hotel Mojiko（極品雙床 2 房，第 2 晚）'}],
   periods:{
     morning:[
       {time:'早餐', title:'飯店早餐', note:'連住 2 晚', family:'', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
-      {time:'09:30', title:'秋吉臺自然動物公園（サファリランド）', desc:'【秋吉臺自然動物公園】是一座可以「開車」進去的動物園！獅子、長頸鹿、斑馬就在車子旁邊走來走去，感覺就像在非洲大草原探險一樣。', note:'全程開車繞園、不用下車，難度最低，排在最前面', family:'', transport:'car', map:'秋吉臺自然動物公園', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'11:15', title:'秋吉台', desc:'【秋吉台】是日本最大的喀斯特高原，放眼望去像是綠色草原上灑滿了一顆顆白色的石灰岩，非常特別！這些石頭是幾億年前珊瑚礁變成的，草原上還能看到牛群悠閒吃草。', note:'平緩步道，全家皆可（約 1 小時）', family:'', transport:'car', map:'秋吉台', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'12:15', title:'秋芳洞', desc:'【秋芳洞】是日本第二長、也是規模最大的鐘乳洞之一，位於地下 100 公尺處，洞內涼爽，全年 17 度！洞窟內有許多石筍與鐘乳石，以及巨大石灰岩形成的梯田，這些都是貴重的地質學標本，於 100 多萬年前形成，能感受到大自然不可思議的力量。', note:'洞內平緩好走但較費時、需一段上下起伏（約 1–1.5 小時），安排在體力最好的上午時段', family:'', transport:'car', map:'秋芳洞', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'上午', title:'千佛鐘乳洞', desc:'【千佛鐘乳洞】洞穴裡有許多形狀像佛像的鐘乳石，因此得名，是日本三大鐘乳洞之一。洞內道路平緩好走，一年四季都保持涼爽的 17 度左右。', note:'', family:'', transport:'car', map:'千佛鐘乳洞', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    noon:[{time:'13:45', title:'モンベル山口店（附設 Harvest Terrace 咖啡廳）', desc:'【モンベル山口店】是登山露營用品店，裡面還可以體驗室內攀岩和獨木舟，累了可以在附設咖啡廳「ハーベステラス」吃飯休息，是很棒的中途休息站。', note:'室內用餐、有休息空間，安排在移動中段讓大家喘口氣', family:'', transport:'car', map:'モンベル山口店', confirmed:false, who:['parents','kids','grandmas']}],
-    afternoon:[
-      {time:'15:00', title:'防府天満宮', desc:'【防府天満宮】是日本最早創建的天神廟，比京都北野天満宮、太宰府天満宮還要早，主要祭拜學問之神菅原道真。想要考試順利的話，可以來這裡祈求好成績！', note:'表參道有較長石階，體力需求中等，安排在最後一站', family:'⚠️ 這天從門司港飯店南下到秋吉台、再到防府市，單程車程約 2–2.5 小時，來回加上四個景點會是長距離、長時間的一天。建議把防府天満宮視為彈性選項，若上午行程已經比較累，可以考慮只去モンベル休息用餐、跳過防府，直接返回門司港。', transport:'car', map:'防府天満宮', confirmed:false, who:['parents','kids','grandmas']},
-    ],
-    evening:[{time:'晚上', title:'收行李', note:'', family:'明天要往山口（長門）移動囉', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']}]
+    noon:[{time:'中午', title:'千佛鐘乳洞（續）／附近午餐', desc:'', note:'上午＋中午都安排在千佛鐘乳洞周邊，步調放慢一點', family:'', transport:'car', map:'千佛鐘乳洞', confirmed:false, who:['parents','kids','grandmas']}],
+    afternoon:[],
+    evening:[
+      {time:'16:00', title:'飯店下午茶', desc:'', note:'', family:'', transport:'', map:'', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'傍晚', title:'門司港逛街', desc:'', note:'輕鬆的一天，傍晚回門司港周邊散步、買點伴手禮', family:'', transport:'walk', map:'門司港', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'晚上', title:'收行李', note:'', family:'明天要往山口（長門）移動囉', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
+    ]
   }},
 {date:'2026-08-19', dayNum:11, weekday:'三',
-  theme:'移動至山口．川棚溫泉、角島大橋', weatherKey:'長門市',
+  theme:'移動至山口．順遊下關．川棚溫泉、角島大橋', weatherKey:'長門市',
   lodging:[{who:'全員',place:'星野 界 長門（傳統客房 2 房，共 2 晚，一泊二食）'}],
   periods:{
     morning:[
       {time:'早餐', title:'飯店早餐', note:'今日 Check out（門司港飯店）', family:'', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
-      {time:'09:00', title:'川棚溫泉♨️溫泉街', desc:'【川棚溫泉】溫泉街裡有一隻大大的可愛河豚雕像，傳說是因為以前有人在溫泉裡發現河豚，這裡才開始挖出溫泉的！', note:'難度最低、時間最短（約 30 分），排在最前面暖身', family:'', transport:'car', map:'川棚溫泉', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'09:45', title:'角島大橋', desc:'【角島大橋】是一座橫跨湛藍海面的白色大橋，全長 1,780 公尺，開車經過就像飄浮在海上一樣，是超人氣的拍照景點。', note:'難度低、時間短（約 30–45 分，多為拍照停留）', family:'', transport:'car', map:'角島大橋', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'一早', title:'下關南部町郵便局', desc:'【下關南部町郵便局】是日本現在還在使用的郵局裡，歷史最悠久的一間！建於西元 1900 年，紅磚牆壁厚達 60 公分，門口還有復古圓筒型紅色郵筒，可以寄一張明信片留念。', note:'難度低、時間短（約 20–30 分）', family:'', transport:'walk', map:'下關南部町郵便局', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'一早', title:'春帆樓', desc:'【春帆樓】是馬關條約的簽訂地點，境內附設「日清講和紀念館」，可以了解這段割讓台灣的歷史，是很有意義的一站。', note:'', family:'', transport:'walk', map:'春帆樓', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'一早', title:'赤間神宮（如有機會）', desc:'【赤間神宮】供奉著年幼即位的安德天皇，正門是少見的龍宮造型，紅色樓門看起來就像童話裡的龍宮城。', note:'與春帆樓、南部町郵便局同區，時間充裕的話可以順路加進來，時間緊湊就跳過', family:'', transport:'walk', map:'赤間神宮', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'09:00', title:'川棚溫泉♨️溫泉街', desc:'【川棚溫泉】溫泉街裡有一隻大大的可愛河豚雕像，傳說是因為以前有人在溫泉裡發現河豚，這裡才開始挖出溫泉的！', note:'難度最低、時間最短（約 30 分）', family:'', transport:'car', map:'川棚溫泉', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    noon:[{time:'午餐', title:'瓦そばたかせ 角島岬店', desc:'【瓦そば】是山口名物瓦片蕎麥麵，把茶蕎麥麵鋪在燒熱的瓦片上煎得微焦，再淋上柴魚醬汁，口感外酥內Q，是很特別的吃法。', note:'2026/4 新開幕的角島岬店，就在角島大橋附近，順路用餐', family:'', transport:'car', map:'瓦そばたかせ 角島岬店', confirmed:false, who:['parents','kids','grandmas']}],
-    afternoon:[],
-    evening:[{time:'晚餐', title:'飯店用餐（一泊二食）', note:'星野 界 長門｜傳統客房 2 房 × 2 晚', family:'請寫信與飯店確認人數，或詢問可否調整，否則怕會少餐', transport:'', map:'星野 界 長門', confirmed:false, who:['parents','kids','grandmas']}]
+    noon:[{time:'午餐', title:'瓦そばたかせ 角島岬店', desc:'【瓦そば】是山口名物瓦片蕎麥麵，把茶蕎麥麵鋪在燒熱的瓦片上煎得微焦，再淋上柴魚醬汁，口感外酥內Q，是很特別的吃法。', note:'2026/4 新開幕的角島岬店', family:'', transport:'car', map:'瓦そばたかせ 角島岬店', confirmed:false, who:['parents','kids','grandmas']}],
+    afternoon:[
+      {time:'下午', title:'角島大橋', desc:'【角島大橋】是一座橫跨湛藍海面的白色大橋，全長 1,780 公尺，開車經過就像飄浮在海上一樣，是超人氣的拍照景點。', note:'午餐後前往，難度低、時間短（約 30–45 分，多為拍照停留）', family:'', transport:'car', map:'角島大橋', confirmed:false, who:['parents','kids','grandmas']},
+    ],
+    evening:[
+      {time:'傍晚', title:'星野 界 長門 Check in', note:'', family:'', transport:'car', map:'星野 界 長門', confirmed:true, who:['parents','kids','grandmas']},
+      {time:'♨️', title:'飯店溫泉', desc:'', note:'', family:'', transport:'', map:'星野 界 長門', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'晚餐', title:'飯店用餐（一泊二食）', note:'星野 界 長門｜傳統客房 2 房 × 2 晚', family:'請寫信與飯店確認人數，或詢問可否調整，否則怕會少餐', transport:'', map:'星野 界 長門', confirmed:false, who:['parents','kids','grandmas']}
+    ]
   }},
 {date:'2026-08-20', dayNum:12, weekday:'四',
-  theme:'山口．元乃隅神社、棚田、千疊敷', weatherKey:'長門市',
+  theme:'山口．秋吉台喀斯特台地．元乃隅神社、棚田、千疊敷', weatherKey:'長門市',
   lodging:[{who:'全員',place:'星野 界 長門（傳統客房 2 房，第 2 晚）'}],
   periods:{
     morning:[
       {time:'早餐', title:'飯店早餐', note:'', family:'確認是否含早餐', transport:'', map:'', confirmed:false, who:['parents','kids','grandmas']},
-      {time:'上午', title:'東後畑棚田、元乃隅神社、千疊敷', desc:'【東後畑棚田】是層層疊疊蓋在山坡上的稻田，形狀像一片片的階梯，傍晚時分還能同時看到夕陽和大海。【元乃隅神社】沿著山坡立著 123 座朱紅色鳥居，一路通往懸崖邊的大海，美國 CNN 還曾把這裡選為「日本最美的 31 個地方」之一！【千疊敷】是一片鋪滿整片山頭的大草原，因為草地遼闊得像鋪了一千張榻榻米而得名，可以在這裡遠眺日本海。', note:'', family:'', transport:'car', map:'元乃隅神社', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'上午', title:'元乃隅神社', desc:'【元乃隅神社】沿著山坡立著 123 座朱紅色鳥居，一路通往懸崖邊的大海，美國 CNN 還曾把這裡選為「日本最美的 31 個地方」之一！這天以這裡為主要行程。', note:'今天的主要行程', family:'', transport:'car', map:'元乃隅神社', confirmed:false, who:['parents','kids','grandmas']},
+      {time:'上午', title:'東後畑棚田、千疊敷（有空再去）', desc:'【東後畑棚田】是層層疊疊蓋在山坡上的稻田，形狀像一片片的階梯，傍晚時分還能同時看到夕陽和大海。【千疊敷】是一片鋪滿整片山頭的大草原，因為草地遼闊得像鋪了一千張榻榻米而得名，可以在這裡遠眺日本海。', note:'與元乃隅神社同區，時間有餘裕再順路加入', family:'', transport:'car', map:'元乃隅神社', confirmed:false, who:['parents','kids','grandmas']},
     ],
-    noon:[], afternoon:[],
+    noon:[],
+    afternoon:[
+      {time:'下午', title:'秋吉臺自然動物公園、秋芳洞、秋吉台（視情況調整）', desc:'【秋吉臺自然動物公園】是一座可以「開車」進去的動物園，獅子、長頸鹿、斑馬就在車子旁邊走來走去。【秋芳洞】是日本第二長、也是規模最大的鐘乳洞之一，位於地下 100 公尺處，洞內涼爽，全年 17 度！洞窟內有許多石筍與鐘乳石，以及巨大石灰岩形成的梯田。【秋吉台】是日本最大的喀斯特高原，放眼望去像是綠色草原上灑滿了一顆顆白色的石灰岩，草原上還能看到牛群悠閒吃草。', note:'視上午行程與體力彈性調整，三個不一定要都去', family:'⚠️ 傍晚要回飯店晚餐＋泡湯，這段車程不短，建議抓好折返時間，寧可少去一兩個景點也不要太趕。', transport:'car', map:'秋芳洞', confirmed:false, who:['parents','kids','grandmas']},
+    ],
     evening:[
+      {time:'♨️', title:'飯店溫泉', desc:'', note:'', family:'', transport:'', map:'星野 界 長門', confirmed:false, who:['parents','kids','grandmas']},
       {time:'晚餐', title:'飯店用餐', note:'', family:'', transport:'', map:'星野 界 長門', confirmed:false, who:['parents','kids','grandmas']},
       {time:'晚上', title:'收行李', note:'', family:'明天要 check out 囉', transport:'', map:'', confirmed:true, who:['parents','kids','grandmas']},
     ]
@@ -1000,6 +1011,7 @@ const ITINERARY = [
     morning:[
       {time:'早餐', title:'飯店早餐', note:'今日 Check out（星野 界 長門）', family:'', transport:'', map:'', confirmed:true, who:['parents','kids']},
       {time:'上午', title:'阿媽、戴阿媽：搭乘超級萩號特急巴士前往萩市', desc:'', note:'長門往萩市，車程約 1 小時', family:'', transport:'car', map:'萩市', confirmed:false, who:['grandmas']},
+      {time:'途中', title:'モンベル山口店（附設 Harvest Terrace 咖啡廳）', desc:'【モンベル山口店】是登山露營用品店，裡面還可以體驗室內攀岩和獨木舟，累了可以在附設咖啡廳「ハーベステラス」吃飯休息，是很棒的中途休息站。', note:'璇一家開車回福岡途中順路停留', family:'', transport:'car', map:'モンベル山口店', confirmed:false, who:['parents','kids']},
     ],
     noon:[{time:'途中', title:'Adventure Valley FUKUOKA（フォレストアドベンチャー・久山）', desc:'【Adventure Valley FUKUOKA】是一座蓋在森林裡的探險樂園，裡面有飛索、繩索橋、攀岩等超過 70 種挑戰關卡，飛天滑索的數量還是全日本同類型設施中最多的！小學一年級、身高 110 公分以上就能挑戰，很適合喜歡冒險的小朋友大展身手。', note:'璇一家開車回福岡途中停留，久山町鄰近 TRIAS 商場，可順便用餐、買伴手禮', family:'需 110 公分以上、國小一年級起才能參加，出發前先確認小朋友的身高', transport:'car', map:'Adventure Valley FUKUOKA', confirmed:false, who:['parents','kids']}],
     afternoon:[
@@ -1109,6 +1121,8 @@ const WISHLIST = [
   {name:'小鹿田燒之里（小鹿田焼の里）', category:'🏺 陶藝之旅：遠州七窯與山村古窯', icon:'🏺', desc:'【小鹿田燒之里】是一個藏在山裡的小村落，這裡的陶器工房到現在還用「唐臼」（利用溪水的力量舂土）來製作陶土，完全沒有用電動機器！小鹿田燒已經有 300 多年的歷史，安靜的山村裡常常可以聽到「咚、咚」的搗土聲。', suitable:'對傳統工藝、陶器有興趣的大人', duration:'車程較遠，建議安排半天以上', difficulty:'交通難度：高（大分縣日田市山區聚落，山路較小）', kids:'較不適合幼兒（山路＋陶器易碎）', elders:'需留意山路與石板路不平整', note:'與小石原燒、上野燒同在福岡、大分交界山區，三處距離不算太遠，但仍建議列為機動備案，天氣好、有多餘時間再排入。'},
   // 戶外冒險與水上樂園
   {name:'蘆屋海水浴場・レジャープールAQuasian', category:'🏕️ 戶外冒險與水上樂園', icon:'🏖️', desc:'【蘆屋海水浴場・AQuasian】海邊有雪白的沙灘和清澈的海水，隔壁還有一座休閒泳池樂園，有全福岡縣最長、126 公尺的滑水道！海水浴場和泳池之間可以自由進出，一天可以同時玩到海邊戲水和泳池滑水道。', suitable:'全家皆可，特別適合小孩消暑', duration:'約 3–4 小時', difficulty:'交通難度：中（福岡縣蘆屋町，開車較方便）', kids:'非常適合，有兒童專用戲水區', elders:'需留意曝曬與濕滑地面', note:'每週一公休，出發前請再次確認當週是否開放；8/8–8/16 期間水上樂園天天營業。'},
+  {name:'遠見ヶ鼻（Cape Tomigahana）日落', category:'🏕️ 戶外冒險與水上樂園', icon:'🌅', desc:'【遠見ヶ鼻】是一個突出在響灘海邊的小海角，視野遼闊、完全沒有遮蔽物，是北九州數一數二漂亮的看夕陽景點，天空跟海面都會被染成橘紅色。', suitable:'全家皆可，適合傍晚時段順遊', duration:'約 30–60 分鐘（含等待日落）', difficulty:'交通難度：中（若松區海岸，開車前往較方便）', kids:'適合，開闊空間可以跑跳', elders:'適合，平地好走，建議帶外套防海風', note:'原排入 8/17 行程，因當天路線調整而取消，先收在願望清單，之後行程有空檔可以再插入。'},
+  {name:'北九州響灘綠地（グリーンパーク）', category:'🏕️ 戶外冒險與水上樂園', icon:'🦕', desc:'【北九州響灘綠地】是北九州市內最大的公園，園內有金氏世界紀錄認證的「世界最長鞦韆」、近距離看恐龍模型的「響灘恐龍公園」，夏天還有戲水池可以消暑。', suitable:'全家皆可，非常適合小孩放電', duration:'約 3–4 小時，可玩上一整天', difficulty:'交通難度：中（若松區，開車較方便，有大型停車場）', kids:'非常適合，遊具與動物互動豐富', elders:'園區平緩好走，適合散步休息', note:'原排入 8/17 行程，因當天路線調整改成傍晚直接看夜景而取消，先收在願望清單。'},
   // 祭典與活動
   {name:'マリナタウン海浜公園（8/15 精霊流し＋煙火）', category:'🎆 祭典與活動', icon:'🎆', desc:'【マリナタウン海浜公園】每年 8 月 15 日這裡都會舉辦「精霊流し（送靈儀式）」，人們會在傍晚點起燈火、送別祖先的靈魂，晚上 8 點還有將近 1,200 發的煙火在海面上炸開，非常壯觀！這是當地流傳超過 30 年的夏日傳統活動。', suitable:'全家皆可，傍晚後現場人潮較多', duration:'約 2–3 小時（含等待 20:00 煙火）', difficulty:'交通難度：中（會場在福岡市西區愛宕浜，距離門司港飯店單程約 70 公里、開車約 70–90 分鐘）', kids:'適合，但夜間人潮多需留意走失', elders:'需留意久站與往返車程長，建議自備椅子或野餐墊', note:'8/15 當天已排定接言辰、全員集合的行程，來回車程長、恐怕會很晚才回到飯店，建議評估體力後再決定是否插入，或只安排部分大人前往。'},
   // 歷史文化景點
